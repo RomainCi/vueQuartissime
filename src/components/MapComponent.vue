@@ -6,20 +6,23 @@
 				v-for="comitee in comitees"
 				:key="comitee.id"
 				:lat-lng="[comitee.latitude, comitee.longitude]"
-			></l-marker>
+			>
+				<l-popup>{{ comitee.comiteName }} </l-popup>
+			</l-marker>
 		</l-map>
 	</div>
 </template>
 
 <script>
 // Inmportation des compsants de leafleats
-import { LMap, LTileLayer, LMarker } from "@vue-leaflet/vue-leaflet";
+import { LMap, LTileLayer, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
 const MapComponent = {
 	components: {
 		LMap,
 		LTileLayer,
 		LMarker,
+		LPopup,
 	},
 
 	data() {
