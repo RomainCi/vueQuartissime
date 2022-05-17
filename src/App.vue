@@ -1,9 +1,8 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/geoloc">insert adress</router-link>
-  </nav>
+  <header class="entete">
+    <img src="./assets/logo.png" alt="" class="logo" />
+  </header>
+  <nav><router-link to="/">Home</router-link></nav>
   <router-view />
 </template>
 
@@ -27,5 +26,15 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
+}
+
+.entete {
+  min-height: 80px;
+  border-bottom: 4px solid black;
+}
+
+.logo {
+  margin-top: 5px;
+  height: 7vh;
 }
 </style>
