@@ -2,7 +2,11 @@
 	<div>
 		<l-map style="height: 500px" :zoom="zoom" :center="center">
 			<l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-			<l-marker :lat-lng="markerLatLng"></l-marker>
+			<l-marker
+				v-for="comitee in comitees"
+				:key="comitee.id"
+				:lat-lng="[comitee.latitude, comitee.longitude]"
+			></l-marker>
 		</l-map>
 	</div>
 </template>
@@ -25,22 +29,12 @@ const MapComponent = {
 				'&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 			zoom: 15,
 			center: [43.7101728, 7.2619532],
-			markerLatLng: [43.7101728, 7.2619532],
+			comitees: [],
 		};
 	},
 
-	async mounted() {
-		const promise = await fetch("http://127.0.0.1:8000/api/comites");
-		console.log(promise);
-
-		let response = await promise.json();
-		console.log(response);
-
-		if (promise.status === 200) {
-			console.log("Vous avez bien récupéré la liste de commités");
-		} else {
-			console.log("c'est pas good");
-		}
+	mounted() {
+		this.getComiteesList();
 	},
 
 	methods: {
@@ -48,8 +42,21 @@ const MapComponent = {
 			this.zoom = zoom;
 			console.log(this.markers);
 		},
+
 		centerUpdated(center) {
 			this.center = center;
+		},
+
+		async getComiteesList() {
+			const promise = await fetch("http://127.0.0.1:8000/api/publics");
+			console.log(promise);
+
+			let response = await promise.json();
+			console.log(response);
+
+			if (promise.status === 200) {
+				this.comitees = response.comites;
+			}
 		},
 	},
 };
