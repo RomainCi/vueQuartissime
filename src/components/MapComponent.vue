@@ -23,10 +23,24 @@ const MapComponent = {
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      center: [43.7101728, 7.2619532],
       zoom: 15,
+      center: [43.7101728, 7.2619532],
       markerLatLng: [43.7101728, 7.2619532],
     };
+  },
+
+  async mounted() {
+    const promise = await fetch("http://127.0.0.1:8000/api/comites");
+    console.log(promise);
+
+    let response = await promise.json();
+    console.log(response);
+
+    if (promise.status === 200) {
+      console.log("Vous avez bien récupéré la liste de commités");
+    } else {
+      console.log("c'est pas good");
+    }
   },
 
   methods: {

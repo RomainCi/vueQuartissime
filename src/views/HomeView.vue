@@ -1,8 +1,23 @@
 <template>
+  <!-- CSS only -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+    crossorigin="anonymous"
+  />
   <div class="home">
     <div class="btn-geoc-adresse">
       <button type="button" class="btn btn-warning">Me géolocaliser</button>
-      <input type="search" placeholder="Saisir une adresse" />
+      <div>
+        <input
+          type="text"
+          class="input-search"
+          placeholder="Saisir une adresse"
+        />
+        <!-- mettre @click la fonction getComites -->
+        <button class="btn-search">Rechercher</button>
+      </div>
     </div>
     <div class="img-acceuil">
       <img src="../assets/carte.png" alt="" class="img-carte" />
@@ -46,5 +61,24 @@ export default {
   display: flex;
   justify-content: right;
   gap: 20%;
+}
+
+.btn-geoc-adresse {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+}
+
+.input-search {
+  border: solid 1px black;
+  padding: 6px;
+  border-radius: 3px;
+}
+.btn-search {
+  border: none;
+  border-radius: 3px;
+  background-color: black;
+  color: white;
+  padding: 7px;
 }
 </style>
