@@ -7,7 +7,12 @@
 				:key="comitee.id"
 				:lat-lng="[comitee.latitude, comitee.longitude]"
 			>
-				<l-popup>{{ comitee.comiteName }} </l-popup>
+				<l-popup
+					><strong>Nom du comité : </strong> {{ comitee.comiteName }}<br />
+					<strong>Adresse : </strong>{{ comitee.adress }}<br />
+					<strong>Contact : </strong>{{ comitee.phone }}<br /><br />
+					<button>Voir les détails</button>
+				</l-popup>
 			</l-marker>
 		</l-map>
 	</div>
