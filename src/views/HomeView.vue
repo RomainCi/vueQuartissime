@@ -7,6 +7,10 @@
     crossorigin="anonymous"
   />
   <div class="home">
+    <div class="div-btn-carte">
+      <button @click="showMap">Voir la carte</button>
+    </div>
+
     <div class="btn-geoc-adresse">
       <button type="button" class="btn btn-warning">Me géolocaliser</button>
       <div>
@@ -19,32 +23,61 @@
         <button class="btn-search">Rechercher</button>
       </div>
     </div>
-    <div class="img-acceuil">
-      <img src="../assets/carte.png" alt="" class="img-carte" />
-      <img src="../assets/imeuble.png" alt="" class="imeuble" />
+
+    <div v-show="imgAccueil" class="img-acceuil">
+      <video
+        type="video/mp4"
+        autoplay
+        :src="carteImg"
+        class="img-carte"
+      ></video>
+
+      <img src="../assets/imeuble.png" alt="" class="immeuble" />
     </div>
-    <map-component />
+
+    <div v-show="map">
+      <map-component />
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import MapComponent from "@/components/MapComponent.vue";
+import carteImg from "@/assets/carte.mp4";
 
 export default {
   name: "HomeView",
   components: {
     MapComponent,
   },
+  data() {
+    return {
+      carteImg: carteImg,
+      imgAccueil: true,
+      map: false,
+    };
+  },
+
+  methods: {
+    showMap() {
+      this.imgAccueil = false;
+      this.map = true;
+    },
+  },
 };
 </script>
 
 <style scoped>
+.div-btn-carte {
+  display: flex;
+  justify-content: left;
+}
 .img-carte {
   width: 40vw;
   margin-top: 52px;
 }
-.imeuble {
+.immeuble {
   text-align: right;
   height: 70vh;
 }
@@ -52,7 +85,7 @@ export default {
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
   /* Styles pour cette Media Queries */
 
-  .imeuble {
+  .immeuble {
     display: none;
   }
 }
@@ -80,5 +113,14 @@ export default {
   background-color: black;
   color: white;
   padding: 7px;
+}
+
+/* button page principale pour afficher la carte */
+
+@media (min-width: 768px) {
+  .button-53 {
+    padding: 0.75rem 3rem;
+    font-size: 1.25rem;
+  }
 }
 </style>
