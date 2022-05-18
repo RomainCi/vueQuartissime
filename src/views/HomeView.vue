@@ -6,6 +6,8 @@
 		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
 		crossorigin="anonymous"
 	/>
+
+	<!-- /************************* Bouton voir map ********************/ -->
 	<div class="home">
 		<div class="div-btn-open-carte">
 			<button
@@ -17,19 +19,7 @@
 			</button>
 		</div>
 
-		<div class="btn-geoc-adresse">
-			<button type="button" class="btn btn-warning">Me géolocaliser</button>
-			<div>
-				<input
-					type="text"
-					class="input-search"
-					placeholder="Saisir une adresse"
-				/>
-				<!-- mettre @click la fonction getComites -->
-				<button class="btn-search">Rechercher</button>
-			</div>
-		</div>
-
+		<!-- /************************* Ecran d'accueil ********************/ -->
 		<div id="imgmap" class="img-acceuil">
 			<video
 				type="video/mp4"
@@ -103,26 +93,6 @@ export default {
 	display: flex;
 	justify-content: right;
 	gap: 20%;
-}
-
-.btn-geoc-adresse {
-	display: flex;
-	justify-content: center;
-	gap: 25px;
-	margin-bottom: 20px;
-}
-
-.input-search {
-	border: solid 1px black;
-	padding: 6px;
-	border-radius: 3px;
-}
-.btn-search {
-	border: none;
-	border-radius: 3px;
-	background-color: black;
-	color: white;
-	padding: 7px;
 }
 
 /* button page principale pour afficher la carte */
