@@ -12,7 +12,11 @@
             ><strong>Nom du comité : </strong> {{ comitee.comiteName }}<br />
             <strong>Adresse : </strong>{{ comitee.adress }}<br />
             <strong>Contact : </strong>{{ comitee.phone }}<br /><br />
-            <button type="button" class="btn btn-warning btn-detail">
+            <button
+              type="button"
+              class="btn btn-warning btn-detail"
+              @click="showdetailsComite"
+            >
               Voir les détails
             </button>
           </l-popup>
@@ -69,6 +73,20 @@ const MapComponent = {
       if (promise.status === 200) {
         this.comitees = response.comites;
       }
+    },
+
+    async showdetailsComite() {
+      const promise = await fetch("http://127.0.0.1:8000/api/publics/{id}");
+      console.log("test", promise);
+
+      let response = await promise.json();
+      console.log(response);
+
+      // if (promise.status === 200) {
+      //   this.comite = response.comites;
+      // }
+
+      this.$router.push("/detailscomite");
     },
   },
 };
