@@ -1,22 +1,24 @@
 <template>
-  <div class="map">
-    <l-map style="height: 500px" :zoom="zoom" :center="center">
-      <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-      <l-marker
-        v-for="comitee in comitees"
-        :key="comitee.id"
-        :lat-lng="[comitee.latitude, comitee.longitude]"
-      >
-        <l-popup
-          ><strong>Nom du comité : </strong> {{ comitee.comiteName }}<br />
-          <strong>Adresse : </strong>{{ comitee.adress }}<br />
-          <strong>Contact : </strong>{{ comitee.phone }}<br /><br />
-          <button type="button" class="btn btn-warning btn-detail">
-            Voir les détails
-          </button>
-        </l-popup>
-      </l-marker>
-    </l-map>
+  <div class="page-map">
+    <div class="map">
+      <l-map style="height: 80vh; width: 80vw" :zoom="zoom" :center="center">
+        <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+        <l-marker
+          v-for="comitee in comitees"
+          :key="comitee.id"
+          :lat-lng="[comitee.latitude, comitee.longitude]"
+        >
+          <l-popup
+            ><strong>Nom du comité : </strong> {{ comitee.comiteName }}<br />
+            <strong>Adresse : </strong>{{ comitee.adress }}<br />
+            <strong>Contact : </strong>{{ comitee.phone }}<br /><br />
+            <button type="button" class="btn btn-warning btn-detail">
+              Voir les détails
+            </button>
+          </l-popup>
+        </l-marker>
+      </l-map>
+    </div>
   </div>
 </template>
 
@@ -37,7 +39,7 @@ const MapComponent = {
       url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
       attribution:
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-      zoom: 15,
+      zoom: 14,
       center: [43.7101728, 7.2619532],
       comitees: [],
     };
@@ -74,4 +76,9 @@ export default MapComponent;
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+.page-page {
+  display: flex;
+  flex-direction: row;
+}
+</style>

@@ -7,8 +7,15 @@
     crossorigin="anonymous"
   />
   <div class="home">
-    <div class="div-btn-carte">
-      <button @click="showMap">Voir la carte</button>
+    <div class="div-btn-open-carte">
+      <!-- <button @click="showMap">Voir la carte</button> -->
+      <button
+        type="button"
+        class="btn btn-secondary btn-circle btn-xl"
+        @click="showMap"
+      >
+        Voir la carte
+      </button>
     </div>
 
     <div class="btn-geoc-adresse">
@@ -24,7 +31,7 @@
       </div>
     </div>
 
-    <div v-show="imgAccueil" class="img-acceuil">
+    <div v-if="!map" class="img-acceuil">
       <video
         type="video/mp4"
         autoplay
@@ -35,7 +42,7 @@
       <img src="../assets/imeuble.png" alt="" class="immeuble" />
     </div>
 
-    <div v-show="map">
+    <div v-else-if="map" class="map">
       <map-component />
     </div>
   </div>
@@ -54,32 +61,32 @@ export default {
   data() {
     return {
       carteImg: carteImg,
-      imgAccueil: true,
       map: false,
     };
   },
 
   methods: {
     showMap() {
-      this.imgAccueil = false;
-      this.map = true;
+      return (this.map = !this.map);
     },
   },
 };
 </script>
 
 <style scoped>
-.div-btn-carte {
+.div-btn-open-carte {
   display: flex;
   justify-content: left;
+  margin-left: 10px;
 }
 .img-carte {
-  width: 40vw;
+  height: 60vh;
   margin-top: 52px;
 }
 .immeuble {
   text-align: right;
-  height: 70vh;
+  height: 65vh;
+  margin-top: -10px;
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
@@ -100,6 +107,7 @@ export default {
   display: flex;
   justify-content: center;
   gap: 25px;
+  margin-bottom: 20px;
 }
 
 .input-search {
@@ -122,5 +130,9 @@ export default {
     padding: 0.75rem 3rem;
     font-size: 1.25rem;
   }
+}
+.map {
+  display: flex;
+  justify-content: center;
 }
 </style>
