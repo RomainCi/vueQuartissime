@@ -112,12 +112,6 @@ export default {
   margin-top: 11%;
   margin-left: 30px;
 }
-/* .immeuble {
-  text-align: right;
-  height: 65vh;
-  margin-top: -10px;
-  display: none;
-} */
 
 .map {
   display: flex;
