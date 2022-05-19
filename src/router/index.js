@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import GeolocView from "../views/GeolocView.vue";
 
 const routes = [
   {
@@ -16,12 +15,6 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  },
-
-  {
-    path: "/geoloc",
-    name: "Geoloc",
-    component: GeolocView,
   },
 ];
 
