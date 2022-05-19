@@ -28,7 +28,7 @@ nav a.router-link-exact-active {
 }
 
 .entete {
-  min-height: 80px;
+  min-height: 85px;
   border-bottom: 4px solid black;
 }
 
