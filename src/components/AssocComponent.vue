@@ -8,26 +8,36 @@
       <label for="adresse">Adresse</label>
       <input type="text" class="adresse" v-model="user.adresse" />
 
-      <div>
+      <label for="status">Veuillez écrire publique ou prive</label>
+      <input type="text" class="status" v-model="user.status" />
+      <!-- <div>
         <input type="radio" id="public" name="drone" v-model="user.publique" />
         <label for="public">Publique</label>
 
         <input type="radio" id="prive" name="drone" v-model="user.prive" />
         <label for="prive">Prive</label>
-      </div>
+      </div> -->
 
       <label for="email">Email</label>
       <input type="email" class="email" v-model="user.email" />
 
       <label for="telephone">Numéro de téléphone (optionnel)</label>
-      <input type="text" class="telephone" v-model="user.telephone" />
+      <input
+        type="text"
+        class="telephone"
+        maxlength="10"
+        minlength="10"
+        @input="phone"
+        :value="tele"
+      />
 
       <label for="description">Description</label>
       <textarea class="description" v-model="user.description"></textarea>
       <label for="photo">Photos (optionnelle, maximum 10, 2Mo par photo)</label>
       <input
         type="file"
-        @change="uploadImage"
+        multiple
+        @change="test"
         accept="image/*"
         class="input-file"
       />
@@ -56,28 +66,68 @@ const AssocComponent = {
       user: {
         nomAssoc: "",
         adresse: "",
-        publique: false,
-        prive: false,
+        status: "",
         email: "",
         telephone: "",
         description: "",
         accord: false,
-        image: "",
+        previewImage: null,
       },
-      previewImage: null,
+      tele: "",
     };
   },
   methods: {
     submitForm() {
-      console.log(this.user, this.previewImage);
+      const formData = new FormData();
+      formData.append("avatar", this.user.previewImage);
+      console.log("test", this.user.previewImage);
+      let verif = this.verification();
+      verif ? this.envoieInscription() : console.log("faux");
+    },
+    phone(e) {
+      if (isNaN(e.target.value)) {
+        e.target.value = this.tele;
+        console.log("hey");
+        return;
+      }
+
+      this.tele = e.target.value;
+      this.user.telephone = this.tele;
     },
     uploadImage(e) {
       const image = e.target.files[0];
       const reader = new FileReader();
       reader.readAsDataURL(image);
       reader.onload = (e) => {
-        this.previewImage = e.target.result;
+        this.user.previewImage = e.target.result;
       };
+    },
+    test(e) {
+      // for (let index = 0; index < e.target.files.length; index++) {
+      //   this.user.previewImage.push(e.target.files[index]);
+      // }
+      this.user.previewImage = e.target.files[0];
+    },
+    verification() {
+      if (this.user.status == "prive") {
+        return true;
+      } else if (this.user.status == "publique") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    async envoieInscription() {
+      const promise = await fetch("http://127.0.0.1:8000/api/assoc", {
+        method: "POST",
+        body: JSON.stringify(this.user),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(promise);
+      let res = await promise.json();
+      console.log(res);
     },
   },
 };
