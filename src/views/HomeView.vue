@@ -97,9 +97,8 @@ export default {
 
 <style scoped>
 .fond-acceuil {
-  background-image: url("@/assets/img-nice1.png");
+  background-image: url("@/assets/fond-nice.jpeg");
   background-size: cover;
-  height: 100vh;
 }
 
 .img-carte {
@@ -134,7 +133,7 @@ body {
 .wrapper {
   display: flex;
   justify-content: left;
-  padding-top: 70px;
+  margin-top: 50px;
   margin-bottom: 50px;
   margin-left: 150px;
 }

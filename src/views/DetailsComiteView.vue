@@ -31,7 +31,7 @@
     </div>
 
     <div class="row bloc-assos-evens">
-      <div class="card" style="width: 25rem">
+      <div class="card" style="width: 18rem">
         <img
           class="card-img-top"
           src="../assets/img-personne.png"
@@ -47,7 +47,7 @@
         </div>
       </div>
 
-      <div class="card" style="width: 25rem">
+      <div class="card" style="width: 18rem">
         <img
           class="card-img-top"
           src="../assets/img-personne.png"
@@ -67,9 +67,10 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 const DetailsComiteView = {
-  props: {
-    idDetails: String,
+  components: {
+    idDetails: "",
   },
 
   data() {
@@ -77,7 +78,9 @@ const DetailsComiteView = {
       details: {},
     };
   },
-
+  computed: {
+    ...mapState({ idDetails: "id" }),
+  },
   mounted() {
     this.showdetailsComite();
   },
