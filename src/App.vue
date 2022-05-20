@@ -2,7 +2,7 @@
   <header class="entete">
     <img src="./assets/logo.png" alt="" class="logo" />
   </header>
-  <router-link to="/usercomite"> USER </router-link>
+  <!-- <router-link to="/usercomite"> USER </router-link> -->
   <router-view />
 </template>
 

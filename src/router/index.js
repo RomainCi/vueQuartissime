@@ -14,6 +14,7 @@ const routes = [
     path: "/detailscomite",
     name: "detailscomite",
     component: DetailsComiteView,
+    props: true,
   },
 
   {
