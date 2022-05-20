@@ -182,7 +182,7 @@ const MapComponent = {
 export default MapComponent;
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 /************* Header map CSS ************/
 .imgicon {
   width: 30px;
