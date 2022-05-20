@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import DetailsComiteView from "../views/DetailsComiteView.vue";
+import UserComiteView from "../views/UserComiteView.vue";
 
 const routes = [
   {
@@ -13,6 +14,12 @@ const routes = [
     path: "/detailscomite",
     name: "detailscomite",
     component: DetailsComiteView,
+  },
+
+  {
+    path: "/usercomite",
+    name: "usercomite",
+    component: UserComiteView,
   },
   {
     path: "/about",
