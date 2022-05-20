@@ -1,34 +1,67 @@
 <template>
-  <!-- CSS only -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
-    crossorigin="anonymous"
-  />
   <div class="page-details">
-    <div class="container-details">
-      <p><strong>COMMITE : </strong> {{ details.comiteName }}</p>
-      <p>
-        <i class="fa-solid fa-map-location-dot"></i><strong>Adresse : </strong
-        >{{ details.adress }}
-      </p>
-      <p><strong>Contact : </strong>{{ details.phone }}</p>
-      <p><strong>email : </strong>{{ details.email }}</p>
-      <p><strong> Site web : </strong>{{ details.webSite }}</p>
-      <p><strong>Description : </strong>{{ details.description }}</p>
-      <p>
-        <strong>Prénom Gestionnaire: </strong>{{ details.firstnamePresident }}
-      </p>
-      <p><strong>Nom Gestionnaire : </strong>{{ details.lastnamePresident }}</p>
+    <!------------ BLOC DETAILS COMITE AVEC IMAGE  ------------->
 
-      <button type="button" class="slide">
-        <div>S'inscrire</div>
-        <i class="icon-arrow-right"></i>
-      </button>
+    <div class="bloc-details-img">
+      <div class="div-img-personne">
+        <img src="../assets/img-personne.png" alt="" class="img-personne" />
+      </div>
+      <div class="container-details">
+        <p><strong>COMITE : </strong> {{ details.comiteName }}</p>
+        <p>
+          <i class="fa-solid fa-map-location-dot"></i><strong>Adresse : </strong
+          >{{ details.adress }}
+        </p>
+        <p><strong>Contact : </strong>{{ details.phone }}</p>
+        <p><strong>email : </strong>{{ details.email }}</p>
+        <p><strong> Site web : </strong>{{ details.webSite }}</p>
+        <p><strong>Description : </strong>{{ details.description }}</p>
+        <p>
+          <strong>Prénom Gestionnaire: </strong>{{ details.firstnamePresident }}
+        </p>
+        <p>
+          <strong>Nom Gestionnaire : </strong>{{ details.lastnamePresident }}
+        </p>
+
+        <button type="button" class="slide">
+          <div>S'inscrire</div>
+          <i class="icon-arrow-right"></i>
+        </button>
+      </div>
     </div>
-    <div class="div-img-personne">
-      <img src="../assets/img-personne.png" alt="" class="img-personne" />
+
+    <div class="row bloc-assos-evens">
+      <div class="card" style="width: 18rem">
+        <img
+          class="card-img-top"
+          src="../assets/img-personne.png"
+          alt="Card image cap"
+        />
+        <div class="card-body">
+          <h5 class="card-title">LES ASSOCITIONS DU COMITE</h5>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+
+      <div class="card" style="width: 18rem">
+        <img
+          class="card-img-top"
+          src="../assets/img-personne.png"
+          alt="Card image cap"
+        />
+        <div class="card-body">
+          <h5 class="card-title">LES ASSOCITIONS DU COMITE</h5>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -70,24 +103,26 @@ export default DetailsComiteView;
 </script>
 
 <style scoped>
-.container-details {
+.bloc-details-img {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   margin-top: 70px;
+  gap: 8%;
+}
+.container-details {
   padding: 25px;
   border: solid 2px #ffda3e;
   width: 50%;
-  margin-left: 25%;
   box-shadow: 30px -16px #ffda3e;
   border-radius: 15px;
 }
-.div-img-personne {
-  display: flex;
-  justify-content: left;
-}
-.img-personne {
-  height: 53vh;
-  margin-top: -15%;
-}
 
+.img-personne {
+  height: 65vh;
+  margin-left: 10px;
+}
+/* CSS BOUTTON INSCRIPTION */
 .slide {
   font-size: 20px;
   font-weight: 200;
@@ -136,5 +171,10 @@ export default DetailsComiteView;
   transform: translateX(-6px);
 }
 
-/* CSS BOUTTON INSCRIPTION */
+.bloc-assos-evens {
+  margin: 110px 20px 0px 30px;
+  gap: 5%;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
 </style>
