@@ -1,26 +1,32 @@
 <template>
 	<!-- /********************** HEADER MAP ***********************/ -->
 	<div class="template">
-		<div class="btn-geoc-adresse">
-			<!-- /********************** GEOLOCALISATION ***********************/ -->
-
+		<!-- /********************** GEOLOCALISATION ***********************/ -->
+		<div class="btn-geoc">
 			<div class="wrap">
 				<button @click="geolocbutton" class="button">Me géolocaliser</button>
 			</div>
-
-			<div>
+		</div>
+		<!-- /********************** RECHERCHE PAR ADRESSE ***********************/ -->
+		<div class="search">
+			<div class="col-3">
 				<input
-					type="text"
-					class="input-search"
-					placeholder="Saisir une adresse"
 					v-model="search"
+					class="effect-1"
+					type="text"
+					placeholder="Saisir une adresse"
 				/>
-				<!-- /********************** RECHERCHE PAR ADRESSE ***********************/ -->
-				<i class="fa-solid fa-user"></i>
-				<button @click="getadress" class="btn-search">Rechercher</button>
+				<span class="focus-border"></span>
+			</div>
+			<div class="btnS">
+				<input
+					class="btnSearch"
+					type="button"
+					@click="getadress"
+					value="Rechercher"
+				/>
 			</div>
 		</div>
-
 		<br />
 		<br />
 
@@ -177,17 +183,15 @@ const MapComponent = {
 export default MapComponent;
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 /************* Header map CSS ************/
 .imgicon {
 	width: 30px;
 	height: 30px;
 }
-.btn-geoc-adresse {
-	display: flex;
-	justify-content: space-around;
-	gap: 25px;
-	margin-bottom: 10px;
+.btn-geoc {
+	align-items: center;
+	margin-bottom: 20px;
 	margin-top: 50px;
 }
 
@@ -219,9 +223,9 @@ export default MapComponent;
 	letter-spacing: 1.3px;
 	color: #373738;
 	background: #ffffff;
-	border: 4px solid rgba(224, 137, 220, 0.64);
+	border: 4px solid #ffda3e;
 	border-radius: 1000px;
-	box-shadow: 12px 12px 24px rgba(224, 137, 220, 0.64);
+	box-shadow: 12px 12px 24px #ffda3e;
 	transition: all 0.3s ease-in-out 0s;
 	cursor: pointer;
 	outline: none;
@@ -240,7 +244,7 @@ button::after {
 	width: 15px;
 	height: 15px;
 	border-radius: 100%;
-	border: 6px solid #ff74c8;
+	border: 6px solid #ffda3e;
 	position: absolute;
 	z-index: -1;
 	top: 50%;
@@ -266,5 +270,74 @@ button:focus::after {
 		height: 150px;
 		opacity: 0;
 	}
+}
+/************* Input adresse  ************/
+:focus {
+	outline: none;
+}
+.search {
+	display: flex;
+	justify-content: left;
+	gap: 60px;
+	margin-top: 70px;
+}
+.col-3 {
+	float: left;
+	width: 27.33%;
+	position: relative;
+}
+input[type="text"] {
+	font: 15px/24px "Lato", Arial, sans-serif;
+	color: #333;
+	width: 100%;
+	box-sizing: border-box;
+	letter-spacing: 1px;
+}
+
+.effect-1 {
+	border: 0;
+	padding: 7px 0;
+	border-bottom: 2px solid #ccc;
+}
+
+.effect-1 ~ .focus-border {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 0;
+	height: 2px;
+	background-color: #ffda3e;
+	transition: 0.4s;
+}
+.effect-1:focus ~ .focus-border {
+	width: 100%;
+	transition: 0.4s;
+}
+
+/************* Bouton adresse  ************/
+.btnS {
+	align-self: end;
+}
+.btnSearch {
+	border: 4px solid #ffda3e;
+	line-height: 2.5;
+	padding: 0 20px;
+	font-size: 1rem;
+	text-align: center;
+	color: rgb(0, 0, 0);
+	border-radius: 20px;
+	background-color: #ffffff;
+
+	box-shadow: inset 2px 2px 3px rgba(255, 255, 255, 0.986),
+		inset -2px -2px 3px rgba(0, 0, 0, 0.438);
+}
+
+.btnSearch:hover {
+	background-color: #ffda3e;
+}
+
+.btnSearch:active {
+	box-shadow: inset -2px -2px 3px rgb(255, 255, 255),
+		inset 2px 2px 3px rgba(0, 0, 0, 0.424);
 }
 </style>
