@@ -7,163 +7,114 @@
         Me géolocaliser
       </button>
       <div>
-        <input
-          type="text"
-          class="input-search"
-          placeholder="Saisir une adresse"
-          v-model="search"
-        />
         <!-- /********************** RECHERCHE PAR ADRESSE ***********************/ -->
-        <button @click="getadress" class="btn-search">Rechercher</button>
-      </div>
-    </div>
-
-    <br />
-    <br />
-
-    <!-- /********************** BOUTON POUR AFFICHAGE 3 COMITES/ASSOC LES PLUS PROCHES ********************* */ -->
-
-    <button
-      type="button"
-      class="btn btn-warning btn-detail"
-      @click="affichagetop3comassoc"
-    >
-      Afficher comité assoc
-    </button>
-
-    <br />
-    <br />
-    <!-- /********************** MAP ***********************/ -->
-    <div v-if="!afficheDetails" id="map" class="page-map">
-      <l-map style="height: 80vh; width: 80vw" :zoom="zoom" :center="center">
-        <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-
-        <!-- /********************** marquers comités ***********************/ -->
-        <l-marker
-          v-for="comitee in comitees"
-          :key="comitee.id"
-          :lat-lng="[comitee.latitude, comitee.longitude]"
-        >
-          <l-icon>
-            <img class="imgicon" src="../assets/icon2.jpg" />
-          </l-icon>
-          <l-popup
-            ><strong>Nom du comité : </strong> {{ comitee.comiteName }}<br />
-            <strong>Adresse : </strong>{{ comitee.adress }}<br />
-            <strong>Contact : </strong>{{ comitee.phone }}<br /><br />
-            <button
+        <div class="search">
+          <div class="col-3">
+            <input
+              v-model="search"
+              class="effect-1"
+              type="text"
+              placeholder="Saisir une adresse"
+            />
+            <span class="focus-border"></span>
+          </div>
+          <div class="btnS">
+            <input
+              class="btnSearch"
               type="button"
-              class="btn btn-warning btn-detail"
-              @click="showdetailsComite(comitee.id)"
-            >
-              Voir les détails
-            </button>
-          </l-popup>
-        </l-marker>
+              @click="getadress"
+              value="Rechercher"
+            />
+          </div>
+        </div>
+      </div>
+      <br />
+      <br />
 
-        <!-- /********************** marquers associations ***********************/ -->
+      <!-- /********************** BOUTON POUR AFFICHAGE 3 COMITES/ASSOC LES PLUS PROCHES ********************* */ -->
 
-        <l-marker
-          v-for="association in associations"
-          :key="association.id"
-          :lat-lng="[association.latitude, association.longitude]"
-        >
-          <l-icon>
-            <img class="imgicon" src="../assets/associcon.png" />
-          </l-icon>
-          <l-popup
-            ><strong>Nom de l'association : </strong>
-            {{ association.associationName }}<br />
-            <strong>Adresse : </strong>{{ association.adress }}<br />
-            <strong>Contact : </strong>{{ association.phone }}<br /><br />
-            <button
-              type="button"
-              class="btn btn-warning btn-detail"
-              @click="showdetailsAssociation(association.id)"
-            >
-              Voir les détails
-            </button>
-          </l-popup>
-        </l-marker>
+      <button
+        type="button"
+        class="btn btn-warning btn-detail"
+        @click="affichagetop3comassoc"
+      >
+        Afficher comité assoc
+      </button>
 
-    <!-- /********************** GEOLOCALISATION ***********************/ -->
-    <div class="btn-geoc">
-      <div class="wrap">
-        <button @click="geolocbutton" class="button">Me géolocaliser</button>
+      <br />
+      <br />
+      <!-- /********************** MAP ***********************/ -->
+      <div id="map" class="page-map">
+        <l-map style="height: 80vh; width: 80vw" :zoom="zoom" :center="center">
+          <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+
+          <!-- /********************** marquers comités ***********************/ -->
+          <l-marker
+            v-for="comitee in comitees"
+            :key="comitee.id"
+            :lat-lng="[comitee.latitude, comitee.longitude]"
+          >
+            <l-popup
+              ><strong>Nom du comité : </strong> {{ comitee.comiteName }}<br />
+              <strong>Adresse : </strong>{{ comitee.adress }}<br />
+              <strong>Contact : </strong>{{ comitee.phone }}<br /><br />
+              <router-link
+                class="btn btn-warning btn-detail"
+                :to="{
+                  name: 'detailscomite',
+                  params: { idDetails: comitee.id },
+                }"
+              >
+                Voir les détails
+              </router-link>
+            </l-popup>
+          </l-marker>
+
+          <!-- /********************** marquers associations ***********************/ -->
+
+          <l-marker
+            v-for="association in associations"
+            :key="association.id"
+            :lat-lng="[association.latitude, association.longitude]"
+          >
+            <l-icon>
+              <img class="imgicon" src="../assets/associcon.png" />
+            </l-icon>
+            <l-popup
+              ><strong>Nom de l'association : </strong>
+              {{ association.associationName }}<br />
+              <strong>Adresse : </strong>{{ association.adress }}<br />
+              <strong>Contact : </strong>{{ association.phone }}<br /><br />
+              <router-link
+                class="btn btn-warning btn-detail"
+                :to="{
+                  name: 'detailsassociation',
+                  params: { idDetails: association.id },
+                }"
+              >
+                Voir les détails
+              </router-link>
+            </l-popup>
+          </l-marker>
+        </l-map>
+      </div>
+
+      <!-- /********************** DÉTAILS COMITE ********************* -->
+
+      <div>
+        <p>{{ details.name }}</p>
+        <p>{{ details.adress }}</p>
+        <p>{{ details.phone }}</p>
+      </div>
+
+      <!-- /********************** DÉTAILS Associations ********************* */ -->
+
+      <div>
+        <p>{{ details.name }}</p>
+        <p>{{ details.adress }}</p>
+        <p>{{ details.phone }}</p>
       </div>
     </div>
-    <!-- /********************** RECHERCHE PAR ADRESSE ***********************/ -->
-    <div class="search">
-      <div class="col-3">
-        <input
-          v-model="search"
-          class="effect-1"
-          type="text"
-          placeholder="Saisir une adresse"
-        />
-        <span class="focus-border"></span>
-      </div>
-      <div class="btnS">
-        <input
-          class="btnSearch"
-          type="button"
-          @click="getadress"
-          value="Rechercher"
-        />
-      </div>
-    </div>
-    <br />
-    <br />
-
-    <!-- /********************** MAP ***********************/ -->
-    <div id="map" class="page-map">
-      <l-map style="height: 65vh; width: 70vw" :zoom="zoom" :center="center">
-        <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-
-        <!-- /********************** marquers comités ***********************/ -->
-        <l-marker
-          v-for="comitee in comitees"
-          :key="comitee.id"
-          :lat-lng="[comitee.latitude, comitee.longitude]"
-        >
-          <l-popup
-            ><strong>Nom du comité : </strong> {{ comitee.comiteName }}<br />
-            <strong>Adresse : </strong>{{ comitee.adress }}<br />
-            <strong>Contact : </strong>{{ comitee.phone }}<br /><br />
-            <router-link
-              class="btn btn-warning btn-detail"
-              :to="{ name: 'detailscomite', params: { idDetails: comitee.id } }"
-            >
-              Voir les détails
-            </router-link>
-          </l-popup>
-        </l-marker>
-
-        <!-- /********************** marquer riverains ***********************/ -->
-        <l-marker :lat-lng="[latitude, longitude]">
-          <l-icon>
-            <img class="imgicon" src="../assets/icon.png" />
-          </l-icon>
-          <l-popup> vous êtes ici</l-popup>
-        </l-marker>
-      </l-map>
-    </div>
-
-    <!-- /********************** DÉTAILS COMITE ********************* */
-
-    <div v-else-if="afficheDetails">
-      <p>{{ details.name }}</p>
-      <p>{{ details.adress }}</p>
-      <p>{{ details.phone }}</p>
-    </div>
-
-    <!-- /********************** DÉTAILS Associations ********************* */ -->
-
-    <!-- <div>
-      <p>{{ details.name }}</p>
-      <p>{{ details.adress }}</p>
-      <p>{{ details.phone }}</p>
-    </div> --> -->
   </div>
 </template>
 
@@ -278,24 +229,24 @@ const MapComponent = {
     },
 
     /****************** RÉCUPÉRATION DES DÉTAILS D'UN COMITÉ ************/
-    // async showdetailsComite(id) {
-    //   const promise = await fetch("http://127.0.0.1:8000/api/publics/" + id);
-    //   console.log("test", promise);
+    async showdetailsComite(id) {
+      const promise = await fetch("http://127.0.0.1:8000/api/publics/" + id);
+      console.log("test", promise);
 
-    //   let response = await promise.json();
-    //   console.log("response", response);
+      let response = await promise.json();
+      console.log("response", response);
 
-    //   if (promise.status === 200) {
-    //     this.details = response.detailsComite;
-    //   }
+      if (promise.status === 200) {
+        this.details = response.detailsComite;
+      }
 
-    //   this.afficheDetails = true;
-    //   /* let map = document.getElementById("map");
-		// 	map.classList.add("hidden");
+      this.afficheDetails = true;
+      //   /* let map = document.getElementById("map");
+      // 	map.classList.add("hidden");
 
-		// 	let det = document.getElementsById("det");
-		// 	det.classList.remove("hidden"); */
-    // },
+      // 	let det = document.getElementsById("det");
+      // 	det.classList.remove("hidden"); */
+    },
 
     /* ********************* RÉCUPÉRATION DES Associations ************* */
     async getAssociationList() {
@@ -311,24 +262,24 @@ const MapComponent = {
     },
 
     /****************** RÉCUPÉRATION DES DÉTAILS D'UNE Association ************/
-    // async showdetailsAssociation(id) {
-    //   const promise = await fetch("http://127.0.0.1:8000/api/publics/" + id);
-    //   console.log("testassoc", promise);
+    async showdetailsAssociation(id) {
+      const promise = await fetch("http://127.0.0.1:8000/api/publics/" + id);
+      console.log("testassoc", promise);
 
-    //   let response = await promise.json();
-    //   console.log("responseassoc", response);
+      let response = await promise.json();
+      console.log("responseassoc", response);
 
-    //   if (promise.status === 200) {
-    //     this.details = response.detailsAssociation;
-    //   }
+      if (promise.status === 200) {
+        this.details = response.detailsAssociation;
+      }
 
-    //   this.afficheDetails = true;
-    //   /* let map = document.getElementById("map");
-		// 	map.classList.add("hidden");
+      this.afficheDetails = true;
+      /* let map = document.getElementById("map");
+      // 	map.classList.add("hidden");
 
-		// 	let det = document.getElementsById("det");
-		// 	det.classList.remove("hidden"); */
-    // },
+      // 	let det = document.getElementsById("det");
+      // 	det.classList.remove("hidden"); */
+    },
 
     /****************** AFFICHAGE DES TOP 3 ACOMITES/ASSOCIATIONS  ************/
 
