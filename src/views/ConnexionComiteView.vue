@@ -146,3 +146,5 @@ export default ConnexionComiteView;
 	}
 }
 </style>
+
+/* "Authorization": "Bearer " + localStorage.getItem("token") */
