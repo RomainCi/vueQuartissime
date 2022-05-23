@@ -149,7 +149,7 @@
       </l-map>
     </div>
 
-    <!-- /********************** DÉTAILS COMITE ********************* */ -->
+    <!-- /********************** DÉTAILS COMITE ********************* */
 
     <div v-else-if="afficheDetails">
       <p>{{ details.name }}</p>
@@ -159,11 +159,11 @@
 
     <!-- /********************** DÉTAILS Associations ********************* */ -->
 
-    <div>
+    <!-- <div>
       <p>{{ details.name }}</p>
       <p>{{ details.adress }}</p>
       <p>{{ details.phone }}</p>
-    </div>
+    </div> --> -->
   </div>
 </template>
 
@@ -278,24 +278,24 @@ const MapComponent = {
     },
 
     /****************** RÉCUPÉRATION DES DÉTAILS D'UN COMITÉ ************/
-    async showdetailsComite(id) {
-      const promise = await fetch("http://127.0.0.1:8000/api/publics/" + id);
-      console.log("test", promise);
+    // async showdetailsComite(id) {
+    //   const promise = await fetch("http://127.0.0.1:8000/api/publics/" + id);
+    //   console.log("test", promise);
 
-      let response = await promise.json();
-      console.log("response", response);
+    //   let response = await promise.json();
+    //   console.log("response", response);
 
-      if (promise.status === 200) {
-        this.details = response.detailsComite;
-      }
+    //   if (promise.status === 200) {
+    //     this.details = response.detailsComite;
+    //   }
 
-      this.afficheDetails = true;
-      /* let map = document.getElementById("map");
-			map.classList.add("hidden");
+    //   this.afficheDetails = true;
+    //   /* let map = document.getElementById("map");
+		// 	map.classList.add("hidden");
 
-			let det = document.getElementsById("det");
-			det.classList.remove("hidden"); */
-    },
+		// 	let det = document.getElementsById("det");
+		// 	det.classList.remove("hidden"); */
+    // },
 
     /* ********************* RÉCUPÉRATION DES Associations ************* */
     async getAssociationList() {
@@ -311,24 +311,24 @@ const MapComponent = {
     },
 
     /****************** RÉCUPÉRATION DES DÉTAILS D'UNE Association ************/
-    async showdetailsAssociation(id) {
-      const promise = await fetch("http://127.0.0.1:8000/api/publics/" + id);
-      console.log("testassoc", promise);
+    // async showdetailsAssociation(id) {
+    //   const promise = await fetch("http://127.0.0.1:8000/api/publics/" + id);
+    //   console.log("testassoc", promise);
 
-      let response = await promise.json();
-      console.log("responseassoc", response);
+    //   let response = await promise.json();
+    //   console.log("responseassoc", response);
 
-      if (promise.status === 200) {
-        this.details = response.detailsAssociation;
-      }
+    //   if (promise.status === 200) {
+    //     this.details = response.detailsAssociation;
+    //   }
 
-      this.afficheDetails = true;
-      /* let map = document.getElementById("map");
-			map.classList.add("hidden");
+    //   this.afficheDetails = true;
+    //   /* let map = document.getElementById("map");
+		// 	map.classList.add("hidden");
 
-			let det = document.getElementsById("det");
-			det.classList.remove("hidden"); */
-    },
+		// 	let det = document.getElementsById("det");
+		// 	det.classList.remove("hidden"); */
+    // },
 
     /****************** AFFICHAGE DES TOP 3 ACOMITES/ASSOCIATIONS  ************/
 
