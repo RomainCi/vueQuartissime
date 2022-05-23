@@ -1,15 +1,18 @@
 <template>
   <!-- CSS only -->
-  <link
+  <!-- <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
     rel="stylesheet"
     integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
     crossorigin="anonymous"
-  />
+  /> -->
 
   <div class="home">
     <!-- /************************* IMAGES HOME ********************/ -->
     <div class="fond-acceuil" id="imgmap">
+      <header class="entete">
+        <img src="../assets/logo.png" alt="" class="logo" />
+      </header>
       <!-- /********************* Bouton "Voir la carte" ****************/ -->
       <div class="wrapper">
         <a @click="showMap" class="cta" href="#">
@@ -52,7 +55,7 @@
       </div>
       <div>
         <img
-          src="../assets/img-carte.png"
+          src="../assets/carte3.png"
           alt=""
           class="img-carte"
           @click="showMap"
@@ -96,16 +99,26 @@ export default {
 </script>
 
 <style scoped>
+.entete {
+  min-height: 70px;
+  /* border-bottom: 4px solid black; */
+  background-color: white;
+}
+.logo {
+  margin-top: -10px;
+  height: 7vh;
+}
 .fond-acceuil {
   background-image: url("@/assets/img-nice1.png");
   background-size: cover;
   height: 100vh;
+  margin-top: 30px;
 }
 
 .img-carte {
-  height: 40vh;
+  height: 30vh;
   margin-top: 11%;
-  margin-left: 30px;
+  margin-left: -3%;
 }
 
 .map {

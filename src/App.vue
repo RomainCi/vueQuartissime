@@ -1,8 +1,5 @@
 <template>
-  <header class="entete">
-    <img src="./assets/logo.png" alt="" class="logo" />
-  </header>
-  <!-- <router-link to="/usercomite"> USER </router-link> -->
+  <router-link to="/usercomite"> USER </router-link>
   <router-view />
 </template>
 
@@ -26,15 +23,5 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
-}
-
-.entete {
-  min-height: 85px;
-  border-bottom: 4px solid black;
-}
-
-.logo {
-  margin-top: 5px;
-  height: 7vh;
 }
 </style>

@@ -1,65 +1,71 @@
 <template>
   <div class="page-details">
-    <!------------ BLOC DETAILS COMITE AVEC IMAGE  ------------->
+    <div class="home">
+      <header class="entete">
+        <img src="../assets/logo.png" alt="" class="logo" />
+      </header>
+      <!------------ BLOC DETAILS COMITE AVEC IMAGE  ------------->
 
-    <div class="bloc-details-img">
-      <div class="div-img-personne">
-        <img src="../assets/img-personne.png" alt="" class="img-personne" />
-      </div>
-      <div class="container-details">
-        <p><strong>COMITE : </strong> {{ details.comiteName }}</p>
-        <p>
-          <i class="fa-solid fa-map-location-dot"></i><strong>Adresse : </strong
-          >{{ details.adress }}
-        </p>
-        <p><strong>Contact : </strong>{{ details.phone }}</p>
-        <p><strong>email : </strong>{{ details.email }}</p>
-        <p><strong> Site web : </strong>{{ details.webSite }}</p>
-        <p><strong>Description : </strong>{{ details.description }}</p>
-        <p>
-          <strong>Prénom Gestionnaire: </strong>{{ details.firstnamePresident }}
-        </p>
-        <p>
-          <strong>Nom Gestionnaire : </strong>{{ details.lastnamePresident }}
-        </p>
-
-        <button type="button" class="slide">
-          <div>S'inscrire</div>
-          <i class="icon-arrow-right"></i>
-        </button>
-      </div>
-    </div>
-
-    <div class="row bloc-assos-evens">
-      <div class="card" style="width: 25rem">
-        <img
-          class="card-img-top"
-          src="../assets/img-personne.png"
-          alt="Card image cap"
-        />
-        <div class="card-body">
-          <h5 class="card-title">LES ASSOCITIONS DU COMITE</h5>
-          <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
+      <div class="bloc-details-img">
+        <div class="div-img-personne">
+          <img src="../assets/img-personne.png" alt="" class="img-personne" />
+        </div>
+        <div class="container-details">
+          <p><strong>COMITE : </strong> {{ details.comiteName }}</p>
+          <p>
+            <i class="fa-solid fa-map-location-dot"></i
+            ><strong>Adresse : </strong>{{ details.adress }}
           </p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <p><strong>Contact : </strong>{{ details.phone }}</p>
+          <p><strong>email : </strong>{{ details.email }}</p>
+          <p><strong> Site web : </strong>{{ details.webSite }}</p>
+          <p><strong>Description : </strong>{{ details.description }}</p>
+          <p>
+            <strong>Prénom Gestionnaire: </strong
+            >{{ details.firstnamePresident }}
+          </p>
+          <p>
+            <strong>Nom Gestionnaire : </strong>{{ details.lastnamePresident }}
+          </p>
+
+          <button type="button" class="slide">
+            <div>S'inscrire</div>
+            <i class="icon-arrow-right"></i>
+          </button>
         </div>
       </div>
 
-      <div class="card" style="width: 25rem">
-        <img
-          class="card-img-top"
-          src="../assets/img-personne.png"
-          alt="Card image cap"
-        />
-        <div class="card-body">
-          <h5 class="card-title">LES ASSOCITIONS DU COMITE</h5>
-          <p class="card-text">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+      <div class="row bloc-assos-evens">
+        <div class="card" style="width: 25rem">
+          <img
+            class="card-img-top"
+            src="../assets/img-personne.png"
+            alt="Card image cap"
+          />
+          <div class="card-body">
+            <h5 class="card-title">LES ASSOCITIONS DU COMITE</h5>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+
+        <div class="card" style="width: 25rem">
+          <img
+            class="card-img-top"
+            src="../assets/img-personne.png"
+            alt="Card image cap"
+          />
+          <div class="card-body">
+            <h5 class="card-title">LES ASSOCITIONS DU COMITE</h5>
+            <p class="card-text">
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
         </div>
       </div>
     </div>
@@ -100,6 +106,14 @@ export default DetailsComiteView;
 </script>
 
 <style scoped>
+.entete {
+  min-height: 80px;
+  border-bottom: 4px solid black;
+}
+.logo {
+  height: 7vh;
+  margin: 20px;
+}
 .bloc-details-img {
   display: flex;
   flex-direction: row;

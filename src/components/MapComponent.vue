@@ -1,119 +1,106 @@
 <template>
   <!-- /********************** HEADER MAP ***********************/ -->
   <div class="template">
-    <div class="btn-geoc-adresse">
-      <!-- /********************** GEOLOCALISATION ***********************/ -->
-      <button @click="geolocbutton" type="button" class="btn btn-warning">
-        Me géolocaliser
-      </button>
-      <div>
-        <!-- /********************** RECHERCHE PAR ADRESSE ***********************/ -->
-        <div class="search">
-          <div class="col-3">
-            <input
-              v-model="search"
-              class="effect-1"
-              type="text"
-              placeholder="Saisir une adresse"
-            />
-            <span class="focus-border"></span>
-          </div>
-          <div class="btnS">
-            <input
-              class="btnSearch"
-              type="button"
-              @click="getadress"
-              value="Rechercher"
-            />
-          </div>
+    <header class="entete">
+      <img src="../assets/logo.png" alt="" class="logo" />
+    </header>
+    <!-- /********************** GEOLOCALISATION ***********************/ -->
+    <div class="btn-geoc-search">
+      <div class="btn-geoc">
+        <div class="wrap">
+          <button @click="geolocbutton" class="button-geoc">
+            Me géolocaliser
+          </button>
         </div>
       </div>
-      <br />
-      <br />
 
-      <!-- /********************** BOUTON POUR AFFICHAGE 3 COMITES/ASSOC LES PLUS PROCHES ********************* */ -->
-
-      <button
-        type="button"
-        class="btn btn-warning btn-detail"
-        @click="affichagetop3comassoc"
-      >
-        Afficher comité assoc
-      </button>
-
-      <br />
-      <br />
-      <!-- /********************** MAP ***********************/ -->
-      <div id="map" class="page-map">
-        <l-map style="height: 80vh; width: 80vw" :zoom="zoom" :center="center">
-          <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-
-          <!-- /********************** marquers comités ***********************/ -->
-          <l-marker
-            v-for="comitee in comitees"
-            :key="comitee.id"
-            :lat-lng="[comitee.latitude, comitee.longitude]"
-          >
-            <l-popup
-              ><strong>Nom du comité : </strong> {{ comitee.comiteName }}<br />
-              <strong>Adresse : </strong>{{ comitee.adress }}<br />
-              <strong>Contact : </strong>{{ comitee.phone }}<br /><br />
-              <router-link
-                class="btn btn-warning btn-detail"
-                :to="{
-                  name: 'detailscomite',
-                  params: { idDetails: comitee.id },
-                }"
-              >
-                Voir les détails
-              </router-link>
-            </l-popup>
-          </l-marker>
-
-          <!-- /********************** marquers associations ***********************/ -->
-
-          <l-marker
-            v-for="association in associations"
-            :key="association.id"
-            :lat-lng="[association.latitude, association.longitude]"
-          >
-            <l-icon>
-              <img class="imgicon" src="../assets/associcon.png" />
-            </l-icon>
-            <l-popup
-              ><strong>Nom de l'association : </strong>
-              {{ association.associationName }}<br />
-              <strong>Adresse : </strong>{{ association.adress }}<br />
-              <strong>Contact : </strong>{{ association.phone }}<br /><br />
-              <router-link
-                class="btn btn-warning btn-detail"
-                :to="{
-                  name: 'detailsassociation',
-                  params: { idDetails: association.id },
-                }"
-              >
-                Voir les détails
-              </router-link>
-            </l-popup>
-          </l-marker>
-        </l-map>
+      <!-- /********************** INPUT ET BOUTON RECHERCHE PAR ADRESSE ***********************/ -->
+      <div class="input-group">
+        <div class="form-outline">
+          <input
+            type="search"
+            id="form1"
+            class="form-control input-search"
+            placeholder="Rechercher par adresse"
+          />
+        </div>
+        <button type="button" class="btn btn-primary">
+          <i class="fas fa-search"></i>
+        </button>
       </div>
 
-      <!-- /********************** DÉTAILS COMITE ********************* -->
+    <!-- /** BOUTON POUR AFFICHAGE 3 COMITES/ASSOC LES PLUS PROCHES **/ -->
 
-      <div>
-        <p>{{ details.name }}</p>
-        <p>{{ details.adress }}</p>
-        <p>{{ details.phone }}</p>
-      </div>
+    <button
+      type="button"
+      class="btn btn-warning btn-detail"
+      @click="affichagetop3comassoc"
+    >
+      Afficher comité assoc
+    </button>
 
-      <!-- /********************** DÉTAILS Associations ********************* */ -->
+    <br />
+    <br />
 
-      <div>
-        <p>{{ details.name }}</p>
-        <p>{{ details.adress }}</p>
-        <p>{{ details.phone }}</p>
-      </div>
+    <!-- /********************** MAP ***********************/ -->
+    <div id="map" class="page-map">
+      <l-map style="height: 65vh; width: 70vw" :zoom="zoom" :center="center">
+        <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+
+        <!-- /********************** marquers comités ***********************/ -->
+        <l-marker
+          v-for="comitee in comitees"
+          :key="comitee.id"
+          :lat-lng="[comitee.latitude, comitee.longitude]"
+        >
+          <l-popup
+            ><strong>Nom du comité : </strong> {{ comitee.comiteName }}<br />
+            <strong>Adresse : </strong>{{ comitee.adress }}<br />
+            <strong>Contact : </strong>{{ comitee.phone }}<br /><br />
+            <router-link
+              class="btn btn-warning btn-detail"
+              :to="{ name: 'detailscomite', params: { idDetails: comitee.id } }"
+            >
+              Voir les détails
+            </router-link>
+          </l-popup>
+        </l-marker>
+
+        <!-- /********************** marquer riverains ***********************/ -->
+        <l-marker :lat-lng="[latitude, longitude]">
+          <l-icon>
+            <img class="imgicon" src="../assets/icon.png" />
+          </l-icon>
+          <l-popup> vous êtes ici</l-popup>
+        </l-marker>
+
+        <!-- /******************** marquers associations *************/ -->
+
+        <l-marker
+          v-for="association in associations"
+          :key="association.id"
+          :lat-lng="[association.latitude, association.longitude]"
+        >
+          <l-icon>
+            <img class="imgicon" src="../assets/associcon.png" />
+          </l-icon>
+          <l-popup
+            ><strong>Nom de l'association : </strong>
+            {{ association.associationName }}<br />
+            <strong>Adresse : </strong>{{ association.adress }}<br />
+            <strong>Contact : </strong>{{ association.phone }}<br /><br />
+            <router-link
+              class="btn btn-warning btn-detail"
+              :to="{
+                name: 'detailsassociation',
+                params: { idDetails: association.id },
+              }"
+            >
+              Voir les détails
+            </router-link>
+          </l-popup>
+        </l-marker>
+      </l-map>
     </div>
   </div>
 </template>
@@ -147,9 +134,9 @@ const MapComponent = {
       zoom: 14,
       center: [43.7101728, 7.2619532],
       comitees: [],
+
       associations: [],
-      details: {},
-      afficheDetails: false,
+
       search: "",
       latitude: "",
       longitude: "",
@@ -179,6 +166,8 @@ const MapComponent = {
         console.log(e);
       }
     },
+
+    // ********METHODE POUR ENVOYER LA LAT ET LONG DU VISITEUR VERS LE BACK**********
     async savedata() {
       const promise = await fetch("http://127.0.0.1:8000/api/publics", {
         method: "POST",
@@ -228,27 +217,7 @@ const MapComponent = {
       }
     },
 
-    /****************** RÉCUPÉRATION DES DÉTAILS D'UN COMITÉ ************/
-    async showdetailsComite(id) {
-      const promise = await fetch("http://127.0.0.1:8000/api/publics/" + id);
-      console.log("test", promise);
-
-      let response = await promise.json();
-      console.log("response", response);
-
-      if (promise.status === 200) {
-        this.details = response.detailsComite;
-      }
-
-      this.afficheDetails = true;
-      //   /* let map = document.getElementById("map");
-      // 	map.classList.add("hidden");
-
-      // 	let det = document.getElementsById("det");
-      // 	det.classList.remove("hidden"); */
-    },
-
-    /* ********************* RÉCUPÉRATION DES Associations ************* */
+    /* ** AFFICHAGE DES ASSOCIATIONS SUR LA CARTE ** */
     async getAssociationList() {
       const promise = await fetch("http://127.0.0.1:8000/api/publics");
       console.log(promise);
@@ -261,27 +230,7 @@ const MapComponent = {
       }
     },
 
-    /****************** RÉCUPÉRATION DES DÉTAILS D'UNE Association ************/
-    async showdetailsAssociation(id) {
-      const promise = await fetch("http://127.0.0.1:8000/api/publics/" + id);
-      console.log("testassoc", promise);
-
-      let response = await promise.json();
-      console.log("responseassoc", response);
-
-      if (promise.status === 200) {
-        this.details = response.detailsAssociation;
-      }
-
-      this.afficheDetails = true;
-      /* let map = document.getElementById("map");
-      // 	map.classList.add("hidden");
-
-      // 	let det = document.getElementsById("det");
-      // 	det.classList.remove("hidden"); */
-    },
-
-    /****************** AFFICHAGE DES TOP 3 ACOMITES/ASSOCIATIONS  ************/
+    /** AFFICHAGE DES TOP 3 ACOMITES/ASSOCIATIONS  **/
 
     async affichagetop3comassoc() {
       const response = await fetch(
@@ -302,37 +251,36 @@ export default MapComponent;
 
 <style scoped>
 /************* Header map CSS ************/
-.imgicon {
-  width: 30px;
-  height: 30px;
+.entete {
+  min-height: 80px;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  border-bottom: 4px solid black;
 }
-.btn-geoc {
-  align-items: center;
-  margin-bottom: 20px;
-  margin-top: 50px;
+.logo {
+  height: 7vh;
+  margin: 20px;
+}
+.btn-geoc-search {
+  display: flex;
+  flex-direction: row;
+  margin-top: 130px;
+  justify-content: space-between;
+  gap: 35%;
 }
 
-.input-search {
-  border: solid 1px black;
-  padding: 6px;
-  border-radius: 3px;
-}
-.btn-search {
-  border: none;
-  border-radius: 3px;
-  background-color: black;
-  color: white;
-  padding: 10px;
-}
 /************* bouton geolocalisation ************/
-.wrap {
-  height: 100%;
+/* .wrap {
+  height: 90%;
   display: flex;
   align-items: center;
   justify-content: center;
-}
+  margin-top: 25px;
+} */
 
-.button {
+.button-geoc {
+  margin-left: 80px;
   min-width: 200px;
   min-height: 40px;
   font-family: "Nunito", sans-serif;
@@ -350,8 +298,8 @@ export default MapComponent;
   padding: 6px;
 }
 
-.button:hover,
-.button:focus {
+.button-geoc:hover,
+.button-geoc:focus {
   color: #313133;
   transform: translateY(-4px);
 }
@@ -388,73 +336,13 @@ button:focus::after {
     opacity: 0;
   }
 }
-/************* Input adresse  ************/
-:focus {
-  outline: none;
-}
-.search {
-  display: flex;
-  justify-content: left;
-  gap: 60px;
-  margin-top: 70px;
-}
-.col-3 {
-  float: left;
-  width: 27.33%;
-  position: relative;
-}
-input[type="text"] {
-  font: 15px/24px "Lato", Arial, sans-serif;
-  color: #333;
-  width: 100%;
-  box-sizing: border-box;
-  letter-spacing: 1px;
+/************* INPUT ET BOUTON SEARCH ************/
+.input-search {
+  padding: 20px;
 }
 
-.effect-1 {
-  border: 0;
-  padding: 7px 0;
-  border-bottom: 2px solid #ccc;
-}
-
-.effect-1 ~ .focus-border {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: #ffda3e;
-  transition: 0.4s;
-}
-.effect-1:focus ~ .focus-border {
-  width: 100%;
-  transition: 0.4s;
-}
-
-/************* Bouton adresse  ************/
-.btnS {
-  align-self: end;
-}
-.btnSearch {
-  border: 4px solid #ffda3e;
-  line-height: 2.5;
-  padding: 0 20px;
-  font-size: 1rem;
-  text-align: center;
-  color: rgb(0, 0, 0);
-  border-radius: 20px;
-  background-color: #ffffff;
-
-  box-shadow: inset 2px 2px 3px rgba(255, 255, 255, 0.986),
-    inset -2px -2px 3px rgba(0, 0, 0, 0.438);
-}
-
-.btnSearch:hover {
-  background-color: #ffda3e;
-}
-
-.btnSearch:active {
-  box-shadow: inset -2px -2px 3px rgb(255, 255, 255),
-    inset 2px 2px 3px rgba(0, 0, 0, 0.424);
+.imgicon {
+  width: 30px;
+  height: 30px;
 }
 </style>
