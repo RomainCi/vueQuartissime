@@ -6,22 +6,86 @@
 				<img src="../assets/comite.jpeg" alt="" class="img-personne" />
 			</div>
 			<div class="container-details">
-				<p><strong>Nom du comité : </strong> {{ comite.comiteName }}</p>
+				<p><strong>Nom du comité : </strong> {{ comiteName }}</p>
 				<p>
 					<i class="fa-solid fa-map-location-dot"></i
-					><strong>Adresse du comité : </strong>{{ comite.adress }}
+					><strong>Adresse du comité : </strong>{{ adress }}
 				</p>
-				<p><strong>Telephone : </strong>{{ comite.phone }}</p>
-				<p><strong>Email : </strong>{{ comite.email }}</p>
-				<p><strong> Site web : </strong>{{ comite.webSite }}</p>
-				<p><strong>Description : </strong>{{ comite.description }}</p>
-				<p>
-					<strong>Prénom du Président: </strong>{{ comite.firstnamePresident }}
-				</p>
-				<p>
-					<strong>Nom du Président : </strong>{{ comite.lastnamePresident }}
-				</p>
+				<p><strong>Telephone : </strong>{{ phone }}</p>
+				<p><strong>Email : </strong>{{ email }}</p>
+				<p><strong> Site web : </strong>{{ webSite }}</p>
+				<p><strong>Description : </strong>{{ description }}</p>
+				<p><strong>Prénom du Président: </strong>{{ firstnamePresident }}</p>
+				<p><strong>Nom du Président : </strong>{{ lastnamePresident }}</p>
 			</div>
+			<button @click="editComite">Modifier les informations</button>
+		</div>
+		<div>
+			<form @submit.prevent="updateComite">
+				<div class="form-group">
+					<label for="">Nom du comité</label>
+					<input type="text" class="form-control" id="" v-model="comiteName" />
+				</div>
+				<div class="form-group">
+					<label for="inputPhone">Téléphone</label>
+					<input
+						type="phone"
+						class="form-control"
+						id="inputPhone"
+						v-model="phone"
+					/>
+				</div>
+				<div class="form-group">
+					<label for="inputEmail">Email</label>
+					<input
+						type="text"
+						class="form-control"
+						id="inputEmail"
+						v-model="email"
+					/>
+				</div>
+				<div class="form-group">
+					<label for="inputWebSite">Site web</label>
+					<input
+						type="text"
+						class="form-control"
+						id="inputWebSite"
+						v-model="webSite"
+					/>
+				</div>
+				<div class="form-group">
+					<label for="inputDescription">Description</label>
+					<input
+						type="text"
+						class="form-control"
+						id="inputDescription"
+						v-model="description"
+					/>
+				</div>
+
+				<div class="form-group">
+					<label for="inputFirstname">Prénom du Président</label>
+					<input
+						type="text"
+						class="form-control"
+						id="inputFirstname"
+						v-model="firstnamePresident"
+					/>
+				</div>
+				<div class="form-group">
+					<label for="inputLastname">Nom du Président</label>
+					<input
+						type="text"
+						class="form-control"
+						id="inputLastname"
+						v-model="lastnamePresident"
+					/>
+				</div>
+
+				<button type="submit" class="btn btn-primary">
+					Enregistrer les modifications
+				</button>
+			</form>
 		</div>
 	</div>
 </template>
@@ -30,7 +94,14 @@
 const ProfilComiteView = {
 	data() {
 		return {
-			comite: {},
+			comiteName: "",
+			adress: "",
+			phone: "",
+			email: "",
+			webSite: "",
+			description: "",
+			firstnamePresident: "",
+			lastnamePresident: "",
 		};
 	},
 	mounted() {
@@ -51,7 +122,41 @@ const ProfilComiteView = {
 			console.log("response", response);
 
 			if (promise.status === 200) {
-				this.comite = response.comite;
+				this.comiteName = response.comite.comiteName;
+				this.adress = response.comite.adress;
+				this.phone = response.comite.phone;
+				this.email = response.comite.email;
+				this.webSite = response.comite.webSite;
+				this.description = response.comite.description;
+				this.firstnamePresident = response.comite.firstnamePresident;
+				this.lastnamePresident = response.comite.lastnamePresident;
+			}
+		},
+
+		async updateComite() {
+			const promise = await fetch("http://127.0.0.1:8000/api/profilcomite", {
+				method: "POST",
+				body: JSON.stringify({
+					comiteName: this.comiteName,
+					phone: this.phone,
+					email: this.email,
+					webSite: this.webSite,
+					description: this.description,
+					firstnamePresident: this.firstnamePresident,
+					lastnamePresident: this.lastnamePresident,
+				}),
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + localStorage.getItem("token"),
+				},
+			});
+
+			let res = await promise.json();
+			console.log("update", res);
+			if (promise.status === 200) {
+				console.log("c'est good");
+			} else {
+				console.log("c'est pas good");
 			}
 		},
 	},
