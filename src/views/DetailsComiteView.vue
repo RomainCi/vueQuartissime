@@ -39,32 +39,32 @@
         <div class="card" style="width: 25rem">
           <img
             class="card-img-top"
-            src="../assets/img-personne.png"
+            src="../assets/img-assos.png"
             alt="Card image cap"
           />
           <div class="card-body">
-            <h5 class="card-title">LES ASSOCITIONS DU COMITE</h5>
+            <h5 class="card-title">LES ASSOCITIONS</h5>
             <p class="card-text">
               Some quick example text to build on the card title and make up the
               bulk of the card's content.
             </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
 
         <div class="card" style="width: 25rem">
           <img
             class="card-img-top"
-            src="../assets/img-personne.png"
+            src="../assets/img-evens.png"
             alt="Card image cap"
           />
           <div class="card-body">
-            <h5 class="card-title">LES ASSOCITIONS DU COMITE</h5>
+            <h5 class="card-title">LES EVENEMENTS</h5>
             <p class="card-text">
               Some quick example text to build on the card title and make up the
               bulk of the card's content.
             </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
       </div>
@@ -183,8 +183,10 @@ export default DetailsComiteView;
 }
 
 .bloc-assos-evens {
+  display: flex;
+  justify-content: center;
   margin: 110px 20px 0px 30px;
-  gap: 5%;
+  gap: 10%;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }

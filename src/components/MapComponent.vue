@@ -136,6 +136,7 @@ const MapComponent = {
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 14,
       center: [43.7101728, 7.2619532],
+
       comitees: [],
 
       associations: [],
@@ -157,7 +158,7 @@ const MapComponent = {
       this.$store.dispatch("envoieId", id);
       this.$router.push("/detailscomite");
     },
-    /********************* Methods geo/adresse ************************/
+    /********************* Methods geolocalisation/ et input search adresse ************************/
     async getadress() {
       try {
         const response = await fetch(
