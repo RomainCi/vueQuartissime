@@ -135,7 +135,7 @@ const ProfilComiteView = {
 
 		async updateComite() {
 			const promise = await fetch("http://127.0.0.1:8000/api/profilcomite", {
-				method: "POST",
+				method: "PUT",
 				body: JSON.stringify({
 					comiteName: this.comiteName,
 					phone: this.phone,
