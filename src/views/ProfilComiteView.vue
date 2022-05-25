@@ -1,186 +1,228 @@
 <template>
-	<div>
-		<h1>PROFIL DU COMITÉ</h1>
-		<div class="bloc-details-img">
-			<div class="div-img-personne">
-				<img src="../assets/comite.jpeg" alt="" class="img-personne" />
-			</div>
-			<div class="container-details">
-				<p><strong>Nom du comité : </strong> {{ comiteName }}</p>
-				<p>
-					<i class="fa-solid fa-map-location-dot"></i
-					><strong>Adresse du comité : </strong>{{ adress }}
-				</p>
-				<p><strong>Telephone : </strong>{{ phone }}</p>
-				<p><strong>Email : </strong>{{ email }}</p>
-				<p><strong> Site web : </strong>{{ webSite }}</p>
-				<p><strong>Description : </strong>{{ description }}</p>
-				<p><strong>Prénom du Président: </strong>{{ firstnamePresident }}</p>
-				<p><strong>Nom du Président : </strong>{{ lastnamePresident }}</p>
-			</div>
-			<button @click="editComite">Modifier les informations</button>
-		</div>
-		<div>
-			<form @submit.prevent="updateComite">
-				<div class="form-group">
-					<label for="">Nom du comité</label>
-					<input type="text" class="form-control" id="" v-model="comiteName" />
-				</div>
-				<div class="form-group">
-					<label for="inputPhone">Téléphone</label>
-					<input
-						type="phone"
-						class="form-control"
-						id="inputPhone"
-						v-model="phone"
-					/>
-				</div>
-				<div class="form-group">
-					<label for="inputEmail">Email</label>
-					<input
-						type="text"
-						class="form-control"
-						id="inputEmail"
-						v-model="email"
-					/>
-				</div>
-				<div class="form-group">
-					<label for="inputWebSite">Site web</label>
-					<input
-						type="text"
-						class="form-control"
-						id="inputWebSite"
-						v-model="webSite"
-					/>
-				</div>
-				<div class="form-group">
-					<label for="inputDescription">Description</label>
-					<input
-						type="text"
-						class="form-control"
-						id="inputDescription"
-						v-model="description"
-					/>
-				</div>
+  <div>
+    <h1>PROFIL DU COMITÉ</h1>
+    <div class="bloc-details-img">
+      <div class="div-img-personne">
+        <img src="../assets/comite.jpeg" alt="" class="img-personne" />
+      </div>
+      <div class="container-details">
+        <p><strong>Nom du comité : </strong> {{ comiteName }}</p>
+        <p>
+          <i class="fa-solid fa-map-location-dot"></i
+          ><strong>Adresse du comité : </strong>{{ adress }}
+        </p>
+        <p><strong>Telephone : </strong>{{ phone }}</p>
+        <p><strong>Email : </strong>{{ email }}</p>
+        <p><strong> Site web : </strong>{{ webSite }}</p>
+        <p><strong>Description : </strong>{{ description }}</p>
+        <p><strong>Prénom du Président: </strong>{{ firstnamePresident }}</p>
+        <p><strong>Nom du Président : </strong>{{ lastnamePresident }}</p>
 
-				<div class="form-group">
-					<label for="inputFirstname">Prénom du Président</label>
-					<input
-						type="text"
-						class="form-control"
-						id="inputFirstname"
-						v-model="firstnamePresident"
-					/>
-				</div>
-				<div class="form-group">
-					<label for="inputLastname">Nom du Président</label>
-					<input
-						type="text"
-						class="form-control"
-						id="inputLastname"
-						v-model="lastnamePresident"
-					/>
-				</div>
+        <button @click="openForm">Modifier les informations</button>
+      </div>
+    </div>
+    <!---------- FORMULAIRE POP UP MODIFICATION DONNES COMITES -------------->
+    <div class="div_form" id="popupForm">
+      <form @submit.prevent="updateComite" class="form">
+        <div class="form-group div-input">
+          <label for="">Nom du comité</label>
+          <input type="text" class="form-control" id="" v-model="comiteName" />
+        </div>
+        <div class="form-group">
+          <label for="inputPhone">Téléphone</label>
+          <input
+            type="text"
+            maxlength="10"
+            minlength="10"
+            class="form-control"
+            id="inputPhone"
+            @input="telephone"
+            :value="phone"
+          />
+        </div>
+        <div class="form-group">
+          <label for="inputEmail">Email</label>
+          <input
+            type="text"
+            class="form-control"
+            id="inputEmail"
+            v-model="email"
+          />
+        </div>
+        <div class="form-group">
+          <label for="inputWebSite">Site web</label>
+          <input
+            type="text"
+            class="form-control"
+            id="inputWebSite"
+            v-model="webSite"
+          />
+        </div>
+        <div class="form-group">
+          <label for="inputDescription">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            id="inputDescription"
+            v-model="description"
+          />
+        </div>
 
-				<button type="submit" class="btn btn-primary">
-					Enregistrer les modifications
-				</button>
-			</form>
-		</div>
-	</div>
+        <div class="form-group">
+          <label for="inputFirstname">Prénom du Président</label>
+          <input
+            type="text"
+            class="form-control"
+            id="inputFirstname"
+            v-model="firstnamePresident"
+          />
+        </div>
+        <div class="form-group">
+          <label for="inputLastname">Nom du Président</label>
+          <input
+            type="text"
+            class="form-control"
+            id="inputLastname"
+            v-model="lastnamePresident"
+          />
+        </div>
+
+        <button type="submit" @click="closeForm" class="btn btn-warning">
+          Enregistrer les modifications
+        </button>
+
+        <button type="button" class="btn btn-danger" @click="closeForm">
+          Fermer
+        </button>
+      </form>
+    </div>
+  </div>
 </template>
 
 <script>
 const ProfilComiteView = {
-	data() {
-		return {
-			comiteName: "",
-			adress: "",
-			phone: "",
-			email: "",
-			webSite: "",
-			description: "",
-			firstnamePresident: "",
-			lastnamePresident: "",
-		};
-	},
-	mounted() {
-		this.showComite();
-	},
-	methods: {
-		async showComite() {
-			const promise = await fetch("http://127.0.0.1:8000/api/profilcomite", {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: "Bearer " + localStorage.getItem("token"),
-				},
-			});
-			console.log("profil", promise);
+  data() {
+    return {
+      comiteName: "",
+      adress: "",
+      phone: "",
+      email: "",
+      webSite: "",
+      description: "",
+      firstnamePresident: "",
+      lastnamePresident: "",
+    };
+  },
+  mounted() {
+    this.showComite();
+  },
+  methods: {
+    async showComite() {
+      const promise = await fetch("http://127.0.0.1:8000/api/profilcomite", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      console.log("profil", promise);
 
-			let response = await promise.json();
-			console.log("response", response);
+      let response = await promise.json();
+      console.log("response", response);
 
-			if (promise.status === 200) {
-				this.comiteName = response.comite.comiteName;
-				this.adress = response.comite.adress;
-				this.phone = response.comite.phone;
-				this.email = response.comite.email;
-				this.webSite = response.comite.webSite;
-				this.description = response.comite.description;
-				this.firstnamePresident = response.comite.firstnamePresident;
-				this.lastnamePresident = response.comite.lastnamePresident;
-			}
-		},
+      if (promise.status === 200) {
+        this.comiteName = response.comite.comiteName;
+        this.adress = response.comite.adress;
+        this.phone = response.comite.phone;
+        this.email = response.comite.email;
+        this.webSite = response.comite.webSite;
+        this.description = response.comite.description;
+        this.firstnamePresident = response.comite.firstnamePresident;
+        this.lastnamePresident = response.comite.lastnamePresident;
+      }
+    },
 
-		async updateComite() {
-			const promise = await fetch("http://127.0.0.1:8000/api/profilcomite", {
-				method: "PUT",
-				body: JSON.stringify({
-					comiteName: this.comiteName,
-					phone: this.phone,
-					email: this.email,
-					webSite: this.webSite,
-					description: this.description,
-					firstnamePresident: this.firstnamePresident,
-					lastnamePresident: this.lastnamePresident,
-				}),
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: "Bearer " + localStorage.getItem("token"),
-				},
-			});
+    async updateComite() {
+      const promise = await fetch("http://127.0.0.1:8000/api/profilcomite", {
+        method: "PUT",
+        body: JSON.stringify({
+          comiteName: this.comiteName,
+          phone: this.phone,
+          email: this.email,
+          webSite: this.webSite,
+          description: this.description,
+          firstnamePresident: this.firstnamePresident,
+          lastnamePresident: this.lastnamePresident,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
 
-			let res = await promise.json();
-			console.log("update", res);
-			if (promise.status === 200) {
-				console.log("c'est good");
-			} else {
-				console.log("c'est pas good");
-			}
-		},
-	},
+      let res = await promise.json();
+      console.log("update", res);
+      if (promise.status === 200) {
+        console.log("c'est good");
+      } else {
+        console.log("c'est pas good");
+      }
+    },
+    // FONCTION QUI PERMET D'ECRIRE QUE DES CHIFFRES DANS L'INPUT TEL QUI DE BASE EST DE TYPE TEXT
+    telephone(e) {
+      if (isNaN(e.target.value)) {
+        e.target.value = this.tele;
+        return;
+      }
+
+      this.tele = e.target.value;
+      this.phone = this.tele;
+    },
+
+    // FONCTIONS POUR OUVRIR LE FORMULAIRE DE MODIFICATIONS
+
+    openForm() {
+      document.getElementById("popupForm").style.display = "block";
+    },
+
+    closeForm() {
+      document.getElementById("popupForm").style.display = "none";
+    },
+  },
 };
+
 export default ProfilComiteView;
 </script>
 
 <style scoped>
 .container-details {
-	padding: 25px;
-	border: solid 2px #ffda3e;
-	width: 50%;
-	box-shadow: 30px -16px #ffda3e;
-	border-radius: 15px;
+  padding: 25px;
+  border: solid 2px #ffda3e;
+  width: 50%;
+  box-shadow: 30px -16px #ffda3e;
+  border-radius: 15px;
 }
 .img-personne {
-	height: 65vh;
-	margin-left: 10px;
+  height: 65vh;
+  margin-left: 10px;
 }
 .bloc-details-img {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	margin-top: 70px;
-	gap: 8%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 70px;
+  gap: 8%;
+}
+
+.div_form {
+  display: none;
+  padding: 30px;
+  border: solid #ffda3e 3px;
+  border-radius: 10px;
+  width: 950px;
+  position: fixed;
+  top: 15%;
+  left: 30%;
+  background-color: white;
 }
 </style>
