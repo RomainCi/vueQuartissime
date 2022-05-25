@@ -4,7 +4,7 @@
 		<header class="entete">
 			<img src="../assets/logo.png" alt="" class="logo" />
 		</header>
-		<!-- /********************** GEOLOCALISATION ***********************/ -->
+		<!-- /********************** GEOLOCALISATION **********************/ -->
 		<div class="btn-geoc-search">
 			<div class="btn-geoc">
 				<div class="wrap">
@@ -14,7 +14,7 @@
 				</div>
 			</div>
 
-			<!-- /********************** INPUT ET BOUTON RECHERCHE PAR ADRESSE ***********************/ -->
+			<!-- /*************** INPUT ET BOUTON RECHERCHE PAR ADRESSE *****************/ -->
 			<div class="input-group">
 				<div class="form-outline">
 					<input
@@ -22,9 +22,10 @@
 						id="form1"
 						class="form-control input-search"
 						placeholder="Rechercher par adresse"
+						v-model="search"
 					/>
 				</div>
-				<button type="button" class="btn btn-primary">
+				<button @click="getadress" type="button" class="btn btn-primary">
 					<i class="fas fa-search"></i>
 				</button>
 			</div>
@@ -34,16 +35,16 @@
 
 		<!-- /** BOUTON POUR AFFICHAGE 3 COMITES/ASSOC LES PLUS PROCHES **/ -->
 
-		<!-- <button
-      type="button"
-      class="btn btn-warning btn-detail"
-      @click="affichagetop3comassoc"
-    >
-      Afficher comité assoc
-    </button>
+		<button
+			type="button"
+			class="btn btn-warning btn-detail"
+			@click="affichagetop3comassoc"
+		>
+			Afficher comité assoc
+		</button>
 
-    <br />
-    <br /> -->
+		<br />
+		<br />
 
 		<!-- /********************** MAP ***********************/ -->
 		<div id="map" class="page-map">
@@ -92,15 +93,6 @@
 						{{ association.associationName }}<br />
 						<strong>Adresse : </strong>{{ association.adress }}<br />
 						<strong>Contact : </strong>{{ association.phone }}<br /><br />
-						<router-link
-							class="btn btn-warning btn-detail"
-							:to="{
-								name: 'detailsassociation',
-								params: { idDetails: association.id },
-							}"
-						>
-							Voir les détails
-						</router-link>
 					</l-popup>
 				</l-marker>
 			</l-map>
@@ -153,12 +145,12 @@ const MapComponent = {
 	},
 
 	methods: {
-		//////////////////METHODE POUR ENVOYER LES DETAILS SUR UNE NOUVELLE VUE//////////////////
+		/* //////////METHODE POUR ENVOYER LES DETAILS SUR UNE NOUVELLE VUE//////////////
 		test(id) {
 			this.$store.dispatch("envoieId", id);
 			this.$router.push("/detailscomite");
-		},
-		/********************* Methods geolocalisation/ et input search adresse ************************/
+		}, */
+		/**************** Methods geolocalisation/ et input search adresse *******************/
 		async getadress() {
 			try {
 				const response = await fetch(
@@ -178,7 +170,7 @@ const MapComponent = {
 
 		// ********METHODE POUR ENVOYER LA LAT ET LONG DU VISITEUR VERS LE BACK**********
 		async savedata() {
-			const promise = await fetch("http://127.0.0.1:8000/api/comites", {
+			const promise = await fetch("http://127.0.0.1:8000/api/publics", {
 				method: "POST",
 				body: JSON.stringify({
 					lat: this.latitude,
@@ -228,7 +220,7 @@ const MapComponent = {
 
 		/* ** AFFICHAGE DES ASSOCIATIONS SUR LA CARTE ** */
 		async getAssociationList() {
-			const promise = await fetch("http://127.0.0.1:8000/api/publics");
+			const promise = await fetch("http://127.0.0.1:8000/api/associations");
 			console.log(promise);
 
 			let response = await promise.json();
@@ -253,8 +245,24 @@ const MapComponent = {
 
 			this.comites = data.comites;
 		},
+
+		//*********** */ Attribution des associations aux comites  *************//
+		async linkassociationtocomite() {
+			const promise = await fetch(
+				"http://127.0.0.1:8000/api/comites/associationsrelatives"
+			);
+			console.log(promise);
+
+			let response = await promise.json();
+			console.log(response);
+
+			if (promise.status === 200) {
+				return true;
+			}
+		},
 	},
 };
+
 export default MapComponent;
 </script>
 

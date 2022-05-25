@@ -91,7 +91,7 @@ const DetailsComiteView = {
 	methods: {
 		async showdetailsComite() {
 			const promise = await fetch(
-				"http://127.0.0.1:8000/api/publics/" + this.idDetails
+				"http://127.0.0.1:8000/api/comites/" + this.idDetails
 			);
 			console.log("test", promise);
 			let response = await promise.json();
