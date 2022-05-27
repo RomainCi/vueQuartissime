@@ -27,6 +27,7 @@ const routes = [
 		path: "/profilcomite",
 		name: "profilcomite",
 		component: ProfilComiteView,
+		meta: { requiresAuth: true },
 	},
 
 	{
