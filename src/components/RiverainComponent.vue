@@ -36,7 +36,7 @@
       </div>
 
       <label for="adresse">Addresse postal (optionnel)</label>
-      <input type="text" class="addrese" v-model="user.addresse" />
+      <input type="text" class="addrese" v-model="user.adresse" />
 
       <button>Valider</button>
       <p @click="showAssoc">Si vous êtes une association</p>
@@ -55,7 +55,7 @@ const RiverainComponent = {
   data() {
     return {
       user: {
-        addresse: "",
+        adresse: "",
         email: "",
         prenom: "",
         nom: "",
