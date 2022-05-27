@@ -1,7 +1,11 @@
 <template>
   <div>
     <h2>{{ titre }}</h2>
-    <form class="formulaire" @submit.prevent="submitForm">
+    <form
+      class="formulaire"
+      @submit.prevent="submitForm"
+      enctype="multipart/form-data"
+    >
       <label for="nomAssoc">Nom Association</label>
       <input type="text" class="nomAssoc" v-model="user.nomAssoc" />
 
@@ -10,13 +14,6 @@
 
       <label for="status">Veuillez écrire publique ou prive</label>
       <input type="text" class="status" v-model="user.status" />
-      <!-- <div>
-        <input type="radio" id="public" name="drone" v-model="user.publique" />
-        <label for="public">Publique</label>
-
-        <input type="radio" id="prive" name="drone" v-model="user.prive" />
-        <label for="prive">Prive</label>
-      </div> -->
 
       <label for="email">Email</label>
       <input type="email" class="email" v-model="user.email" />
@@ -36,8 +33,9 @@
       <label for="photo">Photos (optionnelle, maximum 10, 2Mo par photo)</label>
       <input
         type="file"
+        ref="fileuplaod"
         multiple
-        @change="test"
+        @change="file"
         accept="image/*"
         class="input-file"
       />
@@ -71,16 +69,15 @@ const AssocComponent = {
         telephone: "",
         description: "",
         accord: false,
-        previewImage: null,
       },
       tele: "",
+      image: null,
     };
   },
   methods: {
     submitForm() {
-      const formData = new FormData();
-      formData.append("avatar", this.user.previewImage);
-      console.log("test", this.user.previewImage);
+      console.log(this.image);
+      console.log(this.user, "hey");
       let verif = this.verification();
       verif ? this.envoieInscription() : console.log("faux");
     },
@@ -102,11 +99,11 @@ const AssocComponent = {
         this.user.previewImage = e.target.result;
       };
     },
-    test(e) {
+    file(e) {
       // for (let index = 0; index < e.target.files.length; index++) {
-      //   this.user.previewImage.push(e.target.files[index]);
+      //   this.image.push(e.target.files[index]);
       // }
-      this.user.previewImage = e.target.files[0];
+      this.image = e.target.files;
     },
     verification() {
       if (this.user.status == "prive") {
@@ -118,13 +115,33 @@ const AssocComponent = {
       }
     },
     async envoieInscription() {
+      let fd = new FormData();
+      if (this.image != null) {
+        for (let index = 0; index < this.image.length; index++) {
+          fd.append("images[" + index + "]", this.image[index]);
+        }
+      }
+
+      // fd.append("images", this.image);
+      fd.append("nomAssoc", this.user.nomAssoc);
+      fd.append("adresse", this.user.adresse);
+      fd.append("status", this.user.status);
+      fd.append("email", this.user.email);
+      fd.append("telephone", this.user.telephone);
+      fd.append("description", this.user.description);
+      fd.append("accord", this.user.accord);
+      console.log(this.image, "dzaaadadzadzadada");
+
       const promise = await fetch("http://127.0.0.1:8000/api/assoc", {
         method: "POST",
-        body: JSON.stringify(this.user),
-        headers: {
-          "Content-Type": "application/json",
-        },
+        body: fd,
+        // headers: {
+        //   "Content-Type": "application/json",
+        // },
       });
+      // this.user = "";
+      // this.$refs.fileuplaod.value = null;
+
       console.log(promise);
       let res = await promise.json();
       console.log(res);

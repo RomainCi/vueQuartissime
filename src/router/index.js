@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import InscriptionView from "../views/InscriptionView.vue";
+import AdminView from "../views/AdminView.vue";
+import DashboardView from "../views/DashboardView.vue";
+// import store from "@/store";
+
 const routes = [
 	{
 		path: "/",
@@ -21,11 +25,29 @@ const routes = [
 		name: "inscription",
 		component: InscriptionView,
 	},
+	{
+		path: "/admin",
+		name: "admin",
+		component: AdminView,
+	},
+	{
+		path: "/dashboard",
+		name: "dashboard",
+		component: DashboardView,
+		meta: { requiresAuth: true },
+	},
 ];
 
 const router = createRouter({
 	history: createWebHistory(process.env.BASE_URL),
 	routes,
+});
+router.beforeEach((to, from, next) => {
+	if (to.meta.requiresAuth && !localStorage.getItem("token")) {
+		next({ name: "admin" });
+	} else {
+		next();
+	}
 });
 
 export default router;
