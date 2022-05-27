@@ -47,6 +47,7 @@ const routes = [
 		path: "/inscription",
 		name: "inscription",
 		component: InscriptionView,
+		props: true,
 	},
 	{
 		path: "/admin",

@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2>{{ titre }}</h2>
+    {{ user.latitude }}
     <form
       class="formulaire"
       @submit.prevent="submitForm"
@@ -58,6 +59,7 @@ const AssocComponent = {
   props: {
     titre: String,
     showRiverain: Function,
+    idComiteAssoc: Number,
   },
   data() {
     return {
@@ -69,6 +71,9 @@ const AssocComponent = {
         telephone: "",
         description: "",
         accord: false,
+        id: "",
+        latitude: "",
+        longitude: "",
       },
       tele: "",
       image: null,
@@ -79,7 +84,7 @@ const AssocComponent = {
       console.log(this.image);
       console.log(this.user, "hey");
       let verif = this.verification();
-      verif ? this.envoieInscription() : console.log("faux");
+      verif ? this.envoiAllData() : console.log("faux");
     },
     phone(e) {
       if (isNaN(e.target.value)) {
@@ -114,15 +119,21 @@ const AssocComponent = {
         return false;
       }
     },
-    async envoieInscription() {
+    envoiAllData() {
+      this.recupCoords();
+    },
+    async envoieInscription(longitude, latitude) {
+      this.user.id = parseInt(this.idComiteAssoc);
       let fd = new FormData();
       if (this.image != null) {
         for (let index = 0; index < this.image.length; index++) {
           fd.append("images[" + index + "]", this.image[index]);
         }
       }
-
       // fd.append("images", this.image);
+      fd.append("latitude", latitude);
+      fd.append("longitude", longitude);
+      fd.append("id", this.user.id);
       fd.append("nomAssoc", this.user.nomAssoc);
       fd.append("adresse", this.user.adresse);
       fd.append("status", this.user.status);
@@ -130,7 +141,6 @@ const AssocComponent = {
       fd.append("telephone", this.user.telephone);
       fd.append("description", this.user.description);
       fd.append("accord", this.user.accord);
-      console.log(this.image, "dzaaadadzadzadada");
 
       const promise = await fetch("http://127.0.0.1:8000/api/assoc", {
         method: "POST",
@@ -145,6 +155,23 @@ const AssocComponent = {
       console.log(promise);
       let res = await promise.json();
       console.log(res);
+    },
+    async recupCoords() {
+      try {
+        const response = await fetch(
+          "https://api-adresse.data.gouv.fr/search/?q=" + this.user.adresse
+        );
+
+        const data = await response.json();
+
+        if (data) {
+          let longitude = data.features?.[0].geometry.coordinates[0];
+          let latitude = data.features?.[0].geometry.coordinates[1];
+          this.envoieInscription(longitude, latitude);
+        }
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
 };

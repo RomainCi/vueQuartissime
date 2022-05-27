@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{ idComiteRiverain }}
     <h2>{{ titre }}</h2>
     <form @submit.prevent="submitForm" class="formulaire">
       <label for="nom">Nom</label>
@@ -51,6 +52,7 @@ const RiverainComponent = {
   props: {
     titre: String,
     showAssoc: Function,
+    idComiteRiverain: Number,
   },
   data() {
     return {
@@ -59,6 +61,7 @@ const RiverainComponent = {
         email: "",
         prenom: "",
         nom: "",
+        id: "",
       },
     };
   },
@@ -79,6 +82,7 @@ const RiverainComponent = {
   },
   methods: {
     submitForm() {
+      this.user.id = parseInt(this.idComiteRiverain);
       this.v$.$touch();
       !this.v$.user.nom.$error &&
       !this.v$.user.prenom.$error &&

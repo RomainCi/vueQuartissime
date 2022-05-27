@@ -3,8 +3,18 @@
     <!-- recuperer la variable nom commité -->
     <h1>Inscrivez-vous dans votre comité</h1>
     <div class="container">
-      <riverain titre="riverain" :showAssoc="show" v-show="visible" />
-      <assoc titre="assoc" :showRiverain="show" v-show="!visible" />
+      <riverain
+        titre="riverain"
+        :idComiteRiverain="idComite"
+        :showAssoc="show"
+        v-show="visible"
+      />
+      <assoc
+        titre="assoc"
+        :showRiverain="show"
+        :idComiteAssoc="idComite"
+        v-show="!visible"
+      />
     </div>
   </div>
 </template>
@@ -13,6 +23,9 @@
 import AssocComponent from "@/components/AssocComponent.vue";
 import RiverainComponent from "@/components/RiverainComponent.vue";
 const InscriptionView = {
+  props: {
+    idComite: Number,
+  },
   components: {
     riverain: RiverainComponent,
     assoc: AssocComponent,
