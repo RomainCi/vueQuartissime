@@ -43,14 +43,12 @@
             alt="Card image cap"
           />
           <div class="card-body">
-            <h5 class="card-title">LES ASSOCITIONS DU COMITE</h5>
-            <p class="card-text">
-              <ul>
-            <li v-for="association in associations"
-          :key="association.comite_id">
-            {{ association.associationName }}<br />
-            </li>
-              </ul>
+            <h5 class="card-title">LES ASSOCITIONS</h5>
+
+            <p class="card-text" v-for="assoc in detailsAssoc" :key="assoc.id">
+              {{ assoc.associationName }}
+              {{ assoc.email }}
+              {{ assoc.phone }}
             </p>
             <a href="#" class="btn btn-primary">Go somewhere</a>
           </div>
@@ -63,10 +61,11 @@
             alt="Card image cap"
           />
           <div class="card-body">
-            <h5 class="card-title">LES ASSOCITIONS DU COMITE</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
+            <h5 class="card-title">LES EVENEMENTS</h5>
+            <p class="card-text" v-for="event in events" :key="event.id">
+              {{ event.eventname }}
+              {{ event.eventdate }}
+              {{ event.place }}
             </p>
             <a href="#" class="btn btn-primary">Go somewhere</a>
           </div>
@@ -85,42 +84,27 @@ const DetailsComiteView = {
   data() {
     return {
       details: {},
-      associations:[],
+      detailsAssoc: [],
+      events: [],
     };
   },
 
   mounted() {
     this.showdetailsComite();
-    this.linkassociationtocomite();
   },
   /****************** RÉCUPÉRATION DES DÉTAILS D'UN COMITÉ ************/
   methods: {
-     async showdetailsComite() {
-            const promise = await fetch(
-                "http://127.0.0.1:8000/api/comites/" + this.idDetails
-            );
-            console.log("test", promise);
-            let response = await promise.json();
-            console.log("response", response);
-            if (promise.status === 200) {
-                this.details = response.detailsComite;
-            }
-        },
-    
-
-    /** Attribution des associations aux comites  **/
-
-    async linkassociationtocomite() {
+    async showdetailsComite() {
       const promise = await fetch(
-        "http://127.0.0.1:8000/api/comites/associationsrelatives?=" + this.idDetails
+        "http://127.0.0.1:8000/api/comites/" + this.idDetails
       );
-      console.log("hhhh", promise);
-
+      console.log("test", promise);
       let response = await promise.json();
-      console.log(response);
-
+      console.log("response", response);
       if (promise.status === 200) {
-        this.associations = response.associations;
+        this.details = response.detailsComite;
+        this.detailsAssoc = response.detailsAssoc;
+        this.events = response.events;
       }
     },
   },
