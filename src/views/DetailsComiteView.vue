@@ -45,8 +45,12 @@
           <div class="card-body">
             <h5 class="card-title">LES ASSOCITIONS DU COMITE</h5>
             <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
+              <ul>
+            <li v-for="association in associations"
+          :key="association.comite_id">
+            {{ association.associationName }}<br />
+            </li>
+              </ul>
             </p>
             <a href="#" class="btn btn-primary">Go somewhere</a>
           </div>
@@ -81,23 +85,42 @@ const DetailsComiteView = {
   data() {
     return {
       details: {},
+      associations:[],
     };
   },
 
   mounted() {
     this.showdetailsComite();
+    this.linkassociationtocomite();
   },
   /****************** RÉCUPÉRATION DES DÉTAILS D'UN COMITÉ ************/
   methods: {
-    async showdetailsComite() {
+     async showdetailsComite() {
+            const promise = await fetch(
+                "http://127.0.0.1:8000/api/comites/" + this.idDetails
+            );
+            console.log("test", promise);
+            let response = await promise.json();
+            console.log("response", response);
+            if (promise.status === 200) {
+                this.details = response.detailsComite;
+            }
+        },
+    
+
+    /** Attribution des associations aux comites  **/
+
+    async linkassociationtocomite() {
       const promise = await fetch(
-        "http://127.0.0.1:8000/api/publics/" + this.idDetails
+        "http://127.0.0.1:8000/api/comites/associationsrelatives?=" + this.idDetails
       );
-      console.log("test", promise);
+      console.log("hhhh", promise);
+
       let response = await promise.json();
-      console.log("response", response);
+      console.log(response);
+
       if (promise.status === 200) {
-        this.details = response.detailsComite;
+        this.associations = response.associations;
       }
     },
   },

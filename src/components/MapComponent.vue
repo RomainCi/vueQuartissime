@@ -4,43 +4,14 @@
     <header class="entete">
       <img src="../assets/logo.png" alt="" class="logo" />
     </header>
-    <!-- /********************** GEOLOCALISATION ***********************/ -->
-    <div class="btn-geoc-search">
-      <div class="btn-geoc">
-        <div class="wrap">
-          <button @click="geolocbutton" class="button-geoc">
-            Me géolocaliser
-          </button>
-        </div>
-      </div>
-
-      <!-- /********************** INPUT ET BOUTON RECHERCHE PAR ADRESSE ***********************/ -->
-      <div class="input-group">
-        <div class="form-outline">
-          <input
-            type="search"
-            id="form1"
-            class="form-control input-search"
-            placeholder="Rechercher par adresse"
-          />
-        </div>
-        <button type="button" class="btn btn-primary">
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
-
-    <!-- /** BOUTON POUR AFFICHAGE 3 COMITES/ASSOC LES PLUS PROCHES **/ -->
-
-    <button
-      type="button"
-      class="btn btn-warning btn-detail"
-      @click="affichagetop3comassoc"
-    >
-      Afficher comité assoc
-    </button>
 
     <br />
     <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <LocalisationComponent :updatelocation="setlocation" />
 
     <!-- /********************** MAP ***********************/ -->
     <div id="map" class="page-map">
@@ -57,9 +28,13 @@
             ><strong>Nom du comité : </strong> {{ comitee.comiteName }}<br />
             <strong>Adresse : </strong>{{ comitee.adress }}<br />
             <strong>Contact : </strong>{{ comitee.phone }}<br /><br />
+            <strong>ID : </strong>{{ comitee.id }}<br /><br />
             <router-link
               class="btn btn-warning btn-detail"
-              :to="{ name: 'detailscomite', params: { idDetails: comitee.id } }"
+              :to="{
+                name: 'detailscomite',
+                params: { idDetails: comitee.id },
+              }"
             >
               Voir les détails
             </router-link>
@@ -88,16 +63,7 @@
             ><strong>Nom de l'association : </strong>
             {{ association.associationName }}<br />
             <strong>Adresse : </strong>{{ association.adress }}<br />
-            <strong>Contact : </strong>{{ association.phone }}<br /><br />
-            <router-link
-              class="btn btn-warning btn-detail"
-              :to="{
-                name: 'detailsassociation',
-                params: { idDetails: association.id },
-              }"
-            >
-              Voir les détails
-            </router-link>
+            <strong>Contact : </strong>{{ association.phone }}<br />
           </l-popup>
         </l-marker>
       </l-map>
@@ -107,6 +73,7 @@
 
 <!-- ******************* SCRIPT ************************** */ -->
 <script>
+import LocalisationComponent from "../components/LocalisationComponent.vue";
 // Inmportation des compsants de leafleats
 import {
   LMap,
@@ -124,6 +91,7 @@ const MapComponent = {
     LMarker,
     LPopup,
     LIcon,
+    LocalisationComponent,
   },
 
   data() {
@@ -136,8 +104,6 @@ const MapComponent = {
       comitees: [],
 
       associations: [],
-
-      search: "",
       latitude: "",
       longitude: "",
     };
@@ -149,51 +115,6 @@ const MapComponent = {
   },
 
   methods: {
-    /********************* Methods geo/adresse ************************/
-    async getadress() {
-      try {
-        const response = await fetch(
-          "https://api-adresse.data.gouv.fr/search/?q=" + this.search
-        );
-
-        const data = await response.json();
-
-        if (data) {
-          this.longitude = data.features?.[0].geometry.coordinates[0];
-          this.latitude = data.features?.[0].geometry.coordinates[1];
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    },
-
-    // ********METHODE POUR ENVOYER LA LAT ET LONG DU VISITEUR VERS LE BACK**********
-    async savedata() {
-      const promise = await fetch("http://127.0.0.1:8000/api/publics", {
-        method: "POST",
-        body: JSON.stringify({
-          lat: this.latitude,
-          lon: this.longitude,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      let res = await promise.json();
-      console.log(res);
-      if (promise.status === 200) {
-        console.log("c'est good");
-      } else {
-        console.log("c'est pas good");
-      }
-    },
-    geolocbutton() {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-      });
-    },
     /********************* Methods map ************************/
     zoomUpdated(zoom) {
       this.zoom = zoom;
@@ -203,23 +124,22 @@ const MapComponent = {
     centerUpdated(center) {
       this.center = center;
     },
-
     /* ********************* RÉCUPÉRATION DES COMITES ************* */
     async getComiteesList() {
-      const promise = await fetch("http://127.0.0.1:8000/api/publics");
+      const promise = await fetch("http://127.0.0.1:8000/api/comites");
       console.log(promise);
 
       let response = await promise.json();
       console.log(response);
 
       if (promise.status === 200) {
-        this.comitees = response.comitees;
+        this.comitees = response.comites;
       }
     },
 
     /* ** AFFICHAGE DES ASSOCIATIONS SUR LA CARTE ** */
     async getAssociationList() {
-      const promise = await fetch("http://127.0.0.1:8000/api/publics");
+      const promise = await fetch("http://127.0.0.1:8000/api/associations");
       console.log(promise);
 
       let response = await promise.json();
@@ -230,19 +150,23 @@ const MapComponent = {
       }
     },
 
-    /** AFFICHAGE DES TOP 3 ACOMITES/ASSOCIATIONS  **/
+    /** recup longitude et latitude **/
+    setlocation(latitude, longitude) {
+      this.latitude = latitude;
+      this.longitude = longitude;
+      this.getnearestcomites();
+    },
 
-    async affichagetop3comassoc() {
+    async getnearestcomites() {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/comites/nearest?lat=" +
+        "http://127.0.0.1:8000/api/comites/nearest?latitude=" +
           this.latitude +
-          "&lon=" +
+          "&longitude=" +
           this.longitude
       );
 
       const data = await response.json();
-
-      this.comites = data.comites;
+      this.comitees = data.comites;
     },
   },
 };
