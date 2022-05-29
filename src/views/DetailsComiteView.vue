@@ -95,7 +95,7 @@ const DetailsComiteView = {
   mounted() {
     this.showdetailsComite();
   },
-  /****************** RÉCUPÉRATION DES DÉTAILS D'UN COMITÉ ************/
+  /****************** RÉCUPÉRATION DES DÉTAILS D'UN COMITÉ ET SES ASSOCIATIONS ************/
   methods: {
     async showdetailsComite() {
       const promise = await fetch(
