@@ -76,6 +76,9 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
+.div_footer {
+  margin-top: 50px;
+}
 .foot {
   padding: 10px 0 0 0 !important;
 }

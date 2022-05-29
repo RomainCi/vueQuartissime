@@ -48,10 +48,13 @@
           />
           <div class="card-body">
             <h5 class="card-title">LES ASSOCITIONS</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
+
+            <p class="card-text" v-for="assoc in detailsAssoc" :key="assoc.id">
+              {{ assoc.nom }}
+              {{ assoc.email }}
+              {{ assoc.telephone }}
             </p>
+
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
@@ -65,8 +68,8 @@
           <div class="card-body">
             <h5 class="card-title">LES EVENEMENTS</h5>
             <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Consequuntur necessitatibus odit sunt ipsum vel similique itaque
             </p>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
@@ -85,6 +88,7 @@ const DetailsComiteView = {
   data() {
     return {
       details: {},
+      detailsAssoc: [],
     };
   },
 
@@ -102,6 +106,7 @@ const DetailsComiteView = {
       console.log("response", response);
       if (promise.status === 200) {
         this.details = response.detailsComite;
+        this.detailsAssoc = response.detailsAssoc;
       }
     },
   },

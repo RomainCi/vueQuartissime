@@ -35,16 +35,13 @@
 
     <!-- /** BOUTON POUR AFFICHAGE 3 COMITES/ASSOC LES PLUS PROCHES **/ -->
 
-    <button
+    <!-- <button
       type="button"
       class="btn btn-warning btn-detail"
       @click="affichagetop3comassoc"
     >
       Afficher comité assoc
-    </button>
-
-    <br />
-    <br />
+    </button> -->
 
     <!-- /********************** MAP ***********************/ -->
     <div id="map" class="page-map">
@@ -62,7 +59,7 @@
             <strong>Adresse : </strong>{{ comitee.adress }}<br />
             <strong>Contact : </strong>{{ comitee.phone }}<br /><br />
             <router-link
-              class="btn btn-warning btn-detail"
+              class="btn btn-popup-detail"
               :to="{ name: 'detailscomite', params: { idDetails: comitee.id } }"
             >
               Voir les détails
@@ -247,19 +244,19 @@ const MapComponent = {
     },
 
     //*********** */ Attribution des associations aux comites  *************//
-    async linkassociationtocomite() {
-      const promise = await fetch(
-        "http://127.0.0.1:8000/api/comites/associationsrelatives"
-      );
-      console.log(promise);
+    // async linkassociationtocomite() {
+    //   const promise = await fetch(
+    //     "http://127.0.0.1:8000/api/comites/associationsrelatives"
+    //   );
+    //   console.log(promise);
 
-      let response = await promise.json();
-      console.log(response);
+    //   let response = await promise.json();
+    //   console.log(response);
 
-      if (promise.status === 200) {
-        return true;
-      }
-    },
+    //   if (promise.status === 200) {
+    //     return true;
+    //   }
+    // },
   },
 };
 
@@ -270,10 +267,11 @@ export default MapComponent;
 /************* Header map CSS ************/
 .entete {
   min-height: 80px;
-  position: fixed;
+  position: absolute;
   left: 0px;
   right: 0px;
   border-bottom: 4px solid black;
+  background-color: white;
 }
 .logo {
   height: 7vh;
@@ -358,8 +356,17 @@ export default MapComponent;
   padding: 20px;
 }
 
+/* .btn-search {
+  background-color: #8066f7;
+} */
+
 .imgicon {
   width: 30px;
   height: 30px;
+}
+
+.btn-popup-detail {
+  background-color: #ffda3e;
+  color: black;
 }
 </style>
