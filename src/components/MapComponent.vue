@@ -20,7 +20,7 @@
 
         <!-- /********************** marquers comités ***********************/ -->
         <l-marker
-          v-for="comitee in comitees"
+          v-for="comitee in comites"
           :key="comitee.id"
           :lat-lng="[comitee.latitude, comitee.longitude]"
         >
@@ -60,10 +60,10 @@
             <img class="imgicon" src="../assets/associcon.png" />
           </l-icon>
           <l-popup
-            ><strong>Nom de l'association : </strong>
-            {{ association.associationName }}<br />
-            <strong>Adresse : </strong>{{ association.adress }}<br />
-            <strong>Contact : </strong>{{ association.phone }}<br />
+            ><strong>Nom de l'association : </strong> {{ association.nom
+            }}<br />
+            <strong>Adresse : </strong>{{ association.adresse }}<br />
+            <strong>Contact : </strong>{{ association.telephone }}<br />
           </l-popup>
         </l-marker>
       </l-map>
@@ -102,7 +102,7 @@ const MapComponent = {
       zoom: 14,
       center: [43.7101728, 7.2619532],
 
-      comitees: [],
+      comites: [],
 
       associations: [],
       latitude: "",
@@ -173,7 +173,7 @@ const MapComponent = {
       );
 
       const data = await response.json();
-      this.comitees = data.comites;
+      this.comites = data.comites;
     },
   },
 };
