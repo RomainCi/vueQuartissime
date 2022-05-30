@@ -40,7 +40,7 @@
       </div>
 
       <div class="row bloc-assos-evens">
-        <div class="card" style="width: 25rem">
+        <div class="card" style="width: 30rem">
           <img
             class="card-img-top"
             src="../assets/img-assos.png"
@@ -48,15 +48,24 @@
           />
           <div class="card-body">
             <h5 class="card-title">LES ASSOCITIONS</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
+            <hr />
+
+            <div
+              class="card-text"
+              v-for="assoc in detailsAssoc"
+              :key="assoc.id"
+            >
+              <p><b>Nom de l'association : </b>{{ assoc.nom }}</p>
+              <p><b> Email : </b> {{ assoc.email }}</p>
+              <p><b> Téléphone : </b>{{ assoc.telephone }}</p>
+              <hr />
+            </div>
+
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
 
-        <div class="card" style="width: 25rem">
+        <div class="card" style="width: 30rem">
           <img
             class="card-img-top"
             src="../assets/img-evens.png"
@@ -64,11 +73,14 @@
           />
           <div class="card-body">
             <h5 class="card-title">LES EVENEMENTS</h5>
-            <p class="card-text">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </p>
-            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+            <div class="card-text" v-for="event in events" :key="event.id">
+              <p><b>Nom de l'événement : </b>{{ event.eventname }}</p>
+              <p><b> Date : </b> {{ event.eventdate }}</p>
+              <p><b> Lieu : </b>{{ event.place }}</p>
+              <hr />
+
+              <!-- <button @click="downloadpdf">Télécharger la fiche</button> -->
+            </div>
           </div>
         </div>
       </div>
@@ -85,13 +97,15 @@ const DetailsComiteView = {
   data() {
     return {
       details: {},
+      detailsAssoc: [],
+      events: [],
     };
   },
 
   mounted() {
     this.showdetailsComite();
   },
-  /****************** RÉCUPÉRATION DES DÉTAILS D'UN COMITÉ ************/
+  /****************** RÉCUPÉRATION DES DÉTAILS D'UN COMITÉ ET SES ASSOCIATIONS ************/
   methods: {
     async showdetailsComite() {
       const promise = await fetch(
@@ -102,6 +116,8 @@ const DetailsComiteView = {
       console.log("response", response);
       if (promise.status === 200) {
         this.details = response.detailsComite;
+        this.detailsAssoc = response.detailsAssoc;
+        this.events = response.events;
       }
     },
   },
