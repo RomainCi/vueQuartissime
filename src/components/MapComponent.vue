@@ -4,7 +4,6 @@
     <header class="entete">
       <img src="../assets/logo.png" alt="" class="logo" />
     </header>
-    <<<<<<< HEAD
 
     <br />
     <br />
@@ -14,48 +13,6 @@
     <br />
     <LocalisationComponent :updatelocation="setlocation" />
 
-    =======
-    <!-- /********************** GEOLOCALISATION **********************/
-    <div class="btn-geoc-search">
-      <div class="btn-geoc">
-        <div class="wrap">
-          <button @click="geolocbutton" class="button-geoc">
-            Me géolocaliser
-          </button>
-        </div>
-      </div> -->
-
-    <!-- /*************** INPUT ET BOUTON RECHERCHE PAR ADRESSE *****************/ -->
-    <!-- <div class="input-group">
-        <div class="form-outline">
-          <input
-            type="search"
-            id="form1"
-            class="form-control input-search"
-            placeholder="Rechercher par adresse"
-            v-model="search"
-          />
-        </div>
-        <button @click="getadress" type="button" class="btn btn-primary">
-          <i class="fas fa-search"></i>
-        </button>
-      </div> -->
-
-    <!-- /** BOUTON POUR AFFICHAGE 3 COMITES/ASSOC LES PLUS PROCHES **/ -->
-
-    <!-- <button
-      type="button"
-      class="btn btn-warning btn-detail"
-      @click="affichagetop3comassoc"
-    >
-      Afficher comité assoc
-    </button> -->
-    <br />
-    <br /><br />
-    <br />
-    <br />
-    <LocalisationComponent :updatelocation="setlocation" />
-    >>>>>>> sali2
     <!-- /********************** MAP ***********************/ -->
     <div id="map" class="page-map">
       <l-map style="height: 65vh; width: 70vw" :zoom="zoom" :center="center">
@@ -198,13 +155,6 @@ const MapComponent = {
       if (promise.status === 200) {
         this.associations = response.associations;
       }
-    },
-
-    /** recup longitude et latitude **/
-    setlocation(latitude, longitude) {
-      this.latitude = latitude;
-      this.longitude = longitude;
-      this.getnearestcomites();
     },
 
     // / recup longitude et latitude /

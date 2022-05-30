@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import DetailsComiteView from "../views/DetailsComiteView.vue";
 import DetailsAssociationView from "../views/DetailsAssociationView.vue";
-import UserComiteView from "../views/UserComiteView.vue";
+//import UserComiteView from "../views/UserComiteView.vue";
 //import AssociationView from "../views/AssociationView.vue";
 
 const routes = [
@@ -19,11 +19,11 @@ const routes = [
     props: true,
   },
 
-  {
-    path: "/usercomite",
-    name: "usercomite",
-    component: UserComiteView,
-  },
+  //   {
+  //     path: "/usercomite",
+  //     name: "usercomite",
+  //     component: UserComiteView,
+  //   },
 
   // {
   //   path: "/association",

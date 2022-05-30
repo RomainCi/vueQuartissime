@@ -78,7 +78,7 @@
 
 <script>
 import { jsPDF } from "jspdf";
-import image from "@/assets/carte2.jpg";
+import image from "@/assets/assoc.jpg";
 
 const DetailsComiteView = {
   props: {
