@@ -66,6 +66,7 @@
               {{ event.eventname }}
               {{ event.eventdate }}
               {{ event.place }}
+              <button @click="downloadpdf(event)">Télécharger la fiche</button>
             </p>
             <a href="#" class="btn btn-primary">Go somewhere</a>
           </div>
@@ -76,6 +77,9 @@
 </template>
 
 <script>
+import { jsPDF } from "jspdf";
+import image from "@/assets/carte2.jpg";
+
 const DetailsComiteView = {
   props: {
     idDetails: String,
@@ -106,6 +110,16 @@ const DetailsComiteView = {
         this.detailsAssoc = response.detailsAssoc;
         this.events = response.events;
       }
+    },
+
+    async downloadpdf(event) {
+      const doc = new jsPDF();
+      var imgData = image;
+      doc.addImage(imgData, "jpeg", 10, 78, 100, 200);
+
+      doc.text(event.eventname, 15, 15);
+
+      doc.save("test.pdf");
     },
   },
 };

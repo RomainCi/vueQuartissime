@@ -126,7 +126,7 @@ const MapComponent = {
     },
     /* ********************* RÉCUPÉRATION DES COMITES ************* */
     async getComiteesList() {
-      const promise = await fetch("http://127.0.0.1:8000/api/comites");
+      const promise = await fetch("http://127.0.0.1:8000/api/showcomites");
       console.log(promise);
 
       let response = await promise.json();
@@ -159,7 +159,7 @@ const MapComponent = {
 
     async getnearestcomites() {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/comites/nearest?latitude=" +
+        "http://127.0.0.1:8000/api/showcomites/nearest?latitude=" +
           this.latitude +
           "&longitude=" +
           this.longitude
