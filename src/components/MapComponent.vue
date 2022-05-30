@@ -4,6 +4,7 @@
     <header class="entete">
       <img src="../assets/logo.png" alt="" class="logo" />
     </header>
+    <<<<<<< HEAD
 
     <br />
     <br />
@@ -13,6 +14,48 @@
     <br />
     <LocalisationComponent :updatelocation="setlocation" />
 
+    =======
+    <!-- /********************** GEOLOCALISATION **********************/
+    <div class="btn-geoc-search">
+      <div class="btn-geoc">
+        <div class="wrap">
+          <button @click="geolocbutton" class="button-geoc">
+            Me géolocaliser
+          </button>
+        </div>
+      </div> -->
+
+    <!-- /*************** INPUT ET BOUTON RECHERCHE PAR ADRESSE *****************/ -->
+    <!-- <div class="input-group">
+        <div class="form-outline">
+          <input
+            type="search"
+            id="form1"
+            class="form-control input-search"
+            placeholder="Rechercher par adresse"
+            v-model="search"
+          />
+        </div>
+        <button @click="getadress" type="button" class="btn btn-primary">
+          <i class="fas fa-search"></i>
+        </button>
+      </div> -->
+
+    <!-- /** BOUTON POUR AFFICHAGE 3 COMITES/ASSOC LES PLUS PROCHES **/ -->
+
+    <!-- <button
+      type="button"
+      class="btn btn-warning btn-detail"
+      @click="affichagetop3comassoc"
+    >
+      Afficher comité assoc
+    </button> -->
+    <br />
+    <br /><br />
+    <br />
+    <br />
+    <LocalisationComponent :updatelocation="setlocation" />
+    >>>>>>> sali2
     <!-- /********************** MAP ***********************/ -->
     <div id="map" class="page-map">
       <l-map style="height: 65vh; width: 70vw" :zoom="zoom" :center="center">
@@ -71,7 +114,7 @@
   </div>
 </template>
 
-<!-- ******************* SCRIPT ************************** */ -->
+// /* ******************* SCRIPT ************************** */
 <script>
 import LocalisationComponent from "../components/LocalisationComponent.vue";
 // Inmportation des compsants de leafleats
@@ -116,6 +159,12 @@ const MapComponent = {
   },
 
   methods: {
+    /* //////////METHODE POUR ENVOYER LES DETAILS SUR UNE NOUVELLE VUE//////////////
+		test(id) {
+			this.$store.dispatch("envoieId", id);
+			this.$router.push("/detailscomite");
+		}, */
+
     /********************* Methods map ************************/
     zoomUpdated(zoom) {
       this.zoom = zoom;
@@ -158,6 +207,13 @@ const MapComponent = {
       this.getnearestcomites();
     },
 
+    // / recup longitude et latitude /
+    setlocation(latitude, longitude) {
+      this.latitude = latitude;
+      this.longitude = longitude;
+      this.getnearestcomites();
+    },
+
     async getnearestcomites() {
       const response = await fetch(
         "http://127.0.0.1:8000/api/showcomites/nearest?latitude=" +
@@ -169,21 +225,6 @@ const MapComponent = {
       const data = await response.json();
       this.comitees = data.comites;
     },
-
-    //*********** */ Attribution des associations aux comites  *************//
-    // async linkassociationtocomite() {
-    //   const promise = await fetch(
-    //     "http://127.0.0.1:8000/api/comites/associationsrelatives"
-    //   );
-    //   console.log(promise);
-
-    //   let response = await promise.json();
-    //   console.log(response);
-
-    //   if (promise.status === 200) {
-    //     return true;
-    //   }
-    // },
   },
 };
 

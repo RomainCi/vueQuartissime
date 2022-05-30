@@ -1,5 +1,5 @@
 <template>
-  <!-- /********************** GEOLOCALISATION ***********************/ -->
+  <!-- /** GEOLOCALISATION **/ -->
   <div class="btn-geoc-search">
     <div class="btn-geoc">
       <div class="wrap">
@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <!-- /********************** INPUT ET BOUTON RECHERCHE PAR ADRESSE ***********************/ -->
+  <!-- /** INPUT ET BOUTON RECHERCHE PAR ADRESSE **/ -->
   <div class="input-group">
     <div class="form-outline">
       <input
@@ -38,7 +38,7 @@ const LocalisationComponent = {
   },
 
   methods: {
-    /** GEOLOCALISATION et  AFFICHAGE DES TOP 3 ACOMITES/ASSOCIATIONS  **/
+    // / GEOLOCALISATION et  AFFICHAGE DES TOP 3 ACOMITES/ASSOCIATIONS  /
     async geolocbutton() {
       navigator.geolocation.getCurrentPosition(async (position) => {
         const latitude = position.coords.latitude;
@@ -48,7 +48,7 @@ const LocalisationComponent = {
       });
     },
 
-    /********************* Methods geo/adresse ************************/
+    /* Methods geo/adresse **/
     async getadress() {
       try {
         const response = await fetch(

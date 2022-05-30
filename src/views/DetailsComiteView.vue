@@ -46,9 +46,9 @@
             <h5 class="card-title">LES ASSOCITIONS</h5>
 
             <p class="card-text" v-for="assoc in detailsAssoc" :key="assoc.id">
-              {{ assoc.associationName }}
-              {{ assoc.email }}
-              {{ assoc.phone }}
+              {{ assoc.nom }} <br />
+              Email : {{ assoc.email }} <br />
+              Téléphone : {{ assoc.telephone }} <br />
             </p>
             <a href="#" class="btn btn-primary">Go somewhere</a>
           </div>
