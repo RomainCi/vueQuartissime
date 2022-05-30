@@ -60,10 +60,10 @@
             <img class="imgicon" src="../assets/associcon.png" />
           </l-icon>
           <l-popup
-            ><strong>Nom de l'association : </strong> {{ association.nom
-            }}<br />
-            <strong>Adresse : </strong>{{ association.adresse }}<br />
-            <strong>Contact : </strong>{{ association.telephone }}<br />
+            ><strong>Nom de l'association : </strong>
+            {{ association.associationName }}<br />
+            <strong>Adresse : </strong>{{ association.adress }}<br />
+            <strong>Contact : </strong>{{ association.phone }}<br />
           </l-popup>
         </l-marker>
       </l-map>
@@ -140,7 +140,7 @@ const MapComponent = {
       console.log(response);
 
       if (promise.status === 200) {
-        this.comitees = response.comites;
+        this.comites = response.comites;
       }
     },
 
