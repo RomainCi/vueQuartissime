@@ -67,11 +67,14 @@
           />
           <div class="card-body">
             <h5 class="card-title">LES EVENEMENTS</h5>
-            <p class="card-text" v-for="event in events" :key="event.id">
-              {{ event.eventname }}
-              {{ event.eventdate }}
-              {{ event.place }}
-              <!-- <button @click="downloadpdf">Télécharger la fiche</button> -->
+            <p class="card-text" v-for="event in events" :key="event.id"></p>
+            <p>
+              <strong>Nom de l'évènement : </strong>{{ event.eventname }} <br />
+              <strong>Date de l'évènement : </strong>{{ event.eventdate }}
+              <br />
+              <strong>Lieu de l'évènement : </strong>{{ event.place }}
+
+              <button @click="downloadpdf(event)">Télécharger la fiche</button>
             </p>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
@@ -82,6 +85,8 @@
 </template>
 
 <script>
+import { jsPDF } from "jspdf";
+import image from "@/assets/logo.png";
 const DetailsComiteView = {
   props: {
     idDetails: String,
@@ -112,6 +117,16 @@ const DetailsComiteView = {
         this.detailsAssoc = response.detailsAssoc;
         this.events = response.events;
       }
+    },
+
+    async downloadpdf(event) {
+      const doc = new jsPDF();
+      var imgData = image;
+      doc.addImage(imgData, "jpeg", 10, 78, 100, 200);
+
+      doc.text(event.eventname, 15, 15);
+
+      doc.save("test.pdf");
     },
   },
 };
