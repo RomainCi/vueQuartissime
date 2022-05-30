@@ -105,37 +105,60 @@
 
     <!----------- CONTAINER ASSOCITIONS ET EVENS  ------------>
     <div class="row bloc-assos-evens">
-      <div class="card" style="width: 25rem">
+      <div class="card" style="width: 30rem">
         <img
           class="card-img-top"
           src="../assets/assoc.jpg"
           alt="Card image cap"
         />
         <div class="card-body">
-          <h5 class="card-title">LES ASSOCITIONS</h5>
+          <h5 class="card-title">LES ASSOCIATIONS</h5>
+          <hr />
 
-          <p class="card-text" v-for="assoc in detailsAssoc" :key="assoc.id">
-            {{ assoc.nom }}
-            {{ assoc.email }}
-            {{ assoc.telephone }} <br />
-            <button class="btn updatebtn">Modifier</button>
-          </p>
-          <form @submit.prevent="updateComite" class="form">
-            <div class="form-group div-input">
-              <label for="">Nom du comité</label>
-              <input
-                type="text"
-                class="form-control"
-                id=""
-                v-model="assocNom"
-              />
-            </div>
-            <button type="submit">Valider</button>
-          </form>
+          <div class="card-text" v-for="assoc in detailsAssoc" :key="assoc.id">
+            <p><b>Nom de l'association : </b>{{ assoc.nom }}</p>
+            <p><b> Email : </b> {{ assoc.email }}</p>
+            <p><b> Téléphone : </b>{{ assoc.telephone }}</p>
+
+            <button class="btn updatebtn" @click="editedAssoc = assoc">
+              Modifier
+            </button>
+
+            <form
+              v-if="editedAssoc.id === assoc.id"
+              @submit.prevent="updateComite"
+              class="form"
+            >
+              <div class="form-group div-input">
+                <label for="">Nom du comité</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id=""
+                  v-model="editedAssoc.nom"
+                />
+                <input
+                  type="text"
+                  class="form-control"
+                  id=""
+                  v-model="editedAssoc.email"
+                />
+                <input
+                  type="text"
+                  class="form-control"
+                  id=""
+                  v-model="editedAssoc.telephone"
+                />
+              </div>
+
+              <button type="submit">Valider</button>
+            </form>
+            <hr />
+          </div>
         </div>
       </div>
 
-      <div class="card" style="width: 25rem">
+      <div class="card" style="width: 30rem">
         <img
           class="card-img-top"
           src="../assets/evens.jpg"
@@ -169,9 +192,9 @@ const ProfilComiteView = {
       lastnamePresident: "",
 
       detailsAssoc: [],
-      assocNom: "",
-
       events: [],
+
+      editedAssoc: {},
     };
   },
   mounted() {
@@ -202,6 +225,7 @@ const ProfilComiteView = {
         this.lastnamePresident = response.comite.lastnamePresident;
 
         this.detailsAssoc = response.assoc;
+
         this.events = response.detailsEvents;
       }
     },
@@ -217,8 +241,29 @@ const ProfilComiteView = {
           description: this.description,
           firstnamePresident: this.firstnamePresident,
           lastnamePresident: this.lastnamePresident,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
 
-          assocNom: this.assocNom,
+      let res = await promise.json();
+      console.log("update", res);
+      if (promise.status === 200) {
+        console.log("c'est good");
+      } else {
+        console.log("c'est pas good");
+      }
+    },
+
+    async updateAssoc() {
+      const promise = await fetch("http://127.0.0.1:8000/api/association", {
+        method: "PUT",
+        body: JSON.stringify({
+          nom: this.editedAssoc.nom,
+          email: this.editedAssoc.email,
+          telephone: this.editedAssoc.telephone,
         }),
         headers: {
           "Content-Type": "application/json",

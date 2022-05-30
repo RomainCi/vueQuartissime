@@ -40,7 +40,7 @@
       </div>
 
       <div class="row bloc-assos-evens">
-        <div class="card" style="width: 25rem">
+        <div class="card" style="width: 30rem">
           <img
             class="card-img-top"
             src="../assets/img-assos.png"
@@ -48,18 +48,24 @@
           />
           <div class="card-body">
             <h5 class="card-title">LES ASSOCITIONS</h5>
+            <hr />
 
-            <p class="card-text" v-for="assoc in detailsAssoc" :key="assoc.id">
-              {{ assoc.nom }} <br />
-              Email : {{ assoc.email }} <br />
-              Téléphone : {{ assoc.telephone }} <br />
-            </p>
+            <div
+              class="card-text"
+              v-for="assoc in detailsAssoc"
+              :key="assoc.id"
+            >
+              <p><b>Nom de l'association : </b>{{ assoc.nom }}</p>
+              <p><b> Email : </b> {{ assoc.email }}</p>
+              <p><b> Téléphone : </b>{{ assoc.telephone }}</p>
+              <hr />
+            </div>
 
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
 
-        <div class="card" style="width: 25rem">
+        <div class="card" style="width: 30rem">
           <img
             class="card-img-top"
             src="../assets/img-evens.png"
@@ -67,13 +73,14 @@
           />
           <div class="card-body">
             <h5 class="card-title">LES EVENEMENTS</h5>
-            <p class="card-text" v-for="event in events" :key="event.id">
-              {{ event.eventname }}
-              {{ event.eventdate }}
-              {{ event.place }}
+            <div class="card-text" v-for="event in events" :key="event.id">
+              <p><b>Nom de l'événement : </b>{{ event.eventname }}</p>
+              <p><b> Date : </b> {{ event.eventdate }}</p>
+              <p><b> Lieu : </b>{{ event.place }}</p>
+              <hr />
+
               <!-- <button @click="downloadpdf">Télécharger la fiche</button> -->
-            </p>
-            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+            </div>
           </div>
         </div>
       </div>
