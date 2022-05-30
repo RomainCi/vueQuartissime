@@ -130,6 +130,7 @@ const AssocComponent = {
           fd.append("images[" + index + "]", this.image[index]);
         }
       }
+
       // fd.append("images", this.image);
       fd.append("latitude", latitude);
       fd.append("longitude", longitude);
@@ -145,12 +146,7 @@ const AssocComponent = {
       const promise = await fetch("http://127.0.0.1:8000/api/assoc", {
         method: "POST",
         body: fd,
-        // headers: {
-        //   "Content-Type": "application/json",
-        // },
       });
-      // this.user = "";
-      // this.$refs.fileuplaod.value = null;
 
       console.log(promise);
       let res = await promise.json();

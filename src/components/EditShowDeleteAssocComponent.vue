@@ -1,25 +1,22 @@
 <template>
   <div>
-    <h1>Edit Comite/consultation</h1>
-
+    <h1>Edit Assoc</h1>
     <div class="miniContainer">
-      <p @click="this.show = 'a'">Voir tout les comite</p>
-      <label for="recherche">Recherche par nom de comite</label>
+      <p @click="this.show = 'a'">Voir tout les Associations</p>
+      <label for="recherche">Recherche par nom de association</label>
       <input type="text" v-model="recherche" />
       <button @click="search">valider</button>
     </div>
 
     <div v-if="show == 'a'">
-      <ul v-for="(element, index) in data" :key="index">
+      <ul v-for="(element, index) in info" :key="index">
         <div v-show="visible[index]">
-          <li>Nom du comite : {{ element.comiteName }}</li>
-          <li>Nom du president : {{ element.lastnamePresident }}</li>
-          <li>Prenom du president : {{ element.firstnamePresident }}</li>
-          <li>Adresse : {{ element.adress }}</li>
+          <li>Nom du comite Quartier : {{ element.comiteName }}</li>
+          <li>Nom de l'association: {{ element.nom }}</li>
+          <li>Adresse : {{ element.adresse }}</li>
+          <li>Status : {{ element.status }}</li>
           <li>Email : {{ element.email }}</li>
-          <li>Telephone : {{ element.phone }}</li>
-          <li>Site : {{ element.webSite }}</li>
-          <li>Facebook : {{ element.facebookLink }}</li>
+          <li>Telephone : {{ element.telephone }}</li>
           <li>Description : {{ element.description }}</li>
           <button @click="this.visible[index] = !this.visible[index]">
             editer
@@ -27,29 +24,22 @@
           <button @click="deleteData(index)">supprimer</button>
         </div>
         <div v-show="!visible[index]" class="containerShow">
-          <label for="nom">Nom comite</label>
-          <input type="text" v-model="user.nom[index]" />
+          <p>Nom du comite Quartier : {{ element.comiteName }}</p>
 
-          <label for="nomP">Nom president</label>
-          <input type="text" v-model="user.nomP[index]" />
+          <label for="nomAssoc">Nom de l'association</label>
+          <input type="text" v-model="user.nomAssoc[index]" />
 
-          <label for="prenomP">Prenom president</label>
-          <input type="text" v-model="user.prenomP[index]" />
-
-          <label for="adresse">Adresse</label>
+          <label for="Adresse">Adresse</label>
           <input type="text" v-model="user.adresse[index]" />
 
+          <label for="status">Status</label>
+          <input type="text" v-model="user.status[index]" />
+
           <label for="email">Email</label>
-          <input type="text" v-model="user.email[index]" />
+          <input type="email" v-model="user.email[index]" />
 
           <label for="telephone">Telephone</label>
           <input type="text" v-model="user.telephone[index]" />
-
-          <label for="site">Site</label>
-          <input type="text" v-model="user.site[index]" />
-
-          <label for="facebook">Facebok</label>
-          <input type="text" v-model="user.facebook[index]" />
 
           <label for="descrption">Description</label>
           <textarea v-model="user.description[index]" />
@@ -59,22 +49,18 @@
         </div>
       </ul>
     </div>
-
     <div v-else-if="show == 'b'">
       <ul>
         <li>Nom du comite : {{ stocker.comiteName }}</li>
-        <li>Nom du president : {{ stocker.lastnamePresident }}</li>
-        <li>Prenom du president : {{ stocker.firstnamePresident }}</li>
-        <li>Adresse : {{ stocker.adress }}</li>
+        <li>Nom de l'association: {{ stocker.nom }}</li>
+        <li>Adresse : {{ stocker.adresse }}</li>
+        <li>Status : {{ stocker.status }}</li>
         <li>Email : {{ stocker.email }}</li>
-        <li>Telephone : {{ stocker.phone }}</li>
-        <li>Site : {{ stocker.webSite }}</li>
-        <li>Facebook : {{ stocker.facebookLink }}</li>
+        <li>Telephone : {{ stocker.telephone }}</li>
         <li>Description : {{ stocker.description }}</li>
         <button>supprimer</button>
       </ul>
     </div>
-
     <div v-else-if="show == 'c'">
       <p>Inconnue</p>
     </div>
@@ -85,28 +71,24 @@
 </template>
 
 <script>
-const EditShowComiteComponent = {
+const EditShowDeleteAssocComponent = {
   props: {
     recharge: Function,
-    data: Object,
+    info: Object,
   },
   data() {
     return {
       visible: [],
       show: "",
-
       recherche: "",
       stocker: [],
       user: {
-        nom: [],
         email: [],
         adresse: [],
         description: [],
-        nomP: [],
-        prenomP: [],
+        nomAssoc: [],
+        status: [],
         telephone: [],
-        site: [],
-        facebook: [],
         idi: [],
         response: "",
       },
@@ -116,6 +98,32 @@ const EditShowComiteComponent = {
     this.visibleTrue();
   },
   methods: {
+    visibleTrue() {
+      this.info.forEach((element, index) => {
+        this.visible[index] = true;
+        this.user.email[index] = element.email;
+        this.user.adresse[index] = element.adresse;
+        this.user.description[index] = element.description;
+        this.user.nomAssoc[index] = element.nom;
+        this.user.status[index] = element.status;
+        this.user.telephone[index] = element.telephone;
+        this.user.idi[index] = element.id;
+      });
+    },
+    search() {
+      console.log(this.recherche);
+      this.user.nomAssoc.every((element, index) => {
+        if (this.recherche == element) {
+          console.log("oki");
+          this.stocker = this.info[index];
+          this.show = "b";
+          return false;
+        } else {
+          this.show = "c";
+          return true;
+        }
+      });
+    },
     async recupCoords(index) {
       try {
         const response = await fetch(
@@ -134,46 +142,26 @@ const EditShowComiteComponent = {
         console.log(e);
       }
     },
-    visibleTrue() {
-      console.log(this.data, "probleme");
-      this.data.forEach((element, index) => {
-        this.visible[index] = true;
-        this.user.nom[index] = element.comiteName;
-        this.user.email[index] = element.email;
-        this.user.adresse[index] = element.adress;
-        this.user.description[index] = element.description;
-        this.user.nomP[index] = element.lastnamePresident;
-        this.user.prenomP[index] = element.firstnamePresident;
-        this.user.facebook[index] = element.facebookLink;
-        this.user.telephone[index] = element.phone;
-        this.user.site[index] = element.webSite;
-        this.user.idi[index] = element.id;
-      });
-    },
-    search() {
-      console.log(this.recherche);
-      this.user.nom.every((element, index) => {
-        if (this.recherche == element) {
-          console.log("oki");
-          this.stocker = this.data[index];
-          this.show = "b";
-          return false;
-        } else {
-          this.show = "c";
-          return true;
-        }
-      });
-    },
     recupData(index) {
       this.recupCoords(index);
       return (this.visible[index] = !this.visible[index]);
     },
-    async deleteData(index) {
+    async envoiData(index, longitude, latitude) {
+      console.log(this.user[index]);
       let array = {
+        nom: this.user.nomAssoc[index],
+        email: this.user.email[index],
+        telephone: this.user.telephone[index],
+        adresse: this.user.adresse[index],
+        description: this.user.description[index],
+        status: this.user.status[index],
         id: this.user.idi[index],
+        long: longitude,
+        lat: latitude,
       };
-      const promise = await fetch("http://127.0.0.1:8000/api/deleteComite", {
-        method: "DELETE",
+
+      const promise = await fetch("http://127.0.0.1:8000/api/udpateAssoc", {
+        method: "PUT",
         body: JSON.stringify(array),
         headers: {
           "Content-Type": "application/json",
@@ -192,26 +180,12 @@ const EditShowComiteComponent = {
         this.show = "d";
       }
     },
-
-    async envoiData(index, longitude, latitude) {
-      console.log(this.user[index]);
+    async deleteData(index) {
       let array = {
-        nom: this.user.nom[index],
-        prenomP: this.user.prenomP[index],
-        nomP: this.user.nomP[index],
-        email: this.user.email[index],
-        telephone: this.user.telephone[index],
-        adresse: this.user.adresse[index],
-        site: this.user.site[index],
-        facebook: this.user.facebook[index],
-        description: this.user.description[index],
         id: this.user.idi[index],
-        long: longitude,
-        lat: latitude,
       };
-
-      const promise = await fetch("http://127.0.0.1:8000/api/udpateComite", {
-        method: "PUT",
+      const promise = await fetch("http://127.0.0.1:8000/api/deleteAssoc", {
+        method: "DELETE",
         body: JSON.stringify(array),
         headers: {
           "Content-Type": "application/json",
@@ -232,7 +206,7 @@ const EditShowComiteComponent = {
     },
   },
 };
-export default EditShowComiteComponent;
+export default EditShowDeleteAssocComponent;
 </script>
 
 <style scoped>

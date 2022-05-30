@@ -31,7 +31,7 @@ const routes = [
 		path: "/profilcomite",
 		name: "profilcomite",
 		component: ProfilComiteView,
-		// meta: { requiresAuth: true },
+		meta: { requiresAuths: true },
 	},
 
 	{
@@ -67,9 +67,10 @@ const router = createRouter({
 	routes,
 });
 router.beforeEach((to, from, next) => {
-	if (to.meta.requiresAuth && !localStorage.getItem("token")) {
-		// next({ name: "login" });
+	if (to.meta.requiresAuth && !localStorage.getItem("admin_token")) {
 		next({ name: "admin" });
+	} else if (to.meta.requiresAuths && !localStorage.getItem("token")) {
+		next({ name: "login" });
 	} else {
 		next();
 	}
