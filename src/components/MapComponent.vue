@@ -4,7 +4,7 @@
     <header class="entete">
       <img src="../assets/logo.png" alt="" class="logo" />
     </header>
-    <!-- /********************** GEOLOCALISATION **********************/ -->
+    <!-- /********************** GEOLOCALISATION **********************/
     <div class="btn-geoc-search">
       <div class="btn-geoc">
         <div class="wrap">
@@ -12,10 +12,10 @@
             Me géolocaliser
           </button>
         </div>
-      </div>
+      </div> -->
 
-      <!-- /*************** INPUT ET BOUTON RECHERCHE PAR ADRESSE *****************/ -->
-      <div class="input-group">
+    <!-- /*************** INPUT ET BOUTON RECHERCHE PAR ADRESSE *****************/ -->
+    <!-- <div class="input-group">
         <div class="form-outline">
           <input
             type="search"
@@ -28,10 +28,7 @@
         <button @click="getadress" type="button" class="btn btn-primary">
           <i class="fas fa-search"></i>
         </button>
-      </div>
-    </div>
-    <br />
-    <br />
+      </div> -->
 
     <!-- /** BOUTON POUR AFFICHAGE 3 COMITES/ASSOC LES PLUS PROCHES **/ -->
 
@@ -42,7 +39,11 @@
     >
       Afficher comité assoc
     </button> -->
-
+    <br />
+    <br /><br />
+    <br />
+    <br />
+    <LocalisationComponent :updatelocation="setlocation" />
     <!-- /********************** MAP ***********************/ -->
     <div id="map" class="page-map">
       <l-map style="height: 65vh; width: 70vw" :zoom="zoom" :center="center">
@@ -97,8 +98,9 @@
   </div>
 </template>
 
-/* ******************* SCRIPT ************************** */
+// /* ******************* SCRIPT ************************** */
 <script>
+import LocalisationComponent from "../components/LocalisationComponent.vue";
 // Inmportation des compsants de leafleats
 import {
   LMap,
@@ -116,6 +118,7 @@ const MapComponent = {
     LMarker,
     LPopup,
     LIcon,
+    LocalisationComponent,
   },
 
   data() {
@@ -130,7 +133,6 @@ const MapComponent = {
 
       associations: [],
 
-      search: "",
       latitude: "",
       longitude: "",
     };
@@ -147,51 +149,7 @@ const MapComponent = {
 			this.$store.dispatch("envoieId", id);
 			this.$router.push("/detailscomite");
 		}, */
-    /**************** Methods geolocalisation/ et input search adresse *******************/
-    async getadress() {
-      try {
-        const response = await fetch(
-          "https://api-adresse.data.gouv.fr/search/?q=" + this.search
-        );
 
-        const data = await response.json();
-
-        if (data) {
-          this.longitude = data.features?.[0].geometry.coordinates[0];
-          this.latitude = data.features?.[0].geometry.coordinates[1];
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    },
-
-    // ********METHODE POUR ENVOYER LA LAT ET LONG DU VISITEUR VERS LE BACK**********
-    async savedata() {
-      const promise = await fetch("http://127.0.0.1:8000/api/publics", {
-        method: "POST",
-        body: JSON.stringify({
-          lat: this.latitude,
-          lon: this.longitude,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      let res = await promise.json();
-      console.log(res);
-      if (promise.status === 200) {
-        console.log("c'est good");
-      } else {
-        console.log("c'est pas good");
-      }
-    },
-    geolocbutton() {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-      });
-    },
     /********************* Methods map ************************/
     zoomUpdated(zoom) {
       this.zoom = zoom;
@@ -230,33 +188,24 @@ const MapComponent = {
 
     /** AFFICHAGE DES TOP 3 ACOMITES/ASSOCIATIONS  **/
 
-    async affichagetop3comassoc() {
+    // / recup longitude et latitude /
+    setlocation(latitude, longitude) {
+      this.latitude = latitude;
+      this.longitude = longitude;
+      this.getnearestcomites();
+    },
+
+    async getnearestcomites() {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/showcomites/nearest?lat=" +
+        "http://127.0.0.1:8000/api/showcomites/nearest?latitude=" +
           this.latitude +
-          "&lon=" +
+          "&longitude=" +
           this.longitude
       );
 
       const data = await response.json();
-
-      this.comites = data.comites;
+      this.comitees = data.comites;
     },
-
-    //*********** */ Attribution des associations aux comites  *************//
-    // async linkassociationtocomite() {
-    //   const promise = await fetch(
-    //     "http://127.0.0.1:8000/api/comites/associationsrelatives"
-    //   );
-    //   console.log(promise);
-
-    //   let response = await promise.json();
-    //   console.log(response);
-
-    //   if (promise.status === 200) {
-    //     return true;
-    //   }
-    // },
   },
 };
 

@@ -50,9 +50,9 @@
             <h5 class="card-title">LES ASSOCITIONS</h5>
 
             <p class="card-text" v-for="assoc in detailsAssoc" :key="assoc.id">
-              {{ assoc.nom }}
-              {{ assoc.email }}
-              {{ assoc.telephone }}
+              {{ assoc.nom }} <br />
+              Email : {{ assoc.email }} <br />
+              Téléphone : {{ assoc.telephone }} <br />
             </p>
 
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
@@ -67,9 +67,11 @@
           />
           <div class="card-body">
             <h5 class="card-title">LES EVENEMENTS</h5>
-            <p class="card-text">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Consequuntur necessitatibus odit sunt ipsum vel similique itaque
+            <p class="card-text" v-for="event in events" :key="event.id">
+              {{ event.eventname }}
+              {{ event.eventdate }}
+              {{ event.place }}
+              <!-- <button @click="downloadpdf">Télécharger la fiche</button> -->
             </p>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
@@ -89,6 +91,7 @@ const DetailsComiteView = {
     return {
       details: {},
       detailsAssoc: [],
+      events: [],
     };
   },
 
@@ -107,6 +110,7 @@ const DetailsComiteView = {
       if (promise.status === 200) {
         this.details = response.detailsComite;
         this.detailsAssoc = response.detailsAssoc;
+        this.events = response.events;
       }
     },
   },

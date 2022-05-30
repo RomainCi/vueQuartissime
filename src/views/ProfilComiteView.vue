@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h1>PROFIL DU COMITÉ</h1>
+    <header class="entete">
+      <img src="../assets/logo.png" alt="" class="logo" />
+    </header>
+    <h4 class="title-profil">PROFIL COMITÉ</h4>
     <div class="bloc-details-img">
       <div class="div-img-personne">
         <img src="../assets/comite.jpeg" alt="" class="img-personne" />
@@ -18,7 +21,9 @@
         <p><strong>Prénom du Président: </strong>{{ firstnamePresident }}</p>
         <p><strong>Nom du Président : </strong>{{ lastnamePresident }}</p>
 
-        <button @click="openForm">Modifier les informations</button>
+        <button @click="openForm" class="btn updatebtn">
+          Modifier les informations
+        </button>
       </div>
     </div>
     <!---------- FORMULAIRE POP UP MODIFICATION DONNES COMITES -------------->
@@ -59,7 +64,7 @@
           />
         </div>
         <div class="form-group">
-          <label for="inputDescription">Description</label>
+          <!-- <label for="inputDescription">Description</label> -->
           <input
             type="text"
             class="form-control"
@@ -69,7 +74,7 @@
         </div>
 
         <div class="form-group">
-          <label for="inputFirstname">Prénom du Président</label>
+          <!-- <label for="inputFirstname">Prénom du Président</label> -->
           <input
             type="text"
             class="form-control"
@@ -78,7 +83,7 @@
           />
         </div>
         <div class="form-group">
-          <label for="inputLastname">Nom du Président</label>
+          <!-- <label for="inputLastname">Nom du Président</label> -->
           <input
             type="text"
             class="form-control"
@@ -97,6 +102,56 @@
         </div>
       </form>
     </div>
+
+    <!----------- CONTAINER ASSOCITIONS ET EVENS  ------------>
+    <div class="row bloc-assos-evens">
+      <div class="card" style="width: 25rem">
+        <img
+          class="card-img-top"
+          src="../assets/assoc.jpg"
+          alt="Card image cap"
+        />
+        <div class="card-body">
+          <h5 class="card-title">LES ASSOCITIONS</h5>
+
+          <p class="card-text" v-for="assoc in detailsAssoc" :key="assoc.id">
+            {{ assoc.nom }}
+            {{ assoc.email }}
+            {{ assoc.telephone }} <br />
+            <button class="btn updatebtn">Modifier</button>
+          </p>
+          <form @submit.prevent="updateComite" class="form">
+            <div class="form-group div-input">
+              <label for="">Nom du comité</label>
+              <input
+                type="text"
+                class="form-control"
+                id=""
+                v-model="assocNom"
+              />
+            </div>
+            <button type="submit">Valider</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card" style="width: 25rem">
+        <img
+          class="card-img-top"
+          src="../assets/evens.jpg"
+          alt="Card image cap"
+        />
+        <div class="card-body">
+          <h5 class="card-title">LES EVENEMENTS</h5>
+          <p class="card-text" v-for="event in events" :key="event.id">
+            {{ event.eventname }}
+            {{ event.eventdate }}
+            {{ event.place }}
+          </p>
+          <!-- <button @click="downloadpdf">Télécharger la fiche</button> -->
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -112,6 +167,11 @@ const ProfilComiteView = {
       description: "",
       firstnamePresident: "",
       lastnamePresident: "",
+
+      detailsAssoc: [],
+      assocNom: "",
+
+      events: [],
     };
   },
   mounted() {
@@ -140,6 +200,9 @@ const ProfilComiteView = {
         this.description = response.comite.description;
         this.firstnamePresident = response.comite.firstnamePresident;
         this.lastnamePresident = response.comite.lastnamePresident;
+
+        this.detailsAssoc = response.assoc;
+        this.events = response.detailsEvents;
       }
     },
 
@@ -154,6 +217,8 @@ const ProfilComiteView = {
           description: this.description,
           firstnamePresident: this.firstnamePresident,
           lastnamePresident: this.lastnamePresident,
+
+          assocNom: this.assocNom,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -196,6 +261,21 @@ export default ProfilComiteView;
 </script>
 
 <style scoped>
+.entete {
+  min-height: 80px;
+  border-bottom: 4px solid black;
+}
+
+.logo {
+  height: 7vh;
+  margin: 20px;
+}
+
+.title-profil {
+  text-align: left;
+  margin-top: 30px;
+  margin-left: 30px;
+}
 .container-details {
   padding: 25px;
   border: solid 2px #ffda3e;
@@ -214,16 +294,16 @@ export default ProfilComiteView;
   margin-top: 70px;
   gap: 8%;
 }
-
+/* CONTAINER FORMULAIRE POPUP */
 .div_form {
   display: none;
   padding: 30px;
   border: solid #ffda3e 3px;
   border-radius: 10px;
-  width: 950px;
-  position: fixed;
+  width: 90%;
+  position: absolute;
   top: 15%;
-  left: 30%;
+  left: 5%;
   background-color: white;
 }
 .btnForm {
@@ -237,5 +317,14 @@ export default ProfilComiteView;
 .closebtn {
   background-color: black;
   color: white;
+}
+
+.bloc-assos-evens {
+  display: flex;
+  justify-content: center;
+  margin: 110px 20px 0px 30px;
+  gap: 10%;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 </style>
