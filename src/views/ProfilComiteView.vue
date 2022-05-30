@@ -103,7 +103,7 @@
       </form>
     </div>
 
-    <!----------- CONTAINER ASSOCITIONS ET EVENS  ------------>
+    <!----------- CONTAINER ASSOCIATIONS ------------>
     <div class="row bloc-assos-evens">
       <div class="card" style="width: 30rem">
         <img
@@ -123,41 +123,45 @@
             <button class="btn updatebtn" @click="editedAssoc = assoc">
               Modifier
             </button>
+            <div id="formAssoc">
+              <form
+                v-if="editedAssoc.id === assoc.id"
+                @submit.prevent="updateAssoc(assoc.id)"
+                class="form"
+                :class="lol"
+              >
+                <div class="form-group div-input">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id=""
+                    v-model="editedAssoc.nom"
+                  />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id=""
+                    v-model="editedAssoc.email"
+                  />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id=""
+                    v-model="editedAssoc.telephone"
+                  />
+                </div>
 
-            <form
-              v-if="editedAssoc.id === assoc.id"
-              @submit.prevent="updateComite"
-              class="form"
-            >
-              <div class="form-group div-input">
-                <label for="">Nom du comité</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id=""
-                  v-model="editedAssoc.nom"
-                />
-                <input
-                  type="text"
-                  class="form-control"
-                  id=""
-                  v-model="editedAssoc.email"
-                />
-                <input
-                  type="text"
-                  class="form-control"
-                  id=""
-                  v-model="editedAssoc.telephone"
-                />
-              </div>
-
-              <button type="submit">Valider</button>
-            </form>
+                <button type="submit" @click="closeFormAssoc">Valider</button>
+              </form>
+            </div>
+            <!-- <div>
+              {{ this.message }}
+            </div> -->
             <hr />
           </div>
         </div>
       </div>
-
+      <!----------- CONTAINER  EVENS  ------------>
       <div class="card" style="width: 30rem">
         <img
           class="card-img-top"
@@ -190,9 +194,10 @@ const ProfilComiteView = {
       description: "",
       firstnamePresident: "",
       lastnamePresident: "",
-
+      lol: true,
       detailsAssoc: [],
       events: [],
+      message: "",
 
       editedAssoc: {},
     };
@@ -257,24 +262,25 @@ const ProfilComiteView = {
       }
     },
 
-    async updateAssoc() {
+    async updateAssoc(id) {
       const promise = await fetch("http://127.0.0.1:8000/api/association", {
         method: "PUT",
         body: JSON.stringify({
           nom: this.editedAssoc.nom,
           email: this.editedAssoc.email,
           telephone: this.editedAssoc.telephone,
+          id: id,
         }),
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
-
+      console.log(promise, "promise udpate Assoc");
       let res = await promise.json();
-      console.log("update", res);
+
       if (promise.status === 200) {
-        console.log("c'est good");
+        this.message = res.message;
       } else {
         console.log("c'est pas good");
       }
@@ -298,6 +304,13 @@ const ProfilComiteView = {
 
     closeForm() {
       document.getElementById("popupForm").style.display = "none";
+    },
+
+    openFormAssoc() {
+      document.getElementById("formAssoc").style.display = "block";
+    },
+    closeFormAssoc() {
+      document.getElementsById("formAssoc").style.display = "none";
     },
   },
 };
@@ -351,6 +364,7 @@ export default ProfilComiteView;
   left: 5%;
   background-color: white;
 }
+
 .btnForm {
   display: flex;
   justify-content: center;
