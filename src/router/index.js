@@ -52,5 +52,13 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !localStorage.getItem("token")) {
+    // next({ name: "login" });
+    next({ name: "admin" });
+  } else {
+    next();
+  }
+});
 
 export default router;

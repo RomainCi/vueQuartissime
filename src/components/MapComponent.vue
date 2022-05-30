@@ -101,6 +101,7 @@ const MapComponent = {
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 14,
       center: [43.7101728, 7.2619532],
+
       comitees: [],
 
       associations: [],
@@ -168,8 +169,24 @@ const MapComponent = {
       const data = await response.json();
       this.comitees = data.comites;
     },
+
+    //*********** */ Attribution des associations aux comites  *************//
+    // async linkassociationtocomite() {
+    //   const promise = await fetch(
+    //     "http://127.0.0.1:8000/api/comites/associationsrelatives"
+    //   );
+    //   console.log(promise);
+
+    //   let response = await promise.json();
+    //   console.log(response);
+
+    //   if (promise.status === 200) {
+    //     return true;
+    //   }
+    // },
   },
 };
+
 export default MapComponent;
 </script>
 
@@ -177,10 +194,11 @@ export default MapComponent;
 /************* Header map CSS ************/
 .entete {
   min-height: 80px;
-  position: fixed;
+  position: absolute;
   left: 0px;
   right: 0px;
   border-bottom: 4px solid black;
+  background-color: white;
 }
 .logo {
   height: 7vh;
@@ -212,9 +230,9 @@ export default MapComponent;
   letter-spacing: 1.3px;
   color: #373738;
   background: #ffffff;
-  border: 4px solid #ffda3e;
+  border: 3px solid #ffda3e;
   border-radius: 1000px;
-  box-shadow: 12px 12px 24px #ffda3e;
+  box-shadow: 6px 6px 14px #ffda3e;
   transition: all 0.3s ease-in-out 0s;
   cursor: pointer;
   outline: none;
@@ -228,7 +246,7 @@ export default MapComponent;
   transform: translateY(-4px);
 }
 
-button::after {
+.button-geoc::after {
   content: "";
   width: 15px;
   height: 15px;
@@ -242,8 +260,8 @@ button::after {
   animation: ring 2s infinite;
 }
 
-button:hover::after,
-button:focus::after {
+.button-geoc:hover::after,
+.button-geoc:focus::after {
   animation: none;
   display: none;
 }
@@ -255,8 +273,8 @@ button:focus::after {
     opacity: 1;
   }
   100% {
-    width: 150px;
-    height: 150px;
+    width: 115px;
+    height: 115px;
     opacity: 0;
   }
 }
@@ -265,8 +283,17 @@ button:focus::after {
   padding: 20px;
 }
 
+/* .btn-search {
+  background-color: #8066f7;
+} */
+
 .imgicon {
   width: 30px;
   height: 30px;
+}
+
+.btn-popup-detail {
+  background-color: #ffda3e;
+  color: black;
 }
 </style>
