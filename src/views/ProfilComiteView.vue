@@ -158,7 +158,7 @@
 					</div>
 				</div>
 			</div>
-			<!----------- CONTAINER  EVENS  ------------>
+			<!----------- CONTAINER  EVENTS  ------------>
 			<div class="card" style="width: 30rem">
 				<img
 					class="card-img-top"
@@ -167,12 +167,65 @@
 				/>
 				<div class="card-body">
 					<h5 class="card-title">LES EVENEMENTS</h5>
-					<p class="card-text" v-for="event in events" :key="event.id">
-						{{ event.eventname }}
-						{{ event.eventdate }}
-						{{ event.place }}
-					</p>
-					<!-- <button @click="downloadpdf">Télécharger la fiche</button> -->
+					<div class="card-text" v-for="event in events" :key="event.id">
+						<p>{{ event.eventname }}</p>
+						<p>{{ event.eventdate }}</p>
+						<p>{{ event.place }}</p>
+						<button class="btn updatebtn" @click="openeventForm">
+							Ajouter un évènement
+						</button>
+						<div class="form-popup" id="myForm">
+							<form
+								@submit.prevent
+								action="/action_page.php"
+								class="form-container"
+							>
+								<h1>Nouvel Evènement</h1>
+								<label for="comite_id"><b>comite_id</b></label>
+								<input
+									type="number"
+									name="comite_id"
+									v-model="comite_id"
+								/><br />
+
+								<label for="eventname"><b>Nom de l'évènement : </b></label>
+								<input type="text" name="eventname" v-model="eventname" />
+
+								<label for="place"><b>Lieu de l'évènement : </b></label>
+								<input type="text" name="place" v-model="eventplace" />
+
+								<label for="eventdate"><b>date de l'évènement : </b></label>
+								<input type="text" name="date" v-model="eventdate" />
+
+								<label for="description"
+									><b>Description de l'évènement : </b></label
+								>
+								<input
+									type="text"
+									name="description"
+									v-model="eventdescription"
+								/>
+
+								<label for="type"><b>Type de l'évènement : </b></label>
+								<input type="text" name="type" v-model="eventtype" />
+
+								<button
+									type="submit"
+									class="updatebtn"
+									@click="submiteventdata"
+								>
+									Soumettre
+								</button>
+								<button
+									type="button"
+									class="btn cancel"
+									@click="closeeventForm"
+								>
+									Fermer
+								</button>
+							</form>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -197,6 +250,13 @@ const ProfilComiteView = {
 			message: "",
 			show: "",
 			editedAssoc: {},
+
+			assocNom: "",
+			eventname: "",
+			place: "",
+			eventdate: "",
+			type: "",
+			comite_id: "",
 		};
 	},
 	mounted() {
@@ -286,6 +346,32 @@ const ProfilComiteView = {
 				console.log("c'est pas good");
 			}
 		},
+
+		/****************  RAJOUT D'EVENEMENTS ************************/
+		async submiteventdata() {
+			const promise = await fetch("http://127.0.0.1:8000/api/events", {
+				method: "POST",
+				body: JSON.stringify({
+					comite_id: this.comite_id,
+					eventname: this.eventname,
+					eventdate: this.eventdate,
+					place: this.eventplace,
+					description: this.eventdescription,
+					type: this.eventtype,
+				}),
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			let res = await promise.json();
+			console.log(res);
+			if (promise.status === 200) {
+				console.log("new event saved");
+			} else {
+				console.log("event not saved");
+			}
+		},
 		// FONCTION QUI PERMET D'ECRIRE QUE DES CHIFFRES DANS L'INPUT TEL QUI DE BASE EST DE TYPE TEXT
 		telephone(e) {
 			if (isNaN(e.target.value)) {
@@ -307,11 +393,15 @@ const ProfilComiteView = {
 			document.getElementById("popupForm").style.display = "none";
 		},
 
-		openFormAssoc() {
-			document.getElementById("formAssoc").style.display = "block";
-		},
 		closeFormAssoc() {
 			this.show = "";
+		},
+		openeventForm() {
+			document.getElementById("myForm").style.display = "block";
+		},
+
+		closeeventForm() {
+			document.getElementById("myForm").style.display = "none";
 		},
 	},
 };
@@ -386,5 +476,28 @@ export default ProfilComiteView;
 	gap: 10%;
 	font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
 		"Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.form-popup {
+	display: none;
+	position: fixed;
+	bottom: 0;
+	right: 15px;
+	border: 3px solid #f1f1f1;
+	z-index: 9;
+}
+
+.form-container {
+	max-width: 500px;
+	padding: 10px;
+	background-color: white;
+}
+
+.form-container input[type="text"] {
+	width: 50%;
+	padding: 15px;
+	margin: 5px 0 22px 0;
+	border: none;
+	background: #f1f1f1;
 }
 </style>

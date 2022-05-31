@@ -74,9 +74,9 @@
 							<p><b>Nom de l'événement : </b>{{ event.eventname }}</p>
 							<p><b> Date : </b> {{ event.eventdate }}</p>
 							<p><b> Lieu : </b>{{ event.place }}</p>
-
+							<br />
+							<button @click="downloadpdf(event)">Télécharger la fiche</button>
 							<hr />
-							<!-- <button @click="downloadpdf">Télécharger la fiche</button> -->
 						</div>
 
 						<p v-if="this.events.length == 0">
@@ -91,6 +91,8 @@
 </template>
 
 <script>
+import { jsPDF } from "jspdf";
+import image from "@/assets/logo.png";
 const DetailsComiteView = {
 	props: {
 		idDetails: String,
@@ -109,6 +111,16 @@ const DetailsComiteView = {
 	},
 	/****************** RÉCUPÉRATION DES DÉTAILS D'UN COMITÉ ET SES ASSOCIATIONS ************/
 	methods: {
+		async downloadpdf(event) {
+			const doc = new jsPDF();
+			var imgData = image;
+			doc.addImage(imgData, "png", 10, 78, 50, 30);
+
+			doc.text([event.eventname, event.eventdate, event.place], 15, 15);
+
+			doc.save("test.pdf");
+		},
+
 		async showdetailsComite() {
 			const promise = await fetch(
 				"http://127.0.0.1:8000/api/comites/" + this.idDetails
