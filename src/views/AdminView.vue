@@ -6,6 +6,7 @@
     <div class="container">
       <admin />
     </div>
+    <router-link :to="{ path: '/oublie' }"> mot de passe oublié </router-link>
   </div>
 </template>
 

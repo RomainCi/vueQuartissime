@@ -16,6 +16,7 @@
               consultation / edit user comité quartier
             </li>
             <li @click="this.show = 'f'">consulation /edit association</li>
+            <li @click="deco">deconexion</li>
           </ul>
         </nav>
       </section>
@@ -85,6 +86,10 @@ const DashboardView = {
     this.affichageAssoc();
   },
   methods: {
+    deco() {
+      localStorage.removeItem("admin_token");
+      return this.$router.push("/");
+    },
     async affichageAdmin() {
       try {
         const promise = await fetch("http://127.0.0.1:8000/api/showAdmin", {

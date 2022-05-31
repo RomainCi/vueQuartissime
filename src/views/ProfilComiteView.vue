@@ -158,6 +158,7 @@
             <!-- <div>
               {{ this.message }}
             </div> -->
+<<<<<<< HEAD
             <hr />
           </div>
         </div>
@@ -188,6 +189,43 @@
               <h1>Nouvel Evènement</h1>
               <label for="comite_id"><b>comite_id</b></label>
               <input type="number" name="comite_id" v-model="comite_id" /><br />
+=======
+						<hr />
+					</div>
+				</div>
+			</div>
+			<!----------- CONTAINER  EVENTS  ------------>
+			<div class="card" style="width: 30rem">
+				<img
+					class="card-img-top"
+					src="../assets/evens.jpg"
+					alt="Card image cap"
+				/>
+				<div class="card-body">
+					<h5 class="card-title">LES EVENEMENTS</h5>
+					<div class="card-text" v-for="event in events" :key="event.id">
+						<p><b>Nom de l'évènement : </b> {{ event.eventname }}</p>
+						<p><b>Date : </b> {{ event.eventdate }}</p>
+						<p><b> Lieu : </b>{{ event.place }}</p>
+						<button class="btn updatebtn" @click="deleteevent(event.id)">
+							Supprimer
+						</button>
+						<hr />
+					</div>
+
+					<button class="btn updatebtn" @click="openeventForm">
+						Ajouter un évènement
+					</button>
+					<div class="form-popup" id="myForm">
+						<form
+							@submit.prevent
+							action="/action_page.php"
+							class="form-container"
+						>
+							<h1>Nouvel Evènement</h1>
+							<label for="comite_id"><b>comite_id</b></label>
+							<input type="number" name="comite_id" v-model="comite_id" /><br />
+>>>>>>> 04f96591beac8a6f947883dad1a51409f667acda
 
               <label for="eventname"><b>Nom de l'évènement : </b></label>
               <input type="text" name="eventname" v-model="eventname" />
@@ -384,6 +422,7 @@ const ProfilComiteView = {
         },
       });
 
+<<<<<<< HEAD
       let res = await promise.json();
       console.log(res);
       if (promise.status === 200) {
@@ -398,6 +437,44 @@ const ProfilComiteView = {
         e.target.value = this.tele;
         return;
       }
+=======
+			let res = await promise.json();
+			console.log(res);
+			if (promise.status === 200) {
+				console.log("new event saved");
+			} else {
+				console.log("event not saved");
+			}
+		},
+		async deleteevent(id) {
+			const promise = await fetch("http://127.0.0.1:8000/api/events", {
+				method: "DELETE",
+				body: JSON.stringify({
+					id,
+				}),
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + localStorage.getItem("token"),
+				},
+			});
+			console.log(promise, "promise delete event");
+			let response = await promise.json();
+			console.log(response);
+
+			if (promise.status === 200) {
+				console.log("c'est good");
+				this.showComite();
+			} else {
+				console.log("c'est pas good");
+			}
+		},
+		// FONCTION QUI PERMET D'ECRIRE QUE DES CHIFFRES DANS L'INPUT TEL QUI DE BASE EST DE TYPE TEXT
+		telephone(e) {
+			if (isNaN(e.target.value)) {
+				e.target.value = this.tele;
+				return;
+			}
+>>>>>>> 04f96591beac8a6f947883dad1a51409f667acda
 
       this.tele = e.target.value;
       this.phone = this.tele;
