@@ -112,41 +112,45 @@
           <h5 class="card-title">LES ASSOCIATIONS</h5>
           <hr />
 
-          <div class="card-text" v-for="assoc in detailsAssoc" :key="assoc.id">
-            <p><b>Nom de l'association : </b>{{ assoc.nom }}</p>
-            <p><b> Email : </b> {{ assoc.email }}</p>
-            <p><b> Téléphone : </b>{{ assoc.telephone }}</p>
-
-            <button class="btn updatebtn" @click="editform(assoc)">
-              Modifier
-            </button>
-            <div id="formAssoc">
-              <form
-                v-if="editedAssoc.id === assoc.id && show == 'a'"
-                @submit.prevent="updateAssoc(assoc.id)"
-                class="form"
-                :class="lol"
-              >
-                <div class="form-group div-input">
-                  <input
-                    type="text"
-                    class="form-control"
-                    id=""
-                    v-model="editedAssoc.nom"
-                  />
-                  <input
-                    type="text"
-                    class="form-control"
-                    id=""
-                    v-model="editedAssoc.email"
-                  />
-                  <input
-                    type="text"
-                    class="form-control"
-                    id=""
-                    v-model="editedAssoc.telephone"
-                  />
-                </div>
+					<div class="card-text" v-for="assoc in detailsAssoc" :key="assoc.id">
+						<p><b>Nom de l'association : </b>{{ assoc.nom }}</p>
+						<p><b> Email : </b> {{ assoc.email }}</p>
+						<p><b> Téléphone : </b>{{ assoc.telephone }}</p>
+						<div class="btnassoc">
+							<button class="btn updatebtn" @click="editform(assoc)">
+								Modifier
+							</button>
+							<button class="btn deletebtn" @click="deleteAssoc(assoc.id)">
+								Supprimer
+							</button>
+						</div>
+						<div id="formAssoc">
+							<form
+								v-if="editedAssoc.id === assoc.id && show == 'a'"
+								@submit.prevent="updateAssoc(assoc.id)"
+								class="form"
+								:class="lol"
+							>
+								<div class="form-group div-input">
+									<input
+										type="text"
+										class="form-control"
+										id=""
+										v-model="editedAssoc.nom"
+									/>
+									<input
+										type="text"
+										class="form-control"
+										id=""
+										v-model="editedAssoc.email"
+									/>
+									<input
+										type="text"
+										class="form-control"
+										id=""
+										v-model="editedAssoc.telephone"
+									/>
+								</div>
 
                 <button type="submit" @click="closeFormAssoc">Valider</button>
               </form>
@@ -154,31 +158,41 @@
             <!-- <div>
               {{ this.message }}
             </div> -->
-            <hr />
-          </div>
-        </div>
-      </div>
-      <!----------- CONTAINER  EVENTS  ------------>
-      <div class="card" style="width: 30rem">
-        <img
-          class="card-img-top"
-          src="../assets/evens.jpg"
-          alt="Card image cap"
-        />
-        <div class="card-body">
-          <h5 class="card-title">LES EVENEMENTS</h5>
-          <div class="card-text" v-for="event in events" :key="event.id">
-            <p>{{ event.eventname }}</p>
-            <p>{{ event.eventdate }}</p>
-            <p>{{ event.place }}</p>
-            <button class="btn updatebtn" @click="deleteevent(event.id)">
-              Supprimer
-            </button>
-            <br />
-          </div>
-          <button class="btn updatebtn" @click="openeventForm">
-            Ajouter un évènement
-          </button>
+						<hr />
+					</div>
+				</div>
+			</div>
+			<!----------- CONTAINER  EVENTS  ------------>
+			<div class="card" style="width: 30rem">
+				<img
+					class="card-img-top"
+					src="../assets/evens.jpg"
+					alt="Card image cap"
+				/>
+				<div class="card-body">
+					<h5 class="card-title">LES EVENEMENTS</h5>
+					<div class="card-text" v-for="event in events" :key="event.id">
+						<p><b>Nom de l'évènement : </b> {{ event.eventname }}</p>
+						<p><b>Date : </b> {{ event.eventdate }}</p>
+						<p><b> Lieu : </b>{{ event.place }}</p>
+						<button class="btn updatebtn" @click="deleteevent(event.id)">
+							Supprimer
+						</button>
+						<hr />
+					</div>
+
+					<button class="btn updatebtn" @click="openeventForm">
+						Ajouter un évènement
+					</button>
+					<div class="form-popup" id="myForm">
+						<form
+							@submit.prevent
+							action="/action_page.php"
+							class="form-container"
+						>
+							<h1>Nouvel Evènement</h1>
+							<label for="comite_id"><b>comite_id</b></label>
+							<input type="number" name="comite_id" v-model="comite_id" /><br />
 
           <div class="form-popup" id="myForm">
             <form
@@ -345,30 +359,82 @@ const ProfilComiteView = {
       }
     },
 
-    /****************  RAJOUT D'EVENEMENTS ************************/
-    async submiteventdata() {
-      const promise = await fetch("http://127.0.0.1:8000/api/events", {
-        method: "POST",
-        body: JSON.stringify({
-          comite_id: this.comite_id,
-          eventname: this.eventname,
-          eventdate: this.eventdate,
-          place: this.eventplace,
-          description: this.eventdescription,
-          type: this.eventtype,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+		async deleteAssoc(id) {
+			const promise = await fetch("http://127.0.0.1:8000/api/association", {
+				method: "DELETE",
+				body: JSON.stringify({
+					id,
+				}),
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + localStorage.getItem("token"),
+				},
+			});
+			console.log(promise, "promise delete Assoc");
+			let response = await promise.json();
+			console.log(response);
 
-      let res = await promise.json();
-      console.log(res);
-      if (promise.status === 200) {
-        console.log("new event saved");
-      } else {
-        console.log("event not saved");
-      }
+			if (promise.status === 200) {
+				console.log("c'est good");
+				this.showComite();
+			} else {
+				console.log("c'est pas good");
+			}
+		},
+
+		/****************  RAJOUT D'EVENEMENTS ************************/
+		async submiteventdata() {
+			const promise = await fetch("http://127.0.0.1:8000/api/events", {
+				method: "POST",
+				body: JSON.stringify({
+					comite_id: this.comite_id,
+					eventname: this.eventname,
+					eventdate: this.eventdate,
+					place: this.eventplace,
+					description: this.eventdescription,
+					type: this.eventtype,
+				}),
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			let res = await promise.json();
+			console.log(res);
+			if (promise.status === 200) {
+				console.log("new event saved");
+			} else {
+				console.log("event not saved");
+			}
+		},
+		async deleteevent(id) {
+			const promise = await fetch("http://127.0.0.1:8000/api/events", {
+				method: "DELETE",
+				body: JSON.stringify({
+					id,
+				}),
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + localStorage.getItem("token"),
+				},
+			});
+			console.log(promise, "promise delete event");
+			let response = await promise.json();
+			console.log(response);
+
+			if (promise.status === 200) {
+				console.log("c'est good");
+				this.showComite();
+			} else {
+				console.log("c'est pas good");
+			}
+		},
+		// FONCTION QUI PERMET D'ECRIRE QUE DES CHIFFRES DANS L'INPUT TEL QUI DE BASE EST DE TYPE TEXT
+		telephone(e) {
+			if (isNaN(e.target.value)) {
+				e.target.value = this.tele;
+				return;
+			}
     },
 
     async deleteevent(id) {
@@ -521,5 +587,14 @@ export default ProfilComiteView;
   margin: 5px 0 22px 0;
   border: none;
   background: #f1f1f1;
+}
+.btnassoc {
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+}
+.deletebtn {
+	background-color: black;
+	color: white;
 }
 </style>
