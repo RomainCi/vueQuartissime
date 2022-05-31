@@ -6,6 +6,7 @@ import ProfilComiteView from "../views/ProfilComiteView.vue";
 import InscriptionView from "../views/InscriptionView.vue";
 import AdminView from "../views/AdminView.vue";
 import DashboardView from "../views/DashboardView.vue";
+import MotPasseOublieView from "../views/MotPasseOublieView";
 // import store from "@/store";
 
 const routes = [
@@ -59,6 +60,11 @@ const routes = [
 		name: "dashboard",
 		component: DashboardView,
 		meta: { requiresAuth: true },
+	},
+	{
+		path: "/oublie",
+		name: "oublie",
+		component: MotPasseOublieView,
 	},
 ];
 
