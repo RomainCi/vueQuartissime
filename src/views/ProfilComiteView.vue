@@ -171,60 +171,48 @@
 						<p>{{ event.eventname }}</p>
 						<p>{{ event.eventdate }}</p>
 						<p>{{ event.place }}</p>
-						<button class="btn updatebtn" @click="openeventForm">
-							Ajouter un évènement
-						</button>
-						<div class="form-popup" id="myForm">
-							<form
-								@submit.prevent
-								action="/action_page.php"
-								class="form-container"
+					</div>
+					<button class="btn updatebtn" @click="openeventForm">
+						Ajouter un évènement
+					</button>
+					<div class="form-popup" id="myForm">
+						<form
+							@submit.prevent
+							action="/action_page.php"
+							class="form-container"
+						>
+							<h1>Nouvel Evènement</h1>
+							<label for="comite_id"><b>comite_id</b></label>
+							<input type="number" name="comite_id" v-model="comite_id" /><br />
+
+							<label for="eventname"><b>Nom de l'évènement : </b></label>
+							<input type="text" name="eventname" v-model="eventname" />
+
+							<label for="place"><b>Lieu de l'évènement : </b></label>
+							<input type="text" name="place" v-model="eventplace" />
+
+							<label for="eventdate"><b>date de l'évènement : </b></label>
+							<input type="text" name="date" v-model="eventdate" />
+
+							<label for="description"
+								><b>Description de l'évènement : </b></label
 							>
-								<h1>Nouvel Evènement</h1>
-								<label for="comite_id"><b>comite_id</b></label>
-								<input
-									type="number"
-									name="comite_id"
-									v-model="comite_id"
-								/><br />
+							<input
+								type="text"
+								name="description"
+								v-model="eventdescription"
+							/>
 
-								<label for="eventname"><b>Nom de l'évènement : </b></label>
-								<input type="text" name="eventname" v-model="eventname" />
+							<label for="type"><b>Type de l'évènement : </b></label>
+							<input type="text" name="type" v-model="eventtype" />
 
-								<label for="place"><b>Lieu de l'évènement : </b></label>
-								<input type="text" name="place" v-model="eventplace" />
-
-								<label for="eventdate"><b>date de l'évènement : </b></label>
-								<input type="text" name="date" v-model="eventdate" />
-
-								<label for="description"
-									><b>Description de l'évènement : </b></label
-								>
-								<input
-									type="text"
-									name="description"
-									v-model="eventdescription"
-								/>
-
-								<label for="type"><b>Type de l'évènement : </b></label>
-								<input type="text" name="type" v-model="eventtype" />
-
-								<button
-									type="submit"
-									class="updatebtn"
-									@click="submiteventdata"
-								>
-									Soumettre
-								</button>
-								<button
-									type="button"
-									class="btn cancel"
-									@click="closeeventForm"
-								>
-									Fermer
-								</button>
-							</form>
-						</div>
+							<button type="submit" class="updatebtn" @click="submiteventdata">
+								Soumettre
+							</button>
+							<button type="button" class="btn cancel" @click="closeeventForm">
+								Fermer
+							</button>
+						</form>
 					</div>
 				</div>
 			</div>
