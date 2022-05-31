@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import DetailsComiteView from "../views/DetailsComiteView.vue";
-import DetailsAssociationView from "../views/DetailsAssociationView.vue";
-//import UserComiteView from "../views/UserComiteView.vue";
-//import AssociationView from "../views/AssociationView.vue";
+import ConnexionComiteView from "../views/ConnexionComiteView.vue";
+import ProfilComiteView from "../views/ProfilComiteView.vue";
+import InscriptionView from "../views/InscriptionView.vue";
+import AdminView from "../views/AdminView.vue";
+import DashboardView from "../views/DashboardView.vue";
 
 const routes = [
   {
@@ -31,18 +33,6 @@ const routes = [
     meta: { requiresAuths: true },
   },
 
-  // {
-  //   path: "/association",
-  //   name: "association",
-  //   component: AssociationView,
-  // },
-
-  {
-    path: "/detailsassociation",
-    name: "detailsassociation",
-    component: DetailsAssociationView,
-  },
-
   {
     path: "/about",
     name: "about",
@@ -51,6 +41,23 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+  },
+  {
+    path: "/inscription",
+    name: "inscription",
+    component: InscriptionView,
+    props: true,
+  },
+  {
+    path: "/admin",
+    name: "admin",
+    component: AdminView,
+  },
+  {
+    path: "/dashboard",
+    name: "dashboard",
+    component: DashboardView,
+    meta: { requiresAuth: true },
   },
 ];
 
