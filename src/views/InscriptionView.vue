@@ -1,5 +1,8 @@
 <template>
   <div>
+    <header class="entete">
+      <img src="../assets/logo.png" alt="" class="logo" />
+    </header>
     <!-- recuperer la variable nom commité -->
     <h1>Inscrivez-vous dans votre comité</h1>
     <div class="container">
@@ -45,6 +48,15 @@ export default InscriptionView;
 </script>
 
 <style scoped>
+.entete {
+  min-height: 80px;
+  border-bottom: 4px solid black;
+}
+
+.logo {
+  height: 7vh;
+  margin: 20px;
+}
 .container {
   display: flex;
   justify-content: center;

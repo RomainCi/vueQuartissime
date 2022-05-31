@@ -1,4 +1,7 @@
 <template>
+  <header class="entete">
+    <img src="../assets/logo.png" alt="" class="logo" />
+  </header>
   <div class="bigContainer">
     <h1>Dashboard Admin</h1>
     <header class="navBar">
@@ -153,6 +156,15 @@ export default DashboardView;
 </script>
 
 <style scoped>
+.entete {
+  min-height: 80px;
+  border-bottom: 4px solid black;
+}
+
+.logo {
+  height: 7vh;
+  margin: 20px;
+}
 h1 {
   grid-area: header;
 }
@@ -174,6 +186,6 @@ h1 {
 }
 .dash {
   grid-area: dash;
-  background-color: red;
+  background-color: #ffda3e;
 }
 </style>

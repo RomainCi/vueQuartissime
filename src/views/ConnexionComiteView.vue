@@ -1,5 +1,8 @@
 <template>
   <div class="bloc-page">
+    <header class="entete">
+      <img src="../assets/logo.png" alt="" class="logo" />
+    </header>
     <!-- Section: Design Block -->
     <div class="container-connexion">
       <section class="text-center text-lg-start">
@@ -117,6 +120,15 @@ export default ConnexionComiteView;
 </script>
 
 <style scoped>
+.entete {
+  min-height: 80px;
+  border-bottom: 4px solid black;
+}
+
+.logo {
+  height: 7vh;
+  margin: 20px;
+}
 .container-connexion {
   width: 80vw;
   margin-top: 50px;

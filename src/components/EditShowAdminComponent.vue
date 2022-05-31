@@ -121,7 +121,7 @@ export default EditShowAdminComponent;
 
 <style scoped>
 .test {
-  background-color: red;
+  background-color: #ffda3e;
 }
 .bloc-modale {
   position: fixed;
