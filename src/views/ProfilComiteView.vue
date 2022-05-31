@@ -192,7 +192,12 @@
 							<input type="text" name="place" v-model="eventplace" />
 
 							<label for="eventdate"><b>date de l'évènement : </b></label>
-							<input type="text" name="date" v-model="eventdate" />
+							<input
+								type="text"
+								name="date"
+								placeholder="yyyy-mm-dd"
+								v-model="eventdate"
+							/>
 
 							<label for="description"
 								><b>Description de l'évènement : </b></label
