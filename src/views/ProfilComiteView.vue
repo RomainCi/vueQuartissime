@@ -117,12 +117,12 @@
 						<p><b> Email : </b> {{ assoc.email }}</p>
 						<p><b> Téléphone : </b>{{ assoc.telephone }}</p>
 
-						<button class="btn updatebtn" @click="editedAssoc = assoc">
+						<button class="btn updatebtn" @click="editform(assoc)">
 							Modifier
 						</button>
 						<div id="formAssoc">
 							<form
-								v-if="editedAssoc.id === assoc.id"
+								v-if="editedAssoc.id === assoc.id && show == 'a'"
 								@submit.prevent="updateAssoc(assoc.id)"
 								class="form"
 								:class="lol"
@@ -195,7 +195,7 @@ const ProfilComiteView = {
 			detailsAssoc: [],
 			events: [],
 			message: "",
-
+			show: "",
 			editedAssoc: {},
 		};
 	},
@@ -203,6 +203,10 @@ const ProfilComiteView = {
 		this.showComite();
 	},
 	methods: {
+		editform(assoc) {
+			this.editedAssoc = assoc;
+			this.show = "a";
+		},
 		async showComite() {
 			const promise = await fetch("http://127.0.0.1:8000/api/profilcomite", {
 				method: "GET",
@@ -307,7 +311,7 @@ const ProfilComiteView = {
 			document.getElementById("formAssoc").style.display = "block";
 		},
 		closeFormAssoc() {
-			document.getElementsById("formAssoc").style.display = "none";
+			this.show = "";
 		},
 	},
 };

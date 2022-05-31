@@ -75,14 +75,14 @@
 							<p><b> Date : </b> {{ event.eventdate }}</p>
 							<p><b> Lieu : </b>{{ event.place }}</p>
 
-							<p v-if="!event">
-								Aucun évènement pour le moment, n'hésitez pas à revenir voir
-								régulièrement, à bientôt
-							</p>
-
 							<hr />
 							<!-- <button @click="downloadpdf">Télécharger la fiche</button> -->
 						</div>
+
+						<p v-if="this.events.length == 0">
+							Aucun évènement pour le moment, n'hésitez pas à revenir voir
+							régulièrement, à bientôt
+						</p>
 					</div>
 				</div>
 			</div>
@@ -120,6 +120,7 @@ const DetailsComiteView = {
 				this.details = response.detailsComite;
 				this.detailsAssoc = response.detailsAssoc;
 				this.events = response.events;
+				console.log(this.events, "tablkeaux");
 			}
 		},
 	},
