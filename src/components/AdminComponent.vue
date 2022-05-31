@@ -73,7 +73,7 @@ const AdminComponent = {
       console.log(this.res);
       if (promise.status === 200) {
         // store.state.admin.token = this.res.token;
-        localStorage.setItem("token", this.res.token);
+        localStorage.setItem("admin_token", this.res.token);
         this.$router.push("/dashboard");
       }
     },

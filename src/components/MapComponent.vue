@@ -5,12 +5,6 @@
       <img src="../assets/logo.png" alt="" class="logo" />
     </header>
 
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
     <LocalisationComponent :updatelocation="setlocation" />
 
     <!-- /********************** MAP ***********************/ -->

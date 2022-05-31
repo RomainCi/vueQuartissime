@@ -19,11 +19,17 @@ const routes = [
     props: true,
   },
 
-  //   {
-  //     path: "/usercomite",
-  //     name: "usercomite",
-  //     component: UserComiteView,
-  //   },
+  {
+    path: "/login",
+    name: "login",
+    component: ConnexionComiteView,
+  },
+  {
+    path: "/profilcomite",
+    name: "profilcomite",
+    component: ProfilComiteView,
+    meta: { requiresAuths: true },
+  },
 
   // {
   //   path: "/association",
@@ -53,9 +59,10 @@ const router = createRouter({
   routes,
 });
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth && !localStorage.getItem("token")) {
-    // next({ name: "login" });
+  if (to.meta.requiresAuth && !localStorage.getItem("admin_token")) {
     next({ name: "admin" });
+  } else if (to.meta.requiresAuths && !localStorage.getItem("token")) {
+    next({ name: "login" });
   } else {
     next();
   }

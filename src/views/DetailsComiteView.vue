@@ -11,64 +11,78 @@
           <img src="../assets/img-personne.png" alt="" class="img-personne" />
         </div>
         <div class="container-details">
-          <p><strong>COMITE : </strong> {{ details.comiteName }}</p>
-          <p>
-            <i class="fa-solid fa-map-location-dot"></i
-            ><strong>Adresse : </strong>{{ details.adress }}
-          </p>
+          <p><strong>Nom du comité : </strong> {{ details.comiteName }}</p>
+          <p><strong>Adresse : </strong>{{ details.adress }}</p>
           <p><strong>Contact : </strong>{{ details.phone }}</p>
-          <p><strong>email : </strong>{{ details.email }}</p>
+          <p><strong>Email : </strong>{{ details.email }}</p>
           <p><strong> Site web : </strong>{{ details.webSite }}</p>
           <p><strong>Description : </strong>{{ details.description }}</p>
           <p>
-            <strong>Prénom Gestionnaire: </strong
+            <strong>Prénom du Président : </strong
             >{{ details.firstnamePresident }}
           </p>
           <p>
-            <strong>Nom Gestionnaire : </strong>{{ details.lastnamePresident }}
+            <strong>Nom du Président : </strong>{{ details.lastnamePresident }}
           </p>
-
-          <button type="button" class="slide">
-            <div>S'inscrire</div>
-            <i class="icon-arrow-right"></i>
-          </button>
+          <router-link
+            class=""
+            :to="{ name: 'inscription', params: { idComite: details.id } }"
+          >
+            <button type="button" class="slide">
+              <div>S'inscrire</div>
+              <i class="icon-arrow-right"></i>
+            </button>
+          </router-link>
         </div>
       </div>
 
       <div class="row bloc-assos-evens">
-        <div class="card" style="width: 25rem">
+        <div class="card" style="width: 30rem">
           <img
             class="card-img-top"
-            src="../assets/img-personne.png"
+            src="../assets/img-assos.png"
             alt="Card image cap"
           />
           <div class="card-body">
             <h5 class="card-title">LES ASSOCITIONS</h5>
+            <hr />
 
-            <p class="card-text" v-for="assoc in detailsAssoc" :key="assoc.id">
-              {{ assoc.nom }} <br />
-              Email : {{ assoc.email }} <br />
-              Téléphone : {{ assoc.telephone }} <br />
-            </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <div
+              class="card-text"
+              v-for="assoc in detailsAssoc"
+              :key="assoc.id"
+            >
+              <p><b>Nom de l'association : </b>{{ assoc.nom }}</p>
+              <p><b> Email : </b> {{ assoc.email }}</p>
+              <p><b> Téléphone : </b>{{ assoc.telephone }}</p>
+              <hr />
+            </div>
+
+            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
           </div>
         </div>
 
-        <div class="card" style="width: 25rem">
+        <div class="card" style="width: 30rem">
           <img
             class="card-img-top"
-            src="../assets/img-personne.png"
+            src="../assets/img-evens.png"
             alt="Card image cap"
           />
           <div class="card-body">
             <h5 class="card-title">LES EVENEMENTS</h5>
-            <p class="card-text" v-for="event in events" :key="event.id">
-              {{ event.eventname }}
-              {{ event.eventdate }}
-              {{ event.place }}
+            <div class="card-text" v-for="event in events" :key="event.id">
+              <p><b>Nom de l'événement : </b>{{ event.eventname }}</p>
+              <p><b> Date : </b> {{ event.eventdate }}</p>
+              <p><b> Lieu : </b>{{ event.place }}</p>
+              <br />
               <button @click="downloadpdf(event)">Télécharger la fiche</button>
+              <hr />
+            </div>
+
+            <p v-if="this.events.length == 0">
+              Aucun évènement pour le moment, n'hésitez pas à revenir voir
+              régulièrement, à bientôt
             </p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
           </div>
         </div>
       </div>
@@ -78,8 +92,7 @@
 
 <script>
 import { jsPDF } from "jspdf";
-import image from "@/assets/assoc.jpg";
-
+import image from "@/assets/logo.png";
 const DetailsComiteView = {
   props: {
     idDetails: String,
@@ -96,8 +109,18 @@ const DetailsComiteView = {
   mounted() {
     this.showdetailsComite();
   },
-  /****************** RÉCUPÉRATION DES DÉTAILS D'UN COMITÉ ************/
+  /****************** RÉCUPÉRATION DES DÉTAILS D'UN COMITÉ ET SES ASSOCIATIONS ************/
   methods: {
+    async downloadpdf(event) {
+      const doc = new jsPDF();
+      var imgData = image;
+      doc.addImage(imgData, "png", 10, 78, 50, 30);
+
+      doc.text([event.eventname, event.eventdate, event.place], 15, 15);
+
+      doc.save("test.pdf");
+    },
+
     async showdetailsComite() {
       const promise = await fetch(
         "http://127.0.0.1:8000/api/comites/" + this.idDetails
@@ -109,17 +132,8 @@ const DetailsComiteView = {
         this.details = response.detailsComite;
         this.detailsAssoc = response.detailsAssoc;
         this.events = response.events;
+        console.log(this.events, "tablkeaux");
       }
-    },
-
-    async downloadpdf(event) {
-      const doc = new jsPDF();
-      var imgData = image;
-      doc.addImage(imgData, "jpeg", 10, 78, 100, 200);
-
-      doc.text(event.eventname, 15, 15);
-
-      doc.save("test.pdf");
     },
   },
 };
@@ -204,8 +218,10 @@ export default DetailsComiteView;
 }
 
 .bloc-assos-evens {
+  display: flex;
+  justify-content: center;
   margin: 110px 20px 0px 30px;
-  gap: 5%;
+  gap: 10%;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }

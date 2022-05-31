@@ -2,18 +2,6 @@
   <div>
     <h1>Creation admin</h1>
     <form class="container" @submit.prevent="inscription">
-      <!-- <label for="identifiant">identifiant</label>
-      <input type="text" v-model="user.compte" @blur="v$.user.compte.$touch" />
-
-      <div class="error" v-if="v$.user.compte.$error">
-        {{
-          this.nbrCharIndentifiant - this.user.compte.length > 0
-            ? `il manque ${
-                this.nbrCharIndentifiant - this.user.compte.length
-              } lettres`
-            : ""
-        }}
-      </div> -->
       <label for="email">Email</label>
       <input type="email" v-model="user.email" @blur="v$.user.email.$touch" />
       <div v-if="v$.user.email.$error">
@@ -94,10 +82,6 @@ const CreationAdminComponent = {
   validations() {
     return {
       user: {
-        // compte: {
-        //   required,
-        //   minChar: helpers.regex(/^.{6,}$/),
-        // },
         email: {
           required,
           email: helpers.withMessage("Email incorrect", email, required),
@@ -133,7 +117,7 @@ const CreationAdminComponent = {
         body: JSON.stringify(this.user),
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
+          Authorization: "Bearer " + localStorage.getItem("admin_token"),
         },
       });
       console.log(promise);

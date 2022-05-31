@@ -1,6 +1,9 @@
 <template>
   <div>
-    <h1>Edit Admin</h1>
+    <h1>Edit User commite</h1>
+    <div v-if="show == 'a'">
+      <p>{{ message }}</p>
+    </div>
     <div v-for="(element, index) in info" :key="index" class="test">
       <div class="bloc-modale" v-show="revele[index]">
         <div class="overlay" @click="toogle(index)">
@@ -16,13 +19,14 @@
         @click="this.visible[index] = !this.visible[index]"
         v-show="visible[index]"
       >
-        email : {{ element.identifiant }}
+        indentifiant : {{ element.identifiant }}
       </p>
       <button v-show="visible[index]" @click="confirmation(index)">
         supprimer
       </button>
 
       <input type="email" v-show="!visible[index]" v-model="email[index]" />
+      <input type="text" v-show="!visible[index]" v-model="user.password" />
       <input type="hidden" v-model="idi[index]" />
       <button v-show="!visible[index]" @click="recupData(index)">
         valider
@@ -34,12 +38,11 @@
 </template>
 
 <script>
-const EditShowAdminComponent = {
+const EditShowDeleteUserComiteComponent = {
   props: {
-    info: Object,
     recharge: Function,
+    info: Object,
   },
-
   data() {
     return {
       visible: [],
@@ -48,8 +51,11 @@ const EditShowAdminComponent = {
       user: {
         emailTrue: "",
         id: "",
+        password: "",
       },
       revele: [],
+      message: "",
+      show: "",
     };
   },
 
@@ -75,48 +81,65 @@ const EditShowAdminComponent = {
       return (this.visible[index] = !this.visible[index]);
     },
     async envoiData() {
-      const promise = await fetch("http://127.0.0.1:8000/api/udpateAdmin", {
-        method: "PUT",
-        body: JSON.stringify(this.user),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("admin_token"),
-        },
-      });
+      const promise = await fetch(
+        "http://127.0.0.1:8000/api/udpateUserComite",
+        {
+          method: "PUT",
+          body: JSON.stringify(this.user),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("admin_token"),
+          },
+        }
+      );
       console.log(promise);
       let res = await promise.json();
       console.log(res);
       if (promise.status == 200) {
+        this.message = res.message;
+        this.show = "a";
         this.recharge();
+      } else {
+        this.show = "a";
+        this.message = res.message;
       }
     },
     confirmation(index) {
       this.toogle(index);
     },
     toogle(index) {
-      console.log("hey");
+      console.log("toogle");
       return (this.revele[index] = !this.revele[index]);
     },
     async deleteData(index) {
+      console.log("hey");
       this.user.id = this.idi[index];
-      const promise = await fetch("http://127.0.0.1:8000/api/deleteAdmin", {
-        method: "DELETE",
-        body: JSON.stringify(this.user),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("admin_token"),
-        },
-      });
+      const promise = await fetch(
+        "http://127.0.0.1:8000/api/deleteUserComite",
+        {
+          method: "DELETE",
+          body: JSON.stringify(this.user),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + localStorage.getItem("admin_token"),
+          },
+        }
+      );
       console.log(promise);
       let res = await promise.json();
       console.log(res);
       if (promise.status == 200) {
+        this.message = res.message;
+        this.show = "a";
         this.recharge();
+      } else {
+        this.show = "a";
+        this.message = res.message;
       }
     },
   },
 };
-export default EditShowAdminComponent;
+export default EditShowDeleteUserComiteComponent;
 </script>
 
 <style scoped>
