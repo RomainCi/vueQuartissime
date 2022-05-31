@@ -27,6 +27,7 @@
       </div>
     </div>
     <!---------- FORMULAIRE POP UP MODIFICATION DONNES COMITES -------------->
+
     <div class="div_form" id="popupForm">
       <form @submit.prevent="updateComite" class="form">
         <div class="form-group div-input">
@@ -92,11 +93,11 @@
           />
         </div>
         <div class="btnForm">
-          <button type="submit" @click="closeForm" class="btn updatebtn">
-            Enregistrer les modifications
+          <button type="submit" @click="savenewevent" class="btn updatebtn">
+            Enregistrer
           </button>
 
-          <button type="button" class="btn closebtn" @click="closeForm">
+          <button type="button" class="closebtn" @click="closeForm">
             Fermer
           </button>
         </div>
@@ -147,8 +148,56 @@
             {{ event.eventname }}
             {{ event.eventdate }}
             {{ event.place }}
+            <button class="btn updatebtn">Modifier</button>
           </p>
-          <!-- <button @click="downloadpdf">Télécharger la fiche</button> -->
+
+          <!---------- FORMULAIRE POP UP MODIFICATION DONNES COMITES -------------->
+          <button class="btn updatebtn" @click="openeventForm">
+            Ajouter un évènement
+          </button>
+
+          <div class="form-popup" id="myForm">
+            <form
+              @submit.prevent
+              action="/action_page.php"
+              class="form-container"
+            >
+              <h1>Nouvel Evènement</h1>
+              <label for="comite_id"><b>comite_id</b></label>
+              <input type="number" name="comite_id" v-model="comite_id" /><br />
+
+              <label for="eventname"><b>Nom de l'évènement</b></label>
+              <input type="text" name="eventname" v-model="eventname" />
+
+              <label for="place"><b>Lieu de l'évènement</b></label>
+              <input type="text" name="place" v-model="eventplace" />
+
+              <label for="eventdate"><b>date de l'évènement</b></label>
+              <input
+                type="text"
+                placeholder="yyyy-mm-dd"
+                name="date"
+                v-model="eventdate"
+              />
+
+              <label for="description"><b>Description de l'évènement</b></label>
+              <input
+                type="text"
+                name="description"
+                v-model="eventdescription"
+              />
+
+              <label for="type"><b>Type de l'évènement</b></label>
+              <input type="text" name="type" v-model="eventtype" />
+
+              <button type="submit" class="updatebtn" @click="submiteventdata">
+                Soumettre
+              </button>
+              <button type="button" class="btn cancel" @click="closeeventForm">
+                Fermer
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -167,6 +216,11 @@ const ProfilComiteView = {
       description: "",
       firstnamePresident: "",
       lastnamePresident: "",
+      eventname: "",
+      place: "",
+      eventdate: "",
+      type: "",
+      comite_id: "",
 
       detailsAssoc: [],
       assocNom: "",
@@ -245,6 +299,31 @@ const ProfilComiteView = {
       this.phone = this.tele;
     },
 
+    async submiteventdata() {
+      const promise = await fetch("http://127.0.0.1:8000/api/events", {
+        method: "POST",
+        body: JSON.stringify({
+          comite_id: this.comite_id,
+          eventname: this.eventname,
+          eventdate: this.eventdate,
+          place: this.eventplace,
+          description: this.eventdescription,
+          type: this.eventtype,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      let res = await promise.json();
+      console.log(res);
+      if (promise.status === 200) {
+        console.log("new event saved");
+      } else {
+        console.log("event not saved");
+      }
+    },
+
     // FONCTIONS POUR OUVRIR LE FORMULAIRE DE MODIFICATIONS
 
     openForm() {
@@ -253,6 +332,14 @@ const ProfilComiteView = {
 
     closeForm() {
       document.getElementById("popupForm").style.display = "none";
+    },
+
+    openeventForm() {
+      document.getElementById("myForm").style.display = "block";
+    },
+
+    closeeventForm() {
+      document.getElementById("myForm").style.display = "none";
     },
   },
 };
@@ -326,5 +413,28 @@ export default ProfilComiteView;
   gap: 10%;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+.form-container {
+  max-width: 500px;
+  padding: 10px;
+  background-color: white;
+}
+
+.form-container input[type="text"] {
+  width: 50%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
 }
 </style>

@@ -67,13 +67,10 @@
           />
           <div class="card-body">
             <h5 class="card-title">LES EVENEMENTS</h5>
-            <p class="card-text" v-for="event in events" :key="event.id"></p>
-            <p>
-              <strong>Nom de l'évènement : </strong>{{ event.eventname }} <br />
-              <strong>Date de l'évènement : </strong>{{ event.eventdate }}
-              <br />
-              <strong>Lieu de l'évènement : </strong>{{ event.place }}
-
+            <p class="card-text" v-for="event in events" :key="event.id">
+              <strong>Nom: </strong> {{ event.eventname }} <br />
+              <strong>Date: </strong>{{ event.eventdate }} <br />
+              <strong>Lieu: </strong>{{ event.place }} <br />
               <button @click="downloadpdf(event)">Télécharger la fiche</button>
             </p>
             <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
@@ -122,9 +119,9 @@ const DetailsComiteView = {
     async downloadpdf(event) {
       const doc = new jsPDF();
       var imgData = image;
-      doc.addImage(imgData, "jpeg", 10, 78, 100, 200);
+      doc.addImage(imgData, "png", 10, 78, 50, 30);
 
-      doc.text(event.eventname, 15, 15);
+      doc.text([event.eventname, event.eventdate, event.place], 15, 15);
 
       doc.save("test.pdf");
     },
