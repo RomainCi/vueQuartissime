@@ -116,10 +116,14 @@
 						<p><b>Nom de l'association : </b>{{ assoc.nom }}</p>
 						<p><b> Email : </b> {{ assoc.email }}</p>
 						<p><b> Téléphone : </b>{{ assoc.telephone }}</p>
-
-						<button class="btn updatebtn" @click="editform(assoc)">
-							Modifier
-						</button>
+						<div class="btnassoc">
+							<button class="btn updatebtn" @click="editform(assoc)">
+								Modifier
+							</button>
+							<button class="btn deletebtn" @click="deleteAssoc(assoc.id)">
+								Supprimer
+							</button>
+						</div>
 						<div id="formAssoc">
 							<form
 								v-if="editedAssoc.id === assoc.id && show == 'a'"
@@ -340,6 +344,29 @@ const ProfilComiteView = {
 			}
 		},
 
+		async deleteAssoc(id) {
+			const promise = await fetch("http://127.0.0.1:8000/api/association", {
+				method: "DELETE",
+				body: JSON.stringify({
+					id,
+				}),
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + localStorage.getItem("token"),
+				},
+			});
+			console.log(promise, "promise delete Assoc");
+			let response = await promise.json();
+			console.log(response);
+
+			if (promise.status === 200) {
+				console.log("c'est good");
+				this.showComite();
+			} else {
+				console.log("c'est pas good");
+			}
+		},
+
 		/****************  RAJOUT D'EVENEMENTS ************************/
 		async submiteventdata() {
 			const promise = await fetch("http://127.0.0.1:8000/api/events", {
@@ -492,5 +519,14 @@ export default ProfilComiteView;
 	margin: 5px 0 22px 0;
 	border: none;
 	background: #f1f1f1;
+}
+.btnassoc {
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+}
+.deletebtn {
+	background-color: black;
+	color: white;
 }
 </style>
