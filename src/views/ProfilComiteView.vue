@@ -172,10 +172,15 @@
 				<div class="card-body">
 					<h5 class="card-title">LES EVENEMENTS</h5>
 					<div class="card-text" v-for="event in events" :key="event.id">
-						<p>{{ event.eventname }}</p>
-						<p>{{ event.eventdate }}</p>
-						<p>{{ event.place }}</p>
+						<p><b>Nom de l'évènement : </b> {{ event.eventname }}</p>
+						<p><b>Date : </b> {{ event.eventdate }}</p>
+						<p><b> Lieu : </b>{{ event.place }}</p>
+						<button class="btn updatebtn" @click="deleteevent(event.id)">
+							Supprimer
+						</button>
+						<hr />
 					</div>
+
 					<button class="btn updatebtn" @click="openeventForm">
 						Ajouter un évènement
 					</button>
@@ -390,6 +395,28 @@ const ProfilComiteView = {
 				console.log("new event saved");
 			} else {
 				console.log("event not saved");
+			}
+		},
+		async deleteevent(id) {
+			const promise = await fetch("http://127.0.0.1:8000/api/events", {
+				method: "DELETE",
+				body: JSON.stringify({
+					id,
+				}),
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: "Bearer " + localStorage.getItem("token"),
+				},
+			});
+			console.log(promise, "promise delete event");
+			let response = await promise.json();
+			console.log(response);
+
+			if (promise.status === 200) {
+				console.log("c'est good");
+				this.showComite();
+			} else {
+				console.log("c'est pas good");
 			}
 		},
 		// FONCTION QUI PERMET D'ECRIRE QUE DES CHIFFRES DANS L'INPUT TEL QUI DE BASE EST DE TYPE TEXT
